@@ -8,7 +8,6 @@ from src.game_objects.tiles.tile import ForestTile, DamagedIceTile, IceTile, Wat
     DamagedFrozenAcidTile, AcidTile, DamagedFrozenLavaTile, FrozenLavaTile, LavaTile
 from src.game_objects.vek import Hornet
 from src.game_objects.weapons.aerial_bombs import AerialBombs
-from src.helpers.find_object_position import find_object_position
 
 
 @pytest.mark.parametrize("mech_pos, vector, smoke_pos",
@@ -31,7 +30,7 @@ def test_aerial_bombs_on_empty_tile(mech_pos, vector, smoke_pos):
     assert board[smoke_pos].has_smoke()
     assert not board[mech_pos].has_smoke()
 
-    mech_pos = find_object_position(board, mech)
+    mech_pos = board.find_object_position(mech)
     assert not board[mech_pos].has_smoke()
 
 
@@ -56,7 +55,7 @@ def test_aerial_bombs_on_frozen_tile(mech_pos, vector, smoke_pos, frozen_tile, t
     assert board[smoke_pos].has_smoke()
     assert not board[mech_pos].has_smoke()
 
-    mech_pos = find_object_position(board, mech)
+    mech_pos = board.find_object_position(mech)
     assert not board[mech_pos].has_smoke()
     assert isinstance(board[smoke_pos], tile_exp)
 
@@ -84,7 +83,7 @@ def test_aerial_bombs_on_mech(mech_pos, vector, smoke_pos):
     assert board[smoke_pos].has_smoke()
     assert not board[mech_pos].has_smoke()
 
-    mech_pos = find_object_position(board, mech)
+    mech_pos = board.find_object_position(mech)
     assert not board[mech_pos].has_smoke()
     assert exp_victim_health == victim.get_health()
 
@@ -113,7 +112,7 @@ def test_aerial_bombs_on_mech_forest_tile(mech_pos, vector, smoke_pos):
     assert board[smoke_pos].has_smoke()
     assert not board[mech_pos].has_smoke()
 
-    mech_pos = find_object_position(board, mech)
+    mech_pos = board.find_object_position(mech)
     assert not board[mech_pos].has_smoke()
     assert exp_victim_health == victim.get_health()
     assert isinstance(board[smoke_pos], ForestTile)
@@ -144,7 +143,7 @@ def test_aerial_bombs_on_frozen_tile_with_mech(mech_pos, vector, smoke_pos, froz
     assert board[smoke_pos].has_smoke()
     assert not board[mech_pos].has_smoke()
 
-    mech_pos = find_object_position(board, mech)
+    mech_pos = board.find_object_position(mech)
     assert not board[mech_pos].has_smoke()
     assert isinstance(board[smoke_pos], tile_exp)
     assert victim.get_health() == exp_victim_health
@@ -174,7 +173,7 @@ def test_aerial_bombs_on_frozen_tile_with_acided_vek(mech_pos, vector, smoke_pos
     assert board[smoke_pos].has_smoke()
     assert not board[mech_pos].has_smoke()
 
-    mech_pos = find_object_position(board, mech)
+    mech_pos = board.find_object_position(mech)
     assert not board[mech_pos].has_smoke()
     assert isinstance(board[smoke_pos], tile_exp)
 
@@ -200,7 +199,7 @@ def test_aerial_bombs_on_empty_tile_extra_range(mech_pos, vector, smoke_pos_1, s
     assert board[smoke_pos_2].has_smoke()
     assert not board[mech_pos].has_smoke()
 
-    mech_pos = find_object_position(board, mech)
+    mech_pos = board.find_object_position(mech)
     assert not board[mech_pos].has_smoke()
 
 
@@ -231,7 +230,7 @@ def test_aerial_bombs_on_mech_extra_range(mech_pos, vector, smoke_pos_1, smoke_p
     assert board[smoke_pos_2].has_smoke()
     assert not board[mech_pos].has_smoke()
 
-    mech_pos = find_object_position(board, mech)
+    mech_pos = board.find_object_position(mech)
     assert not board[mech_pos].has_smoke()
     assert exp_victim_health_1 == victim1.get_health()
     assert exp_victim_health_2 == victim2.get_health()
@@ -263,7 +262,7 @@ def test_aerial_bombs_on_vek_dies_extra_range_extra_damage(mech_pos, vector, smo
     assert board[smoke_pos_2].has_smoke()
     assert not board[mech_pos].has_smoke()
 
-    mech_pos = find_object_position(board, mech)
+    mech_pos = board.find_object_position(mech)
     assert not board[mech_pos].has_smoke()
     assert board[smoke_pos_1].get_object() is None
     assert board[smoke_pos_2].get_object() is None

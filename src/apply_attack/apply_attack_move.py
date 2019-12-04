@@ -1,7 +1,6 @@
 import copy
 
 from src.helpers.convert_tile_if_needed import convert_tile_if_needed
-from src.helpers.find_object_position import find_object_position, find_object_id_position
 from src.helpers.kill_object import kill_object_if_possible
 from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_present
 
@@ -10,7 +9,7 @@ def apply_attack_move(board, attack):
     """Move object into another position. If any tiles, objects were affected,
     return their original states along with their positions."""
     attacker = attack.get_attacker()
-    attacker_pos = find_object_id_position(board, attacker)
+    attacker_pos = board.find_object_id_position(attacker)
     if attacker is None:
         return {}
 

@@ -4,13 +4,12 @@ from src.apply_attack.apply_attack import acidify_tile, damage_tile
 from src.game_objects.tiles.tile import ForestTile, ChasmTile, ForestFireTile
 from src.game_objects.vek import Vek
 from src.helpers.convert_tile_if_needed import convert_tile_if_needed
-from src.helpers.find_object_position import find_object_position
 from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_present
 
-#TODO: Should be part of board
+
 def kill_object(board, obj):
     """Kills object. No questions asked"""
-    pos = find_object_position(board, obj)
+    pos = board.find_object_position(obj)
     tile = board[pos]
     ret = {pos: copy.deepcopy(tile)}
     board[pos].set_object(None)
@@ -56,7 +55,7 @@ def kill_object_if_possible(board, obj):
     killed on a ground tile will leave an AcidPool behind).
     """
     # Does this object still exist?
-    pos = find_object_position(board, obj)
+    pos = board.find_object_position(obj)
     if pos is None:
         return {}
 

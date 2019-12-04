@@ -10,8 +10,8 @@ class Board:
     def __init__(self):
         """Initializes board with empty tiles"""
         self._tiles = [[GroundTile(_object=None)
-                       for x in range(self.BOARD_MAX_X_SIZE)]
-                       for y in range(self.BOARD_MAX_Y_SIZE)]
+                       for _ in range(self.BOARD_MAX_X_SIZE)]
+                       for _ in range(self.BOARD_MAX_Y_SIZE)]
 
     def is_explosive_psion_present(self):
         for x in range(0, self.BOARD_MAX_X_SIZE):
@@ -57,7 +57,7 @@ class Board:
             for x in range(0, self.BOARD_MAX_X_SIZE):
                 s += str(self[(x, y)].has_smoke()).ljust(width)
 
-            s+= "\n"
+            s += "\n"
             s += "Object".ljust(width)
             for x in range(0, self.BOARD_MAX_X_SIZE):
                 obj = self[(x, y)].get_object()
@@ -69,6 +69,29 @@ class Board:
             s += "\n\n"
 
         return s
+
+    def find_object_position(self, _object):
+        _id = _object.get_id()
+        return self.find_object_id_position(_id)
+
+    def find_object_id_position(self, _id):
+        for x in range(0, self.BOARD_MAX_X_SIZE):
+            for y in range(0, self.BOARD_MAX_Y_SIZE):
+                obj = self[(x, y)].get_object()
+                if obj is not None and _id == obj.get_id():
+                    return x, y
+
+        return None
+
+    def find_player_objects(self):
+        player_controlled_objects = []
+        for x in range(0, self.BOARD_MAX_X_SIZE):
+            for y in range(0, self.BOARD_MAX_Y_SIZE):
+                obj = self[(x, y)].get_object()
+                if obj is not None and obj.is_player_controlled():
+                    player_controlled_objects.append((x, y))
+
+        return player_controlled_objects
 
     def __getitem__(self, key):
         return self._tiles[key[0]][key[1]]

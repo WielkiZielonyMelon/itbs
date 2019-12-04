@@ -1,8 +1,6 @@
 import copy
 from queue import Queue
 
-from src.helpers.find_player_objects import find_player_objects
-
 
 class Order:
     """Order for a given object
@@ -55,7 +53,7 @@ def create_orders(board):
         List of all possible orders for player controlled objects
     """
     orders = []
-    player_objects = find_player_objects(board)
+    player_objects = board.find_player_objects()
     if len(player_objects) <= 0:
         return orders
 

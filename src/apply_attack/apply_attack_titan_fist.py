@@ -7,7 +7,6 @@ from src.game_objects.attack import Attack
 from src.game_objects.tiles.tile import GroundTile, WaterTile
 from src.game_objects.weapons.push import Push
 from src.helpers.convert_tile_if_needed import convert_tile_if_needed
-from src.helpers.find_object_position import find_object_id_position
 from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_present
 
 
@@ -18,7 +17,7 @@ def apply_attack_titan_fist(board, attack):
         update_dict_if_key_not_present(ret, apply_attack_dash(board, attack))
 
     attacker = attack.get_attacker()
-    attacker_pos = find_object_id_position(board, attacker)
+    attacker_pos = board.find_object_id_position(attacker)
     vector = attack.get_vector()
     attack_pos = (attacker_pos[0] + vector[0], attacker_pos[1] + vector[1])
     if not board.in_bounds(attack_pos):

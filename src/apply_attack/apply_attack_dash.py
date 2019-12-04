@@ -1,11 +1,9 @@
 import copy
 
-from src.helpers.find_object_position import find_object_id_position
-
 
 def apply_attack_dash(board, attack):
     attacker = attack.get_attacker()
-    attacker_pos = find_object_id_position(board, attacker)
+    attacker_pos = board.find_object_id_position(attacker)
     if attacker_pos is None:
         return
 

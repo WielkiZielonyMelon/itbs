@@ -84,6 +84,38 @@ class Plan:
         return (other is not None) and (self.__dict__ == other.__dict__)
 
 
+class LatestMovesCache:
+    """Stores executed attacks/moves with future orders."""
+    PRESENT = 0
+    ADDED = 1
+    DOES_NOT_QUALIFY = 2
+
+    def __init__(self):
+        self.movement_sets = set()
+
+    def add(self, orders_executed, attack, orders_left):
+        if not (isinstance(attack.get_weapon(), Move) and len(orders_executed) > 0 and
+                isinstance(orders_executed[-1].get_weapon(), Move)):
+            return self.DOES_NOT_QUALIFY
+
+        # Get all latest Move executed orders
+        latest_moves = []
+        before_moves = []
+        for p in range(len(orders_executed) - 1, -1, -1):
+            if isinstance(orders_executed[p], Move):
+                latest_moves.append(orders_executed[p])
+            else:
+                before_moves = orders_executed[0:p]
+                break
+        latest_moves.append(attack)
+        moves_update = (tuple(before_moves, ), frozenset(latest_moves), tuple(orders_left))
+        if moves_update in self.movement_sets:
+            return self.PRESENT
+
+        self.movement_sets.add(moves_update)
+        return self.ADDED
+
+
 def get_battle_plans(board, size, enemy_attacks):
     # Initialize empty battle plans, with board as a reference
     battle_plans = BattlePlans(size=size, board=board)
@@ -114,9 +146,8 @@ def get_battle_plans(board, size, enemy_attacks):
     total_branches = [0, 0, 0, 0, 0, 0, 0]
     loop_counter = 0
     cut_in_moves = [0, 0, 0, 0, 0, 0, 0]
-    # TODO: This should be a class
-    movement_sets = set()
 
+    latest_moves_cache = LatestMovesCache()
     while q.empty() is not True:
         loop_counter += 1
         # Retrieve plan, that has some orders already executed and some orders to do
@@ -159,23 +190,9 @@ def get_battle_plans(board, size, enemy_attacks):
             total_branches[len(orders_executed) + 1] += 1
             # Before applying enemy attack, check if it was a move. If it was a move and also last executed order
             # was a move, check if we have something like this before. If so, terminate
-            if isinstance(attack.get_weapon(), Move) and len(orders_executed) > 0 and \
-                    isinstance(orders_executed[-1].get_weapon(), Move):
-                # Get all latest Move executed orders
-                latest_moves = []
-                before_moves = []
-                for p in range(len(orders_executed) - 1, -1, -1):
-                    if isinstance(orders_executed[p], Move):
-                        latest_moves.append(orders_executed[p])
-                    else:
-                        before_moves = orders_executed[0:p]
-                        break
-                latest_moves.append(attack)
-                moves_update = (tuple(before_moves, ), frozenset(latest_moves), tuple(plan.get_orders_left()))
-                if moves_update in movement_sets:
-                    cut_in_moves[len(orders_executed) + 1] += 1
-                    continue
-                movement_sets.add(moves_update)
+            if LatestMovesCache.PRESENT == latest_moves_cache.add(orders_executed, attack, plan.get_orders_left()):
+                cut_in_moves[len(orders_executed) + 1] += 1
+                continue
 
             # Apply new attack!
             latest_order = apply_attack(board, attack)

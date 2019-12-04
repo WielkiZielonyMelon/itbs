@@ -12,8 +12,6 @@ from src.game_objects.vek import Firefly, Hornet, AlphaFirefly
 from src.solver.battle_plans import get_battle_plans
 from src.solver.order import Order, create_orders
 from src.helpers.get_score_of_board import get_score_of_board
-from src.helpers.find_object_position import find_object_position
-from src.helpers.find_player_objects import find_player_objects
 
 
 def test_find_player_objects():
@@ -42,7 +40,7 @@ def test_find_player_objects():
     board[(5, 5)].set_object(vek3)
 
     expected_pos = [mech0_pos, mech1_pos, mech2_pos, mech3_pos]
-    received = find_player_objects(board)
+    received = board.find_player_objects()
 
     unittest.TestCase().assertCountEqual(expected_pos, received)
 
@@ -78,19 +76,19 @@ def test_find_object_position():
 
     tc = unittest.TestCase()
 
-    tc.assertEqual(find_object_position(board, mech0),
+    tc.assertEqual(board.find_object_position(mech0),
                    mech0_pos)
-    tc.assertEqual(find_object_position(board, mech1),
+    tc.assertEqual(board.find_object_position(mech1),
                    mech1_pos)
-    tc.assertEqual(find_object_position(board, mech2),
+    tc.assertEqual(board.find_object_position(mech2),
                    mech2_pos)
-    tc.assertEqual(find_object_position(board, mech3),
+    tc.assertEqual(board.find_object_position(mech3),
                    mech3_pos)
 
-    tc.assertEqual(find_object_position(board, vek0), vek0_pos)
-    tc.assertEqual(find_object_position(board, vek1), vek1_pos)
-    tc.assertEqual(find_object_position(board, vek2), vek2_pos)
-    tc.assertEqual(find_object_position(board, vek3), vek3_pos)
+    tc.assertEqual(board.find_object_position(vek0), vek0_pos)
+    tc.assertEqual(board.find_object_position(vek1), vek1_pos)
+    tc.assertEqual(board.find_object_position(vek2), vek2_pos)
+    tc.assertEqual(board.find_object_position(vek3), vek3_pos)
 
 
 def test_get_score_of_board():

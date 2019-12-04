@@ -4,9 +4,6 @@ from src.game_objects.weapons.artemis import Artemis
 from src.game_objects.weapons.repair import Repair
 from src.game_objects.weapons.taurus_cannon import TaurusCannon
 from src.game_objects.weapons.titan_fist import TitanFist
-from src.helpers.find_object_position import find_object_position
-
-# TODO: Should be part of board
 
 
 def get_possible_attacks(board, obj):
@@ -28,7 +25,7 @@ def get_possible_attacks(board, obj):
         return []
 
     # Get attackers position, that still might be removed from the board
-    attacker_pos = find_object_position(board, obj)
+    attacker_pos = board.find_object_position(obj)
     if attacker_pos is None:
         # Whoopsie, someone died
         return []

@@ -1,9 +1,5 @@
 from queue import Queue
 
-from src.helpers.find_object_position import find_object_position
-
-# TODO: Should be part of board
-
 
 def get_possible_moves(board, obj):
     """Returns all possible moves for a player controlled object
@@ -18,7 +14,7 @@ def get_possible_moves(board, obj):
         return []
 
     possible_moves = []
-    pos = find_object_position(board, obj)
+    pos = board.find_object_position(obj)
     if pos is None:
         # Whooopsie, seems someone has died
         return []
