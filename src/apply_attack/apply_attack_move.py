@@ -1,0 +1,34 @@
+import copy
+
+from src.helpers.convert_tile_if_needed import convert_tile_if_needed
+from src.helpers.find_object_position import find_object_position, find_object_id_position
+from src.helpers.kill_object import kill_object_if_possible
+from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_present
+
+
+def apply_attack_move(board, attack):
+    """Move object into another position. If any tiles, objects were affected,
+    return their original states along with their positions."""
+    attacker = attack.get_attacker()
+    attacker_pos = find_object_id_position(board, attacker)
+    if attacker is None:
+        return {}
+
+    attacker = board[attacker_pos].get_object()
+    start_pos = attacker_pos
+    dst_pos = attack.get_vector()
+    if start_pos == dst_pos:
+        return {}
+    if board[dst_pos].has_object():
+        raise Exception("Space is occupied")
+
+    start_tile = copy.deepcopy(board[start_pos])
+    destination_tile = copy.deepcopy(board[dst_pos])
+    ret = {start_pos: start_tile, dst_pos: destination_tile}
+
+    board[dst_pos].set_object(attacker)
+    board[start_pos].set_object(None)
+    convert_tile_if_needed(board, dst_pos)
+    update_dict_if_key_not_present(ret, kill_object_if_possible(board, attacker))
+
+    return ret
