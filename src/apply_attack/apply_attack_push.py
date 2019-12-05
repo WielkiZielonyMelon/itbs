@@ -1,9 +1,7 @@
 import copy
 
-from src.apply_attack.apply_attack import apply_attack
 from src.apply_attack.apply_attack_move import apply_attack_move
 from src.game_objects.attack import Attack
-from src.game_objects.tiles.tile import GroundTile, AcidPool
 from src.game_objects.weapons.move import Move
 from src.helpers.kill_object import kill_object_if_possible
 from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_present

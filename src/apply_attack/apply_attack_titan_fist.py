@@ -4,9 +4,9 @@ from src.apply_attack.apply_attack import damage_tile
 from src.apply_attack.apply_attack_dash import apply_attack_dash
 from src.apply_attack.apply_attack_push import apply_attack_push
 from src.game_objects.attack import Attack
-from src.game_objects.tiles.tile import GroundTile, WaterTile
 from src.game_objects.weapons.push import Push
 from src.helpers.convert_tile_if_needed import convert_tile_if_needed
+from src.helpers.is_tile_damagable import is_tile_damageable
 from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_present
 
 
@@ -24,7 +24,7 @@ def apply_attack_titan_fist(board, attack):
         return {}
 
     # Will this attack have any effect?
-    if not board[attack_pos].has_object() and isinstance(board[attack_pos], (GroundTile, WaterTile)):
+    if not board[attack_pos].has_object() and not is_tile_damageable(board[attack_pos]):
         return {}
 
     update_dict_if_key_not_present(ret, {attack_pos: copy.deepcopy(board[attack_pos])})

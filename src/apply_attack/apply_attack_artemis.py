@@ -4,9 +4,9 @@ from src.apply_attack.apply_attack_push import apply_attack_push
 from src.apply_attack.apply_attack import damage_tile
 from src.game_objects.attack import Attack
 from src.game_objects.building import Building
-from src.game_objects.tiles.tile import GroundTile, WaterTile
 from src.game_objects.weapons.push import Push
 from src.helpers.convert_tile_if_needed import convert_tile_if_needed
+from src.helpers.is_tile_damagable import is_tile_damageable
 from src.helpers.kill_object import kill_object_if_possible
 from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_present
 
@@ -24,7 +24,7 @@ def apply_attack_artemis(board, attack):
     ret = {}
     weapon = attack.get_weapon()
     attacked_obj = board[attack_pos].get_object()
-    if attacked_obj is None and isinstance(board[attack_pos], (GroundTile, WaterTile)):
+    if attacked_obj is None and not is_tile_damageable(board[attack_pos]):
         pass
     else:
         ret[attack_pos] = copy.deepcopy(board[attack_pos])
