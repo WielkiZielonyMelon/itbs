@@ -1,17 +1,15 @@
 import unittest
 
-from src.game_objects.board import Board
 from src.solver.battle_plans import BattlePlans, Plan
 
 
 def test_battle_plans():
-    board = Board()
-    plan0 = Plan(score=950, executed_orders=[], orders_left=None)
-    plan1 = Plan(score=800, executed_orders=[], orders_left=None)
-    plan2 = Plan(score=1600, executed_orders=[], orders_left=None)
-    plan3 = Plan(score=1200, executed_orders=[], orders_left=None)
-    plan4 = Plan(score=900, executed_orders=[], orders_left=None)
-    plan5 = Plan(score=1000, executed_orders=[], orders_left=None)
+    plan0 = Plan(score=950, executed_orders=[])
+    plan1 = Plan(score=800, executed_orders=[])
+    plan2 = Plan(score=1600, executed_orders=[])
+    plan3 = Plan(score=1200, executed_orders=[])
+    plan4 = Plan(score=900, executed_orders=[])
+    plan5 = Plan(score=1000, executed_orders=[])
 
     battle_plans = BattlePlans(size=3, board=None)
     battle_plans.add_plan(plan0)

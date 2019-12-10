@@ -30,7 +30,6 @@ def create_board():
     board[(0, 3)].set_object(CivilianBuilding(health=1))
     combat_mech = CombatMech()
     board[(3, 3)].set_object(combat_mech)
-    # TODO: do not modify max moves
 
     board[(0, 4)].set_object(CivilianBuilding(health=1))
     board[(2, 4)].set_object(CivilianBuilding(health=1))
@@ -39,14 +38,12 @@ def create_board():
     board[(0, 5)].set_object(Mountain())
     artillery_mech = ArtilleryMech()
     board[(1, 5)] = ForestTile(_object=artillery_mech)
-    # TODO: do not modify max moves
     board[(2, 5)].set_object(Mountain())
     board[(3, 5)].set_object(PowerGenerator())
     board[(5, 5)].set_object(CivilianBuilding(health=2))
 
     cannon_mech = CannonMech()
     board[(3, 6)].set_object(cannon_mech)
-    # TODO: do not modify max moves
     # TODO: Add timepod
     # board[(4, 6)] = TimePod()
 

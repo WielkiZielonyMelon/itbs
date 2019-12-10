@@ -1,6 +1,5 @@
 import copy
 from heapq import heappop, heappush, heapreplace
-from queue import Queue
 
 from src.apply_attack.apply_attack import apply_attack
 from src.game_objects.attack import Attack
@@ -9,7 +8,6 @@ from src.helpers.get_possible_attacks import get_possible_attacks
 from src.helpers.get_possible_moves import get_possible_moves
 from src.helpers.get_score_of_board import get_score_of_board
 from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_present
-from src.solver.order import Order, create_orders
 
 
 class BattlePlans:
@@ -39,10 +37,9 @@ class BattlePlans:
 
 
 class Plan:
-    def __init__(self, score, executed_orders, orders_left):
+    def __init__(self, score, executed_orders):
         self._executed_orders = copy.copy(executed_orders)
         self._score = score
-        self._orders_left = orders_left
 
     def add_order(self, activity):
         self._executed_orders.append(activity)
@@ -52,17 +49,6 @@ class Plan:
 
     def get_executed_orders(self):
         return self._executed_orders
-
-    def has_orders_left(self):
-        return len(self.get_orders_left()) > 0
-
-    def pop_first_order(self):
-        order = self.get_orders_left()[0]
-        self._orders_left = self._orders_left[1:]
-        return order
-
-    def get_orders_left(self):
-        return self._orders_left
 
     def __hash__(self):
         # Do not care about the activities, score is the most important
@@ -74,11 +60,7 @@ class Plan:
         return False
 
     def __repr__(self):
-        s = "Plan score " + str(self.get_score()) + " "
-        s += "activities " + str(self.get_executed_orders()) + " "
-        s += "orders left " + str(self.get_orders_left())
-
-        return s
+        return "Plan score {} activities {}".format(self.get_score(), self.get_executed_orders())
 
     def __eq__(self, other):
         return (other is not None) and (self.__dict__ == other.__dict__)
@@ -93,7 +75,7 @@ class LatestMovesCache:
     def __init__(self):
         self.movement_sets = set()
 
-    def add(self, orders_executed, attack, orders_left):
+    def add(self, orders_executed, attack):
         if not (isinstance(attack.get_weapon(), Move) and len(orders_executed) > 0 and
                 isinstance(orders_executed[-1].get_weapon(), Move)):
             return self.DOES_NOT_QUALIFY
@@ -108,7 +90,7 @@ class LatestMovesCache:
                 before_moves = orders_executed[0:p]
                 break
         latest_moves.append(attack)
-        moves_update = (tuple(before_moves, ), frozenset(latest_moves), tuple(orders_left))
+        moves_update = (tuple(before_moves, ), frozenset(latest_moves))
         if moves_update in self.movement_sets:
             return self.PRESENT
 
@@ -116,123 +98,95 @@ class LatestMovesCache:
         return self.ADDED
 
 
+def execute_attack(board, attacks, battle_plans, latest_moves_cache, orders_executed, orders_left, enemy_attacks):
+    for attack in attacks:
+        if LatestMovesCache.PRESENT == latest_moves_cache.add(orders_executed, attack):
+            continue
+        latest_order_undo = apply_attack(board, attack)
+        if not latest_order_undo:
+            # Nothing actually happened, cut this branch
+            continue
+
+        # Update executed orders
+        orders_executed.append(attack)
+        # Apply enemy attacks!
+        enemy_attacks_undo = {}
+        for enemy_attack in enemy_attacks:
+            update_dict_if_key_not_present(enemy_attacks_undo, apply_attack(board, enemy_attack))
+        # ... now grab the score
+        score = get_score_of_board(board)
+        # Create a new plan,, with new score and orders left
+        new_plan = Plan(score=score, executed_orders=orders_executed)
+
+        # Add to the battle plans
+        battle_plans.add_plan(new_plan)
+        # Unwind enemy destructive activities
+        for position, tile in enemy_attacks_undo.items():
+            board[position] = tile
+        # Execute any further plans
+        fill_battle_plans(board, battle_plans, latest_moves_cache, orders_executed, orders_left, enemy_attacks)
+        # Rewind latest orders
+        for position, tile in latest_order_undo.items():
+            board[position] = tile
+
+        # Rewind executed order
+        orders_executed.pop()
+
+        # Clear undo tiles
+        latest_order_undo.clear()
+
+
+class Order:
+    MOVE = 0,
+    ATTACK = 1
+
+
+def fill_battle_plans(board, battle_plans, latest_moves_cache, orders_executed, orders_left, enemy_attacks):
+    """Check possible scenarios and find best battle plan
+
+    This function checks all possible scenarios for all player controlled objects."""
+    # Iterate over over all possible orders
+    for obj_id, orders in orders_left.items():
+        pos = board.find_object_id_position(obj_id)
+        if pos is None:
+            continue
+        obj = board[pos].get_object()
+        if Order.MOVE in orders:
+            new_orders_left = copy.copy(orders_left)
+            new_orders_left[obj_id] = [Order.ATTACK]
+            moves = get_possible_moves(board, obj)
+            attacks = [Attack(attacker=obj_id, weapon=Move(), vector=move)
+                       for move in moves]
+            execute_attack(board, attacks, battle_plans, latest_moves_cache,
+                           orders_executed, new_orders_left, enemy_attacks)
+
+        if Order.ATTACK in orders:
+            new_orders_left = copy.copy(orders_left)
+            del new_orders_left[obj_id]
+            attacks = get_possible_attacks(board, obj)
+            execute_attack(board, attacks, battle_plans, latest_moves_cache,
+                           orders_executed, new_orders_left, enemy_attacks)
+
+
 def get_battle_plans(board, size, enemy_attacks):
     # Initialize empty battle plans, with board as a reference
     battle_plans = BattlePlans(size=size, board=board)
 
-    # Create empty queue
-    q = Queue()
+    # Find all player objects
+    player_objects_pos = board.find_player_objects()
 
-    # Grab the score
-    score = get_score_of_board(board)
+    if len(player_objects_pos) <= 0:
+        # No player objects? We can't do anything then...
+        return None
 
-    # Grab orders left
-    orders_left = create_orders(board)
+    # For player objects, create possible orders
+    orders_left = {}
+    for pos in player_objects_pos:
+        orders_left[board[pos].get_object().get_id()] = [Order.MOVE, Order.ATTACK]
 
-    # This might happen if there are no player objects
-    if len(orders_left) <= 0:
-        return battle_plans
-
-    # And fill it with all possible orders that can be executed
-    for orders in orders_left:
-        # Create a plan with no orders executed yet and
-        new_plan = Plan(score=score, executed_orders=[], orders_left=orders)
-
-        # Finally put the plan to queue so it will be executed later
-        # if it has orders left that is
-        q.put(new_plan)
-
-    counter = [0, 0, 0, 0, 0, 0, 0]
-    total_branches = [0, 0, 0, 0, 0, 0, 0]
-    loop_counter = 0
-    cut_in_moves = [0, 0, 0, 0, 0, 0, 0]
-
+    # Create moves cache to limit possible moves
     latest_moves_cache = LatestMovesCache()
-    while q.empty() is not True:
-        loop_counter += 1
-        # Retrieve plan, that has some orders already executed and some orders to do
-        plan = q.get()
+    executed_orders = []
 
-        # Check next order to be executed, either MOVE or ATTACK
-        # This also removes the order from the orders_left list
-        next_order = plan.pop_first_order()
-
-        # Get a list of orders executed yet
-        orders_executed = plan.get_executed_orders()
-
-        # Dictionary that will restore original board
-        undo_tiles = {}
-
-        # Execute orders to get latest board state
-        for order in orders_executed:
-            update_dict_if_key_not_present(undo_tiles, apply_attack(board, order))
-
-        # For what object is this order for?
-        obj = next_order.get_object()
-
-        # Board is updated, check next order
-        if next_order.get_type() is Order.MOVE:
-            # As the next order is move, get all possible moves
-            moves = get_possible_moves(board, obj)
-            # Convert those moves to attacks
-            attacks = []
-            for move in moves:
-                # Create a new order to be executed...
-                attacks.append(Attack(attacker=obj.get_id(), weapon=Move(), vector=move))
-
-        elif next_order.get_type() is Order.ATTACK:
-            # Attack time! Get all possible attacks
-            attacks = get_possible_attacks(board, obj)
-        else:
-            raise Exception("Unknown order {}".format(next_order))
-
-        for attack in attacks:
-            total_branches[len(orders_executed) + 1] += 1
-            # Before applying enemy attack, check if it was a move. If it was a move and also last executed order
-            # was a move, check if we have something like this before. If so, terminate
-            if LatestMovesCache.PRESENT == latest_moves_cache.add(orders_executed, attack, plan.get_orders_left()):
-                cut_in_moves[len(orders_executed) + 1] += 1
-                continue
-
-            # Apply new attack!
-            latest_order = apply_attack(board, attack)
-            if not latest_order:
-                # Nothing actually happened, cut this branch
-                counter[len(orders_executed) + 1] += 1
-                continue
-
-            # Apply enemy attacks!
-            for enemy_attack in enemy_attacks:
-                update_dict_if_key_not_present(latest_order, apply_attack(board, enemy_attack))
-
-            # ... now grab the score
-            score = get_score_of_board(board)
-
-            # Create a new plan,, with new score and orders left
-            new_plan = Plan(score=score, executed_orders=plan.get_executed_orders(),
-                            orders_left=plan.get_orders_left())
-            # We still have to add information that order was executed
-            new_plan.add_order(attack)
-            # Add to the battle plans
-            battle_plans.add_plan(new_plan)
-
-            # Rewind latest orders
-            for position, tile in latest_order.items():
-                board[position] = tile
-
-            latest_order.clear()
-
-            # Add to queue if there are any orders left
-            if new_plan.has_orders_left():
-                q.put(new_plan)
-
-        # And rewind original attacks
-        for position, tile in undo_tiles.items():
-            board[position] = tile
-
-    print("")
-    print("Total branches {}".format(total_branches))
-    print("Terminated branches {}".format(counter))
-    print("Cut in moves {}".format(cut_in_moves))
-    print("Total loops {}".format(loop_counter))
+    fill_battle_plans(board, battle_plans, latest_moves_cache, executed_orders, orders_left, enemy_attacks)
     return battle_plans.get_plans()

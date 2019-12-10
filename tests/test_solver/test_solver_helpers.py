@@ -10,7 +10,6 @@ from src.game_objects.weapons.titan_fist import TitanFist
 from src.game_objects.weapons.move import Move
 from src.game_objects.vek import Firefly, Hornet, AlphaFirefly
 from src.solver.battle_plans import get_battle_plans
-from src.solver.order import Order, create_orders
 from src.helpers.get_score_of_board import get_score_of_board
 
 
@@ -120,61 +119,6 @@ def test_get_score_of_board():
     unittest.TestCase().assertEqual(expected_score, get_score_of_board(board))
 
 
-def test_orders_1_mech():
-    board = Board()
-
-    mech0 = CombatMech()
-    mech0_pos = (1, 2)
-    board[mech0_pos].set_object(mech0)
-    actions_order = create_orders(board)
-    exp_actions_order = [[Order(mech0, 1)],
-                         [Order(mech0, 0), Order(mech0, 1)]]
-
-    unittest.TestCase().assertCountEqual(actions_order, exp_actions_order)
-
-
-def test_orders_2_mechs():
-    board = Board()
-    mech0 = CombatMech()
-    mech0_pos = (1, 2)
-    board[mech0_pos].set_object(mech0)
-
-    mech1 = CombatMech()
-    mech1_pos = (3, 4)
-    board[mech1_pos].set_object(mech1)
-    orders = create_orders(board)
-    exp_orders = [
-                  [Order(mech0, 0), Order(mech0, 1),
-                   Order(mech1, 0), Order(mech1, 1)],
-                  [Order(mech0, 0), Order(mech0, 1),
-                   Order(mech1, 1)],
-                  [Order(mech0, 0), Order(mech1, 0),
-                   Order(mech0, 1), Order(mech1, 1)],
-                  [Order(mech0, 0), Order(mech1, 0),
-                   Order(mech1, 1), Order(mech0, 1)],
-                  [Order(mech0, 0), Order(mech1, 1),
-                   Order(mech0, 1)],
-                  [Order(mech0, 1), Order(mech1, 1)],
-                  [Order(mech0, 1), Order(mech1, 0),
-                   Order(mech1, 1)],
-                  [Order(mech1, 0), Order(mech1, 1),
-                   Order(mech0, 0), Order(mech0, 1)],
-                  [Order(mech1, 0), Order(mech1, 1),
-                   Order(mech0, 1)],
-                  [Order(mech1, 0), Order(mech0, 0),
-                   Order(mech1, 1), Order(mech0, 1)],
-                  [Order(mech1, 0), Order(mech0, 0),
-                   Order(mech0, 1), Order(mech1, 1)],
-                  [Order(mech1, 1), Order(mech0, 1)],
-                  [Order(mech1, 1), Order(mech0, 0),
-                   Order(mech0, 1)],
-                  [Order(mech1, 0), Order(mech0, 1),
-                   Order(mech1, 1)],
-                  ]
-
-    unittest.TestCase().assertCountEqual(orders, exp_orders)
-
-
 def test_solver_get_best_battle_plans_mech_can_die():
     """Scenario where one mech can kill another"""
     board = Board()
@@ -218,12 +162,10 @@ def test_solver_get_best_battle_plans_combat_mech():
     exp_attacks_0 = [Attack(attacker=mech0.get_id(), weapon=TitanFist(),
                             vector=vek0_pos)]
     exp_attacks = [exp_attacks_0]
-    exp_orders_left = []
 
     plan0 = plans[0]
     tc = unittest.TestCase()
     tc.assertEqual(exp_score_0, plan0.get_score())
-    tc.assertEqual(exp_orders_left, plan0.get_orders_left())
 
     attacks = [plan0.get_executed_orders()]
 
@@ -253,12 +195,10 @@ def test_solver_combat_mech_firefly_attacks_acid_pool():
     exp_attacks_0 = [Attack(attacker=mech0.get_id(), weapon=TitanFist(),
                             vector=vek0_pos)]
     exp_attacks = [exp_attacks_0]
-    exp_orders_left = []
 
     plan0 = plans[0]
     tc = unittest.TestCase()
     tc.assertEqual(exp_score_0, plan0.get_score())
-    tc.assertEqual(exp_orders_left, plan0.get_orders_left())
 
     attacks = [plan0.get_executed_orders()]
 
@@ -287,13 +227,11 @@ def test_solver_combat_mech_firefly_attacks():
                      Attack(attacker=mech0.get_id(), weapon=TitanFist(),
                             vector=(-1, 0))]
     exp_attacks = [exp_attacks_0]
-    exp_orders_left = []
 
     plan0 = plans[0]
     tc = unittest.TestCase()
     tc.maxDiff = None
     tc.assertEqual(exp_score_0, plan0.get_score())
-    tc.assertEqual(exp_orders_left, plan0.get_orders_left())
 
     attacks = [plan0.get_executed_orders()]
 
@@ -319,14 +257,12 @@ def test_solver_get_best_battle_plans_combat_mech_kill():
     exp_attacks_0 = [Attack(attacker=mech0.get_id(), weapon=TitanFist(),
                             vector=vek0_pos)]
     exp_attacks = [exp_attacks_0]
-    exp_orders_left = []
 
     plans = get_battle_plans(board, size=1, enemy_attacks=[])
     plan0 = plans[0]
 
     tc = unittest.TestCase()
     tc.assertEqual(exp_score, plan0.get_score())
-    tc.assertEqual(exp_orders_left, plan0.get_orders_left())
 
     attacks = [plan0.get_executed_orders()]
 
@@ -357,7 +293,6 @@ def test_solver_get_best_battle_plans_two_combat_mech_cooperation_01():
                      Attack(attacker=mech1.get_id(), weapon=TitanFist(), vector=(0, -1))
                      ]
     exp_attacks = [exp_attacks_0]
-    exp_orders_left = []
 
     plans = get_battle_plans(board, size=1, enemy_attacks=[])
 
@@ -367,7 +302,6 @@ def test_solver_get_best_battle_plans_two_combat_mech_cooperation_01():
     tc.assertCountEqual(exp_attacks, attacks)
 
     tc.assertEqual(exp_score, plan0.get_score())
-    tc.assertEqual(exp_orders_left, plan0.get_orders_left())
 
 
 def test_solver_get_best_battle_plans_two_combat_mech_cooperation_02():
@@ -394,7 +328,6 @@ def test_solver_get_best_battle_plans_two_combat_mech_cooperation_02():
                      Attack(attacker=mech1.get_id(), weapon=TitanFist(), vector=(0, -1))
                      ]
     exp_attacks = exp_attacks_0
-    exp_orders_left = []
 
     plans = get_battle_plans(board, size=1, enemy_attacks=[])
 
@@ -404,7 +337,6 @@ def test_solver_get_best_battle_plans_two_combat_mech_cooperation_02():
     tc.assertCountEqual(exp_attacks, attacks)
 
     tc.assertEqual(exp_score, plan0.get_score())
-    tc.assertEqual(exp_orders_left, plan0.get_orders_left())
 
 
 def test_solver_get_best_battle_plans_three_combat_mech_cooperation_mountain_helpers():
@@ -455,7 +387,6 @@ def test_solver_get_best_battle_plans_three_combat_mech_cooperation_mountain_hel
                      Attack(attacker=mech2.get_id(), weapon=TitanFist(), vector=(-1, 0))
                      ]
     exp_attacks = exp_attacks_0
-    exp_orders_left = []
 
     plans = get_battle_plans(board, size=1, enemy_attacks=[])
 
@@ -466,7 +397,6 @@ def test_solver_get_best_battle_plans_three_combat_mech_cooperation_mountain_hel
     tc.assertCountEqual(exp_attacks, attacks)
 
     tc.assertEqual(exp_score, plan0.get_score())
-    tc.assertEqual(exp_orders_left, plan0.get_orders_left())
 
 
 def test_solver_get_best_battle_plans_three_combat_mech_cooperation():
@@ -499,7 +429,6 @@ def test_solver_get_best_battle_plans_three_combat_mech_cooperation():
                      Attack(attacker=mech2.get_id(), weapon=TitanFist(), vector=(-1, 0))
                      ]
     exp_attacks = exp_attacks_0
-    exp_orders_left = []
 
     plans = get_battle_plans(board, size=1, enemy_attacks=[])
 
@@ -509,4 +438,3 @@ def test_solver_get_best_battle_plans_three_combat_mech_cooperation():
     tc.assertCountEqual(exp_attacks, attacks)
 
     tc.assertEqual(exp_score, plan0.get_score())
-    tc.assertEqual(exp_orders_left, plan0.get_orders_left())
