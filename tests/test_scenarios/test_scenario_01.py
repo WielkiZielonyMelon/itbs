@@ -1,5 +1,3 @@
-import pytest
-
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
 from src.game_objects.building import CivilianBuilding, PowerGenerator
@@ -33,7 +31,6 @@ def create_board():
     combat_mech = CombatMech()
     board[(3, 3)].set_object(combat_mech)
     # TODO: do not modify max moves
-    board[(3, 3)].get_object()._moves = 1
 
     board[(0, 4)].set_object(CivilianBuilding(health=1))
     board[(2, 4)].set_object(CivilianBuilding(health=1))
@@ -43,7 +40,6 @@ def create_board():
     artillery_mech = ArtilleryMech()
     board[(1, 5)] = ForestTile(_object=artillery_mech)
     # TODO: do not modify max moves
-    board[(1, 5)].get_object()._moves = 1
     board[(2, 5)].set_object(Mountain())
     board[(3, 5)].set_object(PowerGenerator())
     board[(5, 5)].set_object(CivilianBuilding(health=2))
@@ -51,7 +47,6 @@ def create_board():
     cannon_mech = CannonMech()
     board[(3, 6)].set_object(cannon_mech)
     # TODO: do not modify max moves
-    board[(3, 6)].get_object()._moves = 1
     # TODO: Add timepod
     # board[(4, 6)] = TimePod()
 
@@ -110,7 +105,7 @@ def test_scenario_01_01():
 
     # TODO: This will not work after placing time pod
     exp_attacks_04 = [Attack(attacker=artillery_mech.get_id(), weapon=Move(), vector=(1, 4)),
-                      Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector=( 3, 0)),
+                      Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector=(3, 0)),
                       Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 7)),
                       Attack(attacker=cannon_mech.get_id(), weapon=TaurusCannon(), vector=(0, -1)),
                       Attack(attacker=combat_mech.get_id(), weapon=Move(), vector=(4, 3)),
@@ -119,4 +114,4 @@ def test_scenario_01_01():
     attacks = plans[0].get_executed_orders()
     exp_score = 575
     assert plans[0].get_score() == exp_score
-    assert attacks in [exp_attacks_01] #, exp_attacks_02, exp_attacks_03, exp_attacks_04]
+    assert attacks in [exp_attacks_01, exp_attacks_02, exp_attacks_03, exp_attacks_04]
