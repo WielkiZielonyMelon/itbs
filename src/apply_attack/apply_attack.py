@@ -5,7 +5,7 @@ from src.game_objects.tiles.tile import AcidPool, \
     AcidTile, DamagedFrozenAcidTile, FrozenAcidTile, \
     GroundTile, FireTile, \
     LavaTile, FrozenLavaTile, DamagedFrozenLavaTile, \
-    WaterTile, IceTile, DamagedIceTile, ChasmTile, SandTile
+    WaterTile, IceTile, DamagedIceTile, ChasmTile, SandTile, TimePodTile
 from src.game_objects.weapons.accelerating_thorax import EnhancedThorax, AcceleratingThorax
 from src.game_objects.weapons.acid import Acid
 from src.game_objects.weapons.aerial_bombs import AerialBombs
@@ -206,6 +206,9 @@ def damage_tile(board, pos):
     elif isinstance(tile, SandTile):
         board[pos] = GroundTile(_object=obj)
         board[pos].set_smoke()
+    elif isinstance(tile, TimePodTile):
+        board[pos] = GroundTile(_object=obj)
+        board.set_time_pod_destroyed()
 
 
 def repair_tile(board, pos):

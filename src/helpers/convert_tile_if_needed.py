@@ -1,5 +1,5 @@
 from src.game_objects.tiles.tile import AcidPool, GroundTile, AcidTile, WaterTile, ForestFireTile, FireTile, LavaTile, \
-    ForestTile
+    ForestTile, TimePodTile
 
 
 def convert_tile_if_needed(board, pos):
@@ -39,6 +39,12 @@ def convert_tile_if_needed(board, pos):
             obj.set_fire()
     elif not obj.is_flying() and isinstance(tile, (ForestFireTile, FireTile, LavaTile)):
         obj.set_fire()
+    elif isinstance(tile, TimePodTile):
+        board[pos] = GroundTile(_object=obj)
+        if obj.is_player_controlled():
+            board.set_time_pod_picked_up()
+        else:
+            board.set_time_pod_destroyed()
 
     if has_smoke:
         board[pos].set_smoke()

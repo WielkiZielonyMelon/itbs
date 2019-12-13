@@ -1,4 +1,4 @@
-from src.game_objects.tiles.tile import GroundTile
+from src.game_objects.tiles.tile import GroundTile, TimePodTile
 from src.game_objects.vek import BlastPsion, PsionAbomination
 
 
@@ -12,6 +12,9 @@ class Board:
         self._tiles = [[GroundTile(_object=None)
                        for _ in range(self.BOARD_MAX_X_SIZE)]
                        for _ in range(self.BOARD_MAX_Y_SIZE)]
+
+        self._is_time_pod_destroyed = False
+        self._is_time_pod_picked_up = False
 
     def is_explosive_psion_present(self):
         for x in range(0, self.BOARD_MAX_X_SIZE):
@@ -92,6 +95,26 @@ class Board:
                     player_controlled_objects.append((x, y))
 
         return player_controlled_objects
+
+    def set_time_pod_destroyed(self):
+        self._is_time_pod_destroyed = True
+
+    def set_time_pod_picked_up(self):
+        self._is_time_pod_picked_up = True
+
+    def is_time_pod_present(self):
+        for x in range(0, self.BOARD_MAX_X_SIZE):
+            for y in range(0, self.BOARD_MAX_Y_SIZE):
+                if isinstance(self[(x, y)], TimePodTile):
+                    return True
+
+        return False
+
+    def is_time_pod_destroyed(self):
+        return self._is_time_pod_destroyed
+
+    def is_time_pod_picked_up(self):
+        return self._is_time_pod_picked_up
 
     def __getitem__(self, key):
         return self._tiles[key[0]][key[1]]

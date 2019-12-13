@@ -315,3 +315,8 @@ class WaterTile(Tile):
             return
 
         self.set_object(None)
+
+
+class TimePodTile(Tile):
+    def __init__(self, _object):
+        Tile.__init__(self=self, _object=_object)

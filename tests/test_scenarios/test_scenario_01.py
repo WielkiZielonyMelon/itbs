@@ -3,7 +3,7 @@ from src.game_objects.board import Board
 from src.game_objects.building import CivilianBuilding, PowerGenerator
 from src.game_objects.mech import CombatMech, ArtilleryMech, CannonMech
 from src.game_objects.mountain import Mountain
-from src.game_objects.tiles.tile import WaterTile, ForestTile
+from src.game_objects.tiles.tile import WaterTile, ForestTile, TimePodTile
 from src.game_objects.vek import AlphaFirefly, Firefly
 from src.game_objects.weapons.accelerating_thorax import EnhancedThorax, AcceleratingThorax
 from src.game_objects.weapons.artemis import Artemis
@@ -44,8 +44,7 @@ def create_board():
 
     cannon_mech = CannonMech()
     board[(3, 6)].set_object(cannon_mech)
-    # TODO: Add timepod
-    # board[(4, 6)] = TimePod()
+    board[(4, 6)] = TimePodTile(_object=None)
 
     board[(2, 7)] = ForestTile(_object=None)
     board[(7, 7)].set_object(Mountain())
@@ -84,7 +83,6 @@ def test_scenario_01_01():
                       Attack(attacker=combat_mech.get_id(), weapon=Move(), vector=(4, 3)),
                       Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(0, 1))]
 
-    # TODO: This will not work after placing time pod
     exp_attacks_02 = [Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 6)),
                       Attack(attacker=cannon_mech.get_id(), weapon=TaurusCannon(), vector=(0, -1)),
                       Attack(attacker=artillery_mech.get_id(), weapon=Move(), vector=(1, 4)),
@@ -92,7 +90,6 @@ def test_scenario_01_01():
                       Attack(attacker=combat_mech.get_id(), weapon=Move(), vector=(4, 3)),
                       Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(0, 1))]
 
-    # TODO: This will not work after placing time pod
     exp_attacks_03 = [Attack(attacker=artillery_mech.get_id(), weapon=Move(), vector=(1, 4)),
                       Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector=(3, 0)),
                       Attack(attacker=combat_mech.get_id(), weapon=Move(), vector=(4, 3)),
@@ -100,7 +97,6 @@ def test_scenario_01_01():
                       Attack(attacker=cannon_mech.get_id(), weapon=TaurusCannon(), vector=(0, -1)),
                       Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(0, 1))]
 
-    # TODO: This will not work after placing time pod
     exp_attacks_04 = [Attack(attacker=artillery_mech.get_id(), weapon=Move(), vector=(1, 4)),
                       Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector=(3, 0)),
                       Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 7)),
@@ -108,7 +104,14 @@ def test_scenario_01_01():
                       Attack(attacker=combat_mech.get_id(), weapon=Move(), vector=(4, 3)),
                       Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(0, 1))]
 
+    exp_attacks_05 = [Attack(attacker=artillery_mech.get_id(), weapon=Move(), vector=(1, 4)),
+                      Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 7)),
+                      Attack(attacker=cannon_mech.get_id(), weapon=TaurusCannon(), vector=(0, -1)),
+                      Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector=(3, 0)),
+                      Attack(attacker=combat_mech.get_id(), weapon=Move(), vector=(4, 3)),
+                      Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(0, 1))]
+
     attacks = plans[0].get_executed_orders()
     exp_score = 575
     assert plans[0].get_score() == exp_score
-    assert attacks in [exp_attacks_01, exp_attacks_02, exp_attacks_03, exp_attacks_04]
+    assert attacks in [exp_attacks_01, exp_attacks_02, exp_attacks_03, exp_attacks_04, exp_attacks_05]
