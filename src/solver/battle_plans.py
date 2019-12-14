@@ -121,13 +121,11 @@ def execute_attack(board, attacks, battle_plans, latest_moves_cache, orders_exec
         # Add to the battle plans
         battle_plans.add_plan(new_plan)
         # Unwind enemy destructive activities
-        for position, tile in enemy_attacks_undo.items():
-            board[position] = tile
+        board.restore_tiles(enemy_attacks_undo)
         # Execute any further plans
         fill_battle_plans(board, battle_plans, latest_moves_cache, orders_executed, orders_left, enemy_attacks)
         # Rewind latest orders
-        for position, tile in latest_order_undo.items():
-            board[position] = tile
+        board.restore_tiles(latest_order_undo)
 
         # Rewind executed order
         orders_executed.pop()

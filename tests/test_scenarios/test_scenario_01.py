@@ -1,3 +1,4 @@
+from src.apply_attack.apply_attack import apply_attack
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
 from src.game_objects.building import CivilianBuilding, PowerGenerator
@@ -12,6 +13,7 @@ from src.game_objects.weapons.emerging import Emerging
 from src.game_objects.weapons.move import Move
 from src.game_objects.weapons.taurus_cannon import TaurusCannon
 from src.game_objects.weapons.titan_fist import TitanFist
+from src.helpers.get_score_of_board import get_score_of_board
 from src.solver.battle_plans import get_battle_plans
 
 
@@ -91,27 +93,13 @@ def test_scenario_01_01():
                       Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(0, 1))]
 
     exp_attacks_03 = [Attack(attacker=artillery_mech.get_id(), weapon=Move(), vector=(1, 4)),
-                      Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector=(3, 0)),
-                      Attack(attacker=combat_mech.get_id(), weapon=Move(), vector=(4, 3)),
-                      Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 7)),
-                      Attack(attacker=cannon_mech.get_id(), weapon=TaurusCannon(), vector=(0, -1)),
-                      Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(0, 1))]
-
-    exp_attacks_04 = [Attack(attacker=artillery_mech.get_id(), weapon=Move(), vector=(1, 4)),
-                      Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector=(3, 0)),
-                      Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 7)),
-                      Attack(attacker=cannon_mech.get_id(), weapon=TaurusCannon(), vector=(0, -1)),
-                      Attack(attacker=combat_mech.get_id(), weapon=Move(), vector=(4, 3)),
-                      Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(0, 1))]
-
-    exp_attacks_05 = [Attack(attacker=artillery_mech.get_id(), weapon=Move(), vector=(1, 4)),
-                      Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 7)),
+                      Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 6)),
                       Attack(attacker=cannon_mech.get_id(), weapon=TaurusCannon(), vector=(0, -1)),
                       Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector=(3, 0)),
                       Attack(attacker=combat_mech.get_id(), weapon=Move(), vector=(4, 3)),
                       Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(0, 1))]
 
     attacks = plans[0].get_executed_orders()
-    exp_score = 575
+    exp_score = 725
     assert plans[0].get_score() == exp_score
-    assert attacks in [exp_attacks_01, exp_attacks_02, exp_attacks_03, exp_attacks_04, exp_attacks_05]
+    assert attacks in [exp_attacks_01, exp_attacks_02, exp_attacks_03]

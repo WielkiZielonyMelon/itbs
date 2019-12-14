@@ -16,6 +16,17 @@ class Board:
         self._is_time_pod_destroyed = False
         self._is_time_pod_picked_up = False
 
+    def restore_tiles(self, tiles):
+        for position, tile in tiles.items():
+            if isinstance(tile, TimePodTile):
+                self.clear_time_pod_destroyed()
+                self.clear_time_pod_picked_up()
+
+            self[position] = tile
+
+
+
+
     def is_explosive_psion_present(self):
         for x in range(0, self.BOARD_MAX_X_SIZE):
             for y in range(0, self.BOARD_MAX_Y_SIZE):
@@ -101,6 +112,12 @@ class Board:
 
     def set_time_pod_picked_up(self):
         self._is_time_pod_picked_up = True
+
+    def clear_time_pod_destroyed(self):
+        self._is_time_pod_destroyed = False
+
+    def clear_time_pod_picked_up(self):
+        self._is_time_pod_picked_up = False
 
     def is_time_pod_present(self):
         for x in range(0, self.BOARD_MAX_X_SIZE):
