@@ -168,7 +168,6 @@ def test_spitting_glands_attack_neighbour_exploding_vek():
     exp_vek0_health = vek0.get_health()
 
     orig_tile30 = copy.deepcopy(board[spiderling0_pos])
-    orig_tile31 = copy.deepcopy(board[(3, 1)])
     orig_tile40 = copy.deepcopy(board[psion1_pos])
 
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=SpittingGlands(),
@@ -176,10 +175,9 @@ def test_spitting_glands_attack_neighbour_exploding_vek():
 
     original_tiles = apply_attack(board, vek0_attack)
     print(original_tiles)
-    assert len(original_tiles) == 4
+    assert len(original_tiles) == 2
 
     assert orig_tile30 == original_tiles[spiderling0_pos]
-    assert orig_tile31 == original_tiles[(3, 1)]
     assert orig_tile40 == original_tiles[psion1_pos]
 
     assert board[spiderling0_pos].get_object() is None
@@ -231,13 +229,12 @@ def test_spitting_glands_attack_neighbour_exploding_vek_chain_reaction():
     orig_tile51 = copy.deepcopy(board[(5, 1)])
     orig_tile60 = copy.deepcopy(board[spiderling3_pos])
     orig_tile61 = copy.deepcopy(board[(6, 1)])
-    orig_tile70 = copy.deepcopy(board[(7, 0)])
 
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=SpittingGlands(),
                          vector=vek0_attack_vector)
 
     original_tiles = apply_attack(board, vek0_attack)
-    assert len(original_tiles) == 10
+    assert len(original_tiles) == 8
 
     assert orig_tile30 == original_tiles[spiderling0_pos]
     assert orig_tile31 == original_tiles[(3, 1)]
@@ -247,7 +244,6 @@ def test_spitting_glands_attack_neighbour_exploding_vek_chain_reaction():
     assert orig_tile51 == original_tiles[(5, 1)]
     assert orig_tile60 == original_tiles[spiderling3_pos]
     assert orig_tile61 == original_tiles[(6, 1)]
-    assert orig_tile70 == original_tiles[(7, 0)]
 
     assert board[spiderling0_pos].get_object() is None
     assert board[psion1_pos].get_object() == psion1

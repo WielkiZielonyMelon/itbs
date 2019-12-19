@@ -218,13 +218,9 @@ def test_push_vek_to_death_chain_reaction(death_tile, s05):
     orig05 = copy.deepcopy(board[s05_pos])
 
     orig10 = copy.deepcopy(board[(1, 0)])
-    orig11 = copy.deepcopy(board[(1, 1)])
-    orig12 = copy.deepcopy(board[(1, 2)])
-    orig13 = copy.deepcopy(board[(1, 3)])
-    orig14 = copy.deepcopy(board[(1, 4)])
 
     original_tiles = apply_attack(board, attack)
-    assert len(original_tiles) == 11
+    assert len(original_tiles) == 7
 
     assert original_tiles[s00_pos] == orig00
     assert original_tiles[s01_pos] == orig01
@@ -234,10 +230,6 @@ def test_push_vek_to_death_chain_reaction(death_tile, s05):
     assert original_tiles[s05_pos] == orig05
 
     assert original_tiles[(1, 0)] == orig10
-    assert original_tiles[(1, 1)] == orig11
-    assert original_tiles[(1, 2)] == orig12
-    assert original_tiles[(1, 3)] == orig13
-    assert original_tiles[(1, 4)] == orig14
 
     assert None is board[s00_pos].get_object()
     assert None is board[s01_pos].get_object()

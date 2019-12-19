@@ -4,6 +4,7 @@ from src.apply_attack.apply_attack import acidify_tile, damage_tile
 from src.game_objects.tiles.tile import ForestTile, ChasmTile, ForestFireTile
 from src.game_objects.vek import Vek
 from src.helpers.convert_tile_if_needed import convert_tile_if_needed
+from src.helpers.is_tile_damagable import is_tile_damageable
 from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_present
 
 
@@ -33,6 +34,9 @@ def kill_object(board, obj):
             affected_tiles_pos.append(tile_pos)
 
         for affected_tile_pos in affected_tiles_pos:
+            # Will this attack have any effect?
+            if not board[affected_tile_pos].has_object() and not is_tile_damageable(board[affected_tile_pos]):
+                continue
             ret[affected_tile_pos] = copy.deepcopy(board[affected_tile_pos])
             damage_tile(board, affected_tile_pos)
             board[affected_tile_pos].regular_damage(1)

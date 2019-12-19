@@ -83,13 +83,12 @@ def test_emerging_attack_exploding_vek_chain_reaction():
     orig_tile51 = copy.deepcopy(board[(5, 1)])
     orig_tile60 = copy.deepcopy(board[spiderling3_pos])
     orig_tile61 = copy.deepcopy(board[(6, 1)])
-    orig_tile70 = copy.deepcopy(board[(7, 0)])
 
     vek0_attack = Attack(attacker=spiderling0_pos, weapon=Emerging(),
                          vector=None)
 
     original_tiles = apply_attack(board, vek0_attack)
-    assert len(original_tiles) == 10
+    assert len(original_tiles) == 9
 
     assert orig_tile20 == original_tiles[vek0_pos]
     assert orig_tile30 == original_tiles[spiderling0_pos]
@@ -100,7 +99,6 @@ def test_emerging_attack_exploding_vek_chain_reaction():
     assert orig_tile51 == original_tiles[(5, 1)]
     assert orig_tile60 == original_tiles[spiderling3_pos]
     assert orig_tile61 == original_tiles[(6, 1)]
-    assert orig_tile70 == original_tiles[(7, 0)]
 
     assert board[spiderling0_pos].get_object() is None
     assert board[psion1_pos].get_object() == psion1
