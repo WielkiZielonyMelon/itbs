@@ -17,12 +17,12 @@ from src.solver.battle_plans import get_battle_plans
 
 def create_board_01():
     board = Board()
-    for x in range(0, Board.BOARD_MAX_X_SIZE):
+    for x in range(0, Board.BOARD_X_SIZE):
         for y in range(0, 2):
             board[(x, y)] = WaterTile(_object=None)
 
     high_tides = []
-    for x in range(0, Board.BOARD_MAX_Y_SIZE):
+    for x in range(0, Board.BOARD_Y_SIZE):
         high_tides.append(Attack(attacker=(x, 2), weapon=Drown(), vector=None))
 
     board[(6, 2)] = ForestTile(_object=None)

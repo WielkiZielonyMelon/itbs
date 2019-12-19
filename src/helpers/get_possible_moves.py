@@ -43,14 +43,14 @@ def get_possible_moves(board, obj):
         # Go east
         east = it[0][0] + 1
         new_pos = (east, it[0][1])
-        if east < board.BOARD_MAX_X_SIZE and new_pos not in possible_moves and \
+        if east < board.BOARD_X_SIZE and new_pos not in possible_moves and \
                 not board[new_pos].has_object():
             possible_moves.append(new_pos)
             q.put((new_pos, moves_left))
         # Go south
         south = it[0][1] + 1
         new_pos = (it[0][0], south)
-        if south < board.BOARD_MAX_Y_SIZE and new_pos not in possible_moves and \
+        if south < board.BOARD_Y_SIZE and new_pos not in possible_moves and \
                 not board[new_pos].has_object():
             possible_moves.append(new_pos)
             q.put((new_pos, moves_left))

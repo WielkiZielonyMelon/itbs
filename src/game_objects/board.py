@@ -4,14 +4,14 @@ from src.game_objects.vek import BlastPsion, PsionAbomination
 
 class Board:
     """Board where game tiles are placed"""
-    BOARD_MAX_X_SIZE = 8
-    BOARD_MAX_Y_SIZE = 8
+    BOARD_X_SIZE = 8
+    BOARD_Y_SIZE = 8
 
     def __init__(self):
         """Initializes board with empty tiles"""
         self._tiles = [[GroundTile(_object=None)
-                       for _ in range(self.BOARD_MAX_X_SIZE)]
-                       for _ in range(self.BOARD_MAX_Y_SIZE)]
+                       for _ in range(self.BOARD_X_SIZE)]
+                       for _ in range(self.BOARD_Y_SIZE)]
 
         self._is_time_pod_destroyed = False
         self._is_time_pod_picked_up = False
@@ -24,12 +24,9 @@ class Board:
 
             self[position] = tile
 
-
-
-
     def is_explosive_psion_present(self):
-        for x in range(0, self.BOARD_MAX_X_SIZE):
-            for y in range(0, self.BOARD_MAX_Y_SIZE):
+        for x in range(0, self.BOARD_X_SIZE):
+            for y in range(0, self.BOARD_Y_SIZE):
                 obj = self[(x, y)].get_object()
                 if obj is not None and isinstance(obj, (BlastPsion, PsionAbomination)):
                     return True
@@ -39,19 +36,19 @@ class Board:
     def in_bounds(self, pos):
         if pos[0] < 0:
             return False
-        if pos[0] >= self.BOARD_MAX_X_SIZE:
+        if pos[0] >= self.BOARD_X_SIZE:
             return False
         if pos[1] < 0:
             return False
-        if pos[1] >= self.BOARD_MAX_Y_SIZE:
+        if pos[1] >= self.BOARD_Y_SIZE:
             return False
 
         return True
 
     def are_tiles_the_same(self, other):
         """Compare tiles, not objects"""
-        for x in range(0, self.BOARD_MAX_X_SIZE):
-            for y in range(0, self.BOARD_MAX_Y_SIZE):
+        for x in range(0, self.BOARD_X_SIZE):
+            for y in range(0, self.BOARD_Y_SIZE):
                 if type(self) != type(other):
                     return False
 
@@ -61,19 +58,19 @@ class Board:
     def print_board(self):
         width = 25
         s = ""
-        for y in range(0, self.BOARD_MAX_Y_SIZE):
+        for y in range(0, self.BOARD_Y_SIZE):
             s += "Description".ljust(width)
-            for x in range(0, self.BOARD_MAX_X_SIZE):
+            for x in range(0, self.BOARD_X_SIZE):
                 s += type(self[(x, y)]).__name__.ljust(width)
 
             s += "\n"
             s += "Smoke".ljust(width)
-            for x in range(0, self.BOARD_MAX_X_SIZE):
+            for x in range(0, self.BOARD_X_SIZE):
                 s += str(self[(x, y)].has_smoke()).ljust(width)
 
             s += "\n"
             s += "Object".ljust(width)
-            for x in range(0, self.BOARD_MAX_X_SIZE):
+            for x in range(0, self.BOARD_X_SIZE):
                 obj = self[(x, y)].get_object()
                 if obj is None:
                     s += "non".ljust(width)
@@ -89,8 +86,8 @@ class Board:
         return self.find_object_id_position(_id)
 
     def find_object_id_position(self, _id):
-        for x in range(0, self.BOARD_MAX_X_SIZE):
-            for y in range(0, self.BOARD_MAX_Y_SIZE):
+        for x in range(0, self.BOARD_X_SIZE):
+            for y in range(0, self.BOARD_Y_SIZE):
                 obj = self[(x, y)].get_object()
                 if obj is not None and _id == obj.get_id():
                     return x, y
@@ -99,8 +96,8 @@ class Board:
 
     def find_player_objects(self):
         player_controlled_objects = []
-        for x in range(0, self.BOARD_MAX_X_SIZE):
-            for y in range(0, self.BOARD_MAX_Y_SIZE):
+        for x in range(0, self.BOARD_X_SIZE):
+            for y in range(0, self.BOARD_Y_SIZE):
                 obj = self[(x, y)].get_object()
                 if obj is not None and obj.is_player_controlled():
                     player_controlled_objects.append((x, y))
@@ -120,8 +117,8 @@ class Board:
         self._is_time_pod_picked_up = False
 
     def is_time_pod_present(self):
-        for x in range(0, self.BOARD_MAX_X_SIZE):
-            for y in range(0, self.BOARD_MAX_Y_SIZE):
+        for x in range(0, self.BOARD_X_SIZE):
+            for y in range(0, self.BOARD_Y_SIZE):
                 if isinstance(self[(x, y)], TimePodTile):
                     return True
 

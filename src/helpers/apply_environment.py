@@ -8,8 +8,8 @@ def apply_environment(board):
     """Looks for any fire, storm clouds and regenerating psions and applies their effects"""
     d = {}
     # First, look for fire
-    for row in range(0, board.BOARD_MAX_X_SIZE):
-        for col in range(0, board.BOARD_MAX_Y_SIZE):
+    for row in range(0, board.BOARD_X_SIZE):
+        for col in range(0, board.BOARD_Y_SIZE):
             obj = board[(row, col)].get_object()
             if obj is None:
                 continue

@@ -111,14 +111,14 @@ def get_possible_attacks_artemis(board, weapon, attacker_pos):
     attacker = board[attacker_pos].get_object()
     vectors = []
 
-    candidate = set((attacker_pos[0], y) for y in range(0, board.BOARD_MAX_Y_SIZE))
+    candidate = set((attacker_pos[0], y) for y in range(0, board.BOARD_Y_SIZE))
     # Remove object position itself and nearest tiles
     candidate.discard(attacker_pos)
     candidate.discard((attacker_pos[0], attacker_pos[1] + 1))
     candidate.discard((attacker_pos[0], attacker_pos[1] - 1))
     vectors.extend(candidate)
 
-    candidate = set((x, attacker_pos[1]) for x in range(0, board.BOARD_MAX_X_SIZE))
+    candidate = set((x, attacker_pos[1]) for x in range(0, board.BOARD_X_SIZE))
     # Remove object position itself and nearest tiles
     candidate.discard(attacker_pos)
     candidate.discard((attacker_pos[0] + 1, attacker_pos[1]))

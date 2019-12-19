@@ -24,8 +24,8 @@ time_pod_destroyed = -100
 
 def get_score_of_board(board):
     points = 0
-    for x in range(0, board.BOARD_MAX_X_SIZE):
-        for y in range(0, board.BOARD_MAX_Y_SIZE):
+    for x in range(0, board.BOARD_X_SIZE):
+        for y in range(0, board.BOARD_Y_SIZE):
             if isinstance(board[(x, y)], TimePodTile):
                 points += time_pod_present
             obj = board[(x, y)].get_object()
