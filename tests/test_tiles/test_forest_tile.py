@@ -8,7 +8,6 @@ from src.game_objects.tiles.tile import ForestTile, ForestFireTile
 from src.game_objects.vek import Hornet, Firefly
 from src.game_objects.weapons.freeze import Freeze
 from src.game_objects.weapons.repair import Repair
-from src.game_objects.weapons.set_on_fire import SetOnFire
 from src.game_objects.weapons.titan_fist import TitanFist
 
 

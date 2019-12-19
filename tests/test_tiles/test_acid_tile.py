@@ -95,8 +95,7 @@ def test_freeze_object_over_acid_tile(obj, on_acid):
     board = Board()
     pos = (0, 0)
     board[pos] = AcidTile(_object=None)
-    attack = Attack(attacker=None, weapon=Freeze(), pos=pos,
-                    direction=None)
+    attack = Attack(attacker=None, weapon=Freeze(), vector=None)
 
     board[pos].set_object(obj)
     board[pos].apply_tile_effects()

@@ -179,7 +179,7 @@ def test_aerial_bombs_on_frozen_tile_with_acided_vek(mech_pos, vector, smoke_pos
 
 
 @pytest.mark.parametrize("mech_pos, vector, smoke_pos_1, smoke_pos_2",
-                         [((0, 0), (3, 0), (1, 0), (2,0)),
+                         [((0, 0), (3, 0), (1, 0), (2, 0)),
                           ((0, 0), (0, 3), (0, 1), (0, 2)),
                           ((7, 0), (-3, 0), (6, 0), (5, 0)),
                           ((7, 0), (0, 3), (7, 1), (7, 2)),
@@ -204,7 +204,7 @@ def test_aerial_bombs_on_empty_tile_extra_range(mech_pos, vector, smoke_pos_1, s
 
 
 @pytest.mark.parametrize("mech_pos, vector, smoke_pos_1, smoke_pos_2",
-                         [((0, 0), (3, 0), (1, 0), (2,0)),
+                         [((0, 0), (3, 0), (1, 0), (2, 0)),
                           ((0, 0), (0, 3), (0, 1), (0, 2)),
                           ((7, 0), (-3, 0), (6, 0), (5, 0)),
                           ((7, 0), (0, 3), (7, 1), (7, 2)),
@@ -237,7 +237,7 @@ def test_aerial_bombs_on_mech_extra_range(mech_pos, vector, smoke_pos_1, smoke_p
 
 
 @pytest.mark.parametrize("mech_pos, vector, smoke_pos_1, smoke_pos_2",
-                         [((0, 0), (3, 0), (1, 0), (2,0)),
+                         [((0, 0), (3, 0), (1, 0), (2, 0)),
                           ((0, 0), (0, 3), (0, 1), (0, 2)),
                           ((7, 0), (-3, 0), (6, 0), (5, 0)),
                           ((7, 0), (0, 3), (7, 1), (7, 2)),

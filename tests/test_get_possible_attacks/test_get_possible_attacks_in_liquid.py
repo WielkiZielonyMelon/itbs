@@ -8,7 +8,6 @@ from src.game_objects.mech import CombatMech, JetMech
 from src.game_objects.tiles.tile import WaterTile, LavaTile, AcidTile
 from src.game_objects.weapons.aerial_bombs import AerialBombs
 from src.game_objects.weapons.repair import Repair
-from src.game_objects.weapons.weapon import Weapon
 from src.helpers.get_possible_attacks import get_possible_attacks
 
 

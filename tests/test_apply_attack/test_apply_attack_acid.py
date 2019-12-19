@@ -11,7 +11,6 @@ from src.game_objects.tiles.tile import AcidPool, AcidTile, GroundTile, \
 from src.game_objects.vek import Hornet, Firefly
 from src.game_objects.weapons.acid import Acid
 from src.game_objects.weapons.titan_fist import TitanFist
-from src.helpers.get_score_of_board import get_score_of_board
 
 
 def test_acid_on_empty_tile():
