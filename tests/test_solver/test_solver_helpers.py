@@ -2,10 +2,11 @@ import unittest
 
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
-from src.game_objects.mech import CombatMech, JetMech
+from src.game_objects.mech import CombatMech, JetMech, ArtilleryMech
 from src.game_objects.mountain import Mountain
-from src.game_objects.tiles.tile import AcidTile
+from src.game_objects.tiles.tile import AcidTile, WaterTile
 from src.game_objects.weapons.accelerating_thorax import AcceleratingThorax
+from src.game_objects.weapons.artemis import Artemis
 from src.game_objects.weapons.titan_fist import TitanFist
 from src.game_objects.weapons.move import Move
 from src.game_objects.vek import Firefly, Hornet, AlphaFirefly
@@ -438,3 +439,29 @@ def test_solver_get_best_battle_plans_three_combat_mech_cooperation():
     tc.assertCountEqual(exp_attacks, attacks)
 
     tc.assertEqual(exp_score, plan0.get_score())
+
+
+def test_blocked_artillery():
+    """Artillery is blocked from all sides. The only solution is to push Vek to WaterTile and drown it."""
+    board = Board()
+    mech1_pos = (1, 1)
+    mech1 = ArtilleryMech()
+    board[mech1_pos].set_object(mech1)
+
+    # Create mountains
+    board[(0, 1)].set_object(Mountain())
+    board[(2, 1)].set_object(Mountain())
+    board[(1, 0)].set_object(Mountain())
+    board[(1, 2)].set_object(Mountain())
+
+    # Create a vek with a WaterTile next to it
+    vek1_pos = (1, 6)
+    vek1 = Firefly()
+    board[vek1_pos].set_object(vek1)
+    water1_pos = (1, 7)
+    board[water1_pos] = WaterTile(_object=None)
+
+    plans = get_battle_plans(board, size=1, enemy_attacks=[])
+    plan0 = plans[0]
+    attacks = plan0.get_executed_orders()
+    assert attacks[0] == Attack(attacker=mech1.get_id(), weapon=Artemis(), vector=(0, 4))
