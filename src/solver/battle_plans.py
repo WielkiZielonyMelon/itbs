@@ -4,6 +4,7 @@ from heapq import heappop, heappush, heapreplace
 from src.apply_attack.apply_attack import apply_attack
 from src.game_objects.attack import Attack
 from src.game_objects.weapons.move import Move
+from src.helpers.apply_environment import apply_environment
 from src.helpers.get_possible_attacks import get_possible_attacks
 from src.helpers.get_possible_moves import get_possible_moves
 from src.helpers.get_score_of_board import get_score_of_board
@@ -109,8 +110,10 @@ def execute_attack(board, attacks, battle_plans, latest_moves_cache, orders_exec
 
         # Update executed orders
         orders_executed.append(attack)
-        # Apply enemy attacks!
+        # Apply environment effects
         enemy_attacks_undo = {}
+        update_dict_if_key_not_present(enemy_attacks_undo, apply_environment(board))
+        # Apply enemy attacks!
         for enemy_attack in enemy_attacks:
             update_dict_if_key_not_present(enemy_attacks_undo, apply_attack(board, enemy_attack))
         # ... now grab the score
@@ -120,7 +123,7 @@ def execute_attack(board, attacks, battle_plans, latest_moves_cache, orders_exec
 
         # Add to the battle plans
         battle_plans.add_plan(new_plan)
-        # Unwind enemy destructive activities
+        # Unwind enemy and environment destructive activities
         board.restore_tiles(enemy_attacks_undo)
         # Execute any further plans
         fill_battle_plans(board, battle_plans, latest_moves_cache, orders_executed, orders_left, enemy_attacks)

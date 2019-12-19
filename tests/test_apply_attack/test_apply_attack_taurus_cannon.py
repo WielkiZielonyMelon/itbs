@@ -16,7 +16,7 @@ def test_single_taurus_cannon():
     board = Board()
     mech0 = CombatMech()
     mech0_pos = (0, 0)
-    mech0_expected_health = mech0.get_health() - 2
+    mech0_expected_health = mech0.get_health() - 1
     board[mech0_pos].set_object(mech0)
 
     cannon0 = CannonMech()
@@ -42,7 +42,7 @@ def test_single_taurus_cannon_push_object():
     mech0 = CombatMech()
     mech0_pos = (1, 0)
     mech0_pos_after_attack = (0, 0)
-    mech0_expected_health = mech0.get_health() - 2
+    mech0_expected_health = mech0.get_health() - 1
     board[mech0_pos].set_object(mech0)
 
     cannon0 = CannonMech()
@@ -120,7 +120,7 @@ def test_single_taurus_cannon_mech_on_forest_tile_in_middle():
     board[cannon0_pos].set_object(cannon0)
 
     mech0 = CombatMech()
-    mech0_expected_health = mech0.get_health() - 2
+    mech0_expected_health = mech0.get_health() - 1
     forest0_pos = (3, 0)
     pos_after = (2, 0)
     board[forest0_pos] = ForestTile(_object=mech0)
@@ -140,7 +140,7 @@ def test_single_taurus_cannon_mech_on_forest_tile_in_middle():
     assert not mech0.is_on_fire()
 
 
-def test_taurus_cannon_attack_neighbour_vek():
+def test_taurus_cannon_attack_neighbour_mech():
     board = Board()
 
     cannon0 = CannonMech()
@@ -156,7 +156,8 @@ def test_taurus_cannon_attack_neighbour_vek():
     mech1_pos = (4, 0)
     board[mech1_pos].set_object(mech1)
 
-    exp_mech1_health = mech0.get_health() - 1
+    exp_mech0_health = mech1.get_health() - 2
+    exp_mech1_health = mech1.get_health() - 1
 
     orig30 = copy.deepcopy(board[mech0_pos])
     orig40 = copy.deepcopy(board[mech1_pos])
@@ -170,8 +171,9 @@ def test_taurus_cannon_attack_neighbour_vek():
     assert orig30 == original_tiles[mech0_pos]
     assert orig40 == original_tiles[mech1_pos]
 
-    assert board[mech0_pos].get_object() is None
+    assert board[mech0_pos].get_object() == mech0
     assert board[mech1_pos].get_object() == mech1
+    assert exp_mech0_health == mech0.get_health()
     assert exp_mech1_health == mech1.get_health()
 
 

@@ -42,6 +42,7 @@ def get_score_of_board(board):
 
             elif isinstance(obj, SpecialBuilding):
                 points += special_building_pts
+                points += obj.get_health() * building_health_bar_points
 
             elif isinstance(obj, Building):
                 points += obj.get_health() * building_health_bar_points

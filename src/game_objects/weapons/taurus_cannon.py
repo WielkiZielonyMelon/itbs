@@ -3,7 +3,7 @@ from src.game_objects.weapons.weapon import Weapon
 
 class TaurusCannon(Weapon):
     def __init__(self, damage_plus_1_upgrade_1=False, damage_plus_1_upgrade_2=False):
-        self._base_damage = 2
+        self._base_damage = 1
         self._damage_plus_1_upgrade_1 = damage_plus_1_upgrade_1
         self._damage_plus_1_upgrade_2 = damage_plus_1_upgrade_2
         Weapon.__init__(self=self)
