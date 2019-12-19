@@ -19,6 +19,7 @@ from src.game_objects.weapons.move import Move
 from src.game_objects.weapons.push import Push
 from src.game_objects.weapons.repair import Repair
 from src.game_objects.weapons.set_on_fire import SetOnFire
+from src.game_objects.weapons.spitting_glands import SpittingGlands, AlphaSpittingGlands
 from src.game_objects.weapons.stinger import Stinger, LaunchingStinger, SuperStinger
 from src.game_objects.weapons.taurus_cannon import TaurusCannon
 from src.game_objects.weapons.titan_fist import TitanFist
@@ -72,6 +73,9 @@ def apply_attack(board, attack):
         from src.apply_attack.apply_attack_projectile_weapon \
             import apply_attack_projectile_weapon
         return apply_attack_projectile_weapon(board, attack)
+    elif isinstance(weapon, (SpittingGlands, AlphaSpittingGlands)):
+        from src.apply_attack.apply_attack_spitting_glands import apply_attack_spitting_glands
+        return apply_attack_spitting_glands(board, attack)
     elif isinstance(weapon, (Stinger, LaunchingStinger, SuperStinger)):
         from src.apply_attack.apply_attack_stinger import apply_attack_stinger
         return apply_attack_stinger(board, attack)
