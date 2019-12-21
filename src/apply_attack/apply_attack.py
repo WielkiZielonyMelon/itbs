@@ -66,16 +66,13 @@ def apply_attack(board, attack):
         from src.apply_attack.apply_attack_projectile_weapon \
             import apply_attack_projectile_weapon
         return apply_attack_projectile_weapon(board, attack, push=True)
-    elif isinstance(weapon, Artemis):
-        from src.apply_attack.apply_attack_artemis import apply_attack_artemis
-        return apply_attack_artemis(board, attack)
+    elif isinstance(weapon, (Artemis, SpittingGlands, AlphaSpittingGlands)):
+        from src.apply_attack.apply_artillery_attack import apply_attack_artillery
+        return apply_attack_artillery(board, attack)
     elif isinstance(weapon, (AcceleratingThorax, EnhancedThorax)):
         from src.apply_attack.apply_attack_projectile_weapon \
             import apply_attack_projectile_weapon
         return apply_attack_projectile_weapon(board, attack)
-    elif isinstance(weapon, (SpittingGlands, AlphaSpittingGlands)):
-        from src.apply_attack.apply_attack_spitting_glands import apply_attack_spitting_glands
-        return apply_attack_spitting_glands(board, attack)
     elif isinstance(weapon, (Stinger, LaunchingStinger, SuperStinger)):
         from src.apply_attack.apply_attack_stinger import apply_attack_stinger
         return apply_attack_stinger(board, attack)
@@ -217,6 +214,7 @@ def damage_tile(board, pos):
     elif isinstance(tile, TimePodTile):
         board[pos] = GroundTile(_object=obj)
         board.set_time_pod_destroyed()
+
 
 def repair_tile(board, pos):
     obj = board[pos].get_object()
