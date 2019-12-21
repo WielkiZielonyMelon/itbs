@@ -1,6 +1,5 @@
 import copy
 
-from src.apply_attack.apply_attack import damage_tile
 from src.apply_attack.apply_attack_dash import apply_attack_dash
 from src.apply_attack.apply_attack_push import apply_attack_push
 from src.game_objects.attack import Attack
@@ -29,11 +28,7 @@ def apply_attack_titan_fist(board, attack):
 
     update_dict_if_key_not_present(ret, {attack_pos: copy.deepcopy(board[attack_pos])})
 
-    # Damage tile, but do not apply any effects yet, as object might
-    # be pushed out of a tile
-    damage_tile(board, attack_pos)
-
-    # Damage any present objects
+    # Damage tile and any present objects
     board.regular_damage(attack_pos, attack.get_weapon().get_total_damage())
 
     # And finally push

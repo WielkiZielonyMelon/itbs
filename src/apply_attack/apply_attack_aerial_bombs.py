@@ -1,4 +1,4 @@
-from src.apply_attack.apply_attack import damage_tile, smoke_tile
+from src.apply_attack.apply_attack import smoke_tile
 from src.helpers.kill_object import kill_object_if_possible
 
 
@@ -41,9 +41,8 @@ def apply_attack_aerial_bombs(board, attack):
     # Now damage and smoke all tiles along the way
     dmg = attack.get_weapon().get_total_damage()
     for point in points_to_smoke:
-        damage_tile(board, point)
-        smoke_tile(board, point)
         board.regular_damage(point, dmg)
+        smoke_tile(board, point)
         obj = board[point].get_object()
         if obj is not None:
             kill_object_if_possible(board, obj)

@@ -1,6 +1,5 @@
 import copy
 
-from src.apply_attack.apply_attack import damage_tile
 from src.helpers.convert_tile_if_needed import convert_tile_if_needed
 from src.helpers.is_tile_damagable import is_tile_damageable
 from src.helpers.kill_object import kill_object_if_possible
@@ -26,7 +25,6 @@ def apply_attack_spitting_glands(board, attack):
     else:
         ret[attack_pos] = copy.deepcopy(board[attack_pos])
 
-    damage_tile(board, attack_pos)
     board.regular_damage(attack_pos, weapon.get_total_damage())
 
     convert_tile_if_needed(board, attack_pos)

@@ -1,7 +1,6 @@
 import copy
 
 from src.apply_attack.apply_attack_push import apply_attack_push
-from src.apply_attack.apply_attack import damage_tile
 from src.game_objects.attack import Attack
 from src.game_objects.building import Building
 from src.game_objects.weapons.push import Push
@@ -34,7 +33,6 @@ def apply_attack_artemis(board, attack):
         pass
     # Damage the tile and object
     else:
-        damage_tile(board, attack_pos)
         board.regular_damage(attack_pos, weapon.get_total_damage())
 
     # Push all the tiles around the attack. Modify attacked, so Push will understand

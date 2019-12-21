@@ -1,6 +1,5 @@
 import copy
 
-from src.apply_attack.apply_attack import damage_tile
 from src.apply_attack.apply_attack_push import apply_attack_push
 from src.game_objects.attack import Attack
 from src.game_objects.weapons.push import Push
@@ -36,9 +35,7 @@ def apply_attack_projectile_weapon(board, attack, push=False):
 
     # Store original tile
     ret = {attack_pos: copy.deepcopy(board[attack_pos])}
-    # Damage tile
-    damage_tile(board, attack_pos)
-    # Damage object
+    # Damage tile and object
     dmg = attack.get_weapon().get_total_damage()
     board.regular_damage(attack_pos, dmg)
     # Store object for later reference

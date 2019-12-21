@@ -1,6 +1,5 @@
 import copy
 
-from src.apply_attack.apply_attack import damage_tile
 from src.game_objects.weapons.stinger import LaunchingStinger, SuperStinger
 from src.helpers.convert_tile_if_needed import convert_tile_if_needed
 from src.helpers.is_tile_damagable import is_tile_damageable
@@ -27,11 +26,7 @@ def apply_attack_stinger(board, attack):
     ret = {}
     update_dict_if_key_not_present(ret, {attack_pos: copy.deepcopy(board[attack_pos])})
 
-    # Damage tile, but do not apply any effects yet, as object might
-    # be pushed out of a tile
-    damage_tile(board, attack_pos)
-
-    # Damage any present objects
+    # Damage tile and any present objects
     board.regular_damage(attack_pos, attack.get_weapon().get_total_damage())
 
     convert_tile_if_needed(board, attack_pos)

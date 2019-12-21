@@ -1,3 +1,4 @@
+from src.apply_attack.apply_attack import damage_tile
 from src.game_objects.tiles.tile import GroundTile, TimePodTile
 from src.game_objects.vek import BlastPsion, PsionAbomination, ShellPsion, Vek
 
@@ -25,6 +26,7 @@ class Board:
             self[position] = tile
 
     def regular_damage(self, pos, damage):
+        damage_tile(self, pos)
         obj = self[pos].get_object()
         if obj is not None:
             if self.is_shell_psion_present() and isinstance(obj, Vek):

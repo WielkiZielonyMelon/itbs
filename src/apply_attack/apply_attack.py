@@ -218,7 +218,6 @@ def damage_tile(board, pos):
         board[pos] = GroundTile(_object=obj)
         board.set_time_pod_destroyed()
 
-
 def repair_tile(board, pos):
     obj = board[pos].get_object()
     tile = board[pos]
