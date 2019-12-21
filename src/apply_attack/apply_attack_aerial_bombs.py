@@ -35,7 +35,7 @@ def apply_attack_aerial_bombs(board, attack):
     # Apply tile effect, object may die, be lit on fire
     board[attack_pos].apply_tile_effects()
 
-    # Kill object if it landed on something dangeroues
+    # Kill object if it landed on something dangerous
     kill_object_if_possible(board, attacker)
 
     # Now damage and smoke all tiles along the way
@@ -43,7 +43,7 @@ def apply_attack_aerial_bombs(board, attack):
     for point in points_to_smoke:
         damage_tile(board, point)
         smoke_tile(board, point)
-        board[point].regular_damage(dmg)
+        board.regular_damage(point, dmg)
         obj = board[point].get_object()
         if obj is not None:
             kill_object_if_possible(board, obj)

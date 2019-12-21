@@ -1,5 +1,5 @@
 from src.game_objects.tiles.tile import GroundTile, TimePodTile
-from src.game_objects.vek import BlastPsion, PsionAbomination
+from src.game_objects.vek import BlastPsion, PsionAbomination, ShellPsion, Vek
 
 
 class Board:
@@ -23,6 +23,23 @@ class Board:
                 self.clear_time_pod_picked_up()
 
             self[position] = tile
+
+    def regular_damage(self, pos, damage):
+        obj = self[pos].get_object()
+        if obj is not None:
+            if self.is_shell_psion_present() and isinstance(obj, Vek):
+                damage -= 1
+
+            self[pos].regular_damage(damage)
+
+    def is_shell_psion_present(self):
+        for x in range(0, self.BOARD_X_SIZE):
+            for y in range(0, self.BOARD_Y_SIZE):
+                obj = self[(x, y)].get_object()
+                if obj is not None and isinstance(obj, ShellPsion):
+                    return True
+
+        return False
 
     def is_explosive_psion_present(self):
         for x in range(0, self.BOARD_X_SIZE):

@@ -34,7 +34,7 @@ def apply_attack_titan_fist(board, attack):
     damage_tile(board, attack_pos)
 
     # Damage any present objects
-    board[attack_pos].regular_damage(attack.get_weapon().get_total_damage())
+    board.regular_damage(attack_pos, attack.get_weapon().get_total_damage())
 
     # And finally push
     push_attack = Attack(attacker=attack_pos, weapon=Push(), vector=vector)

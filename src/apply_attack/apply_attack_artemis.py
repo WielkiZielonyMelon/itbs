@@ -35,7 +35,7 @@ def apply_attack_artemis(board, attack):
     # Damage the tile and object
     else:
         damage_tile(board, attack_pos)
-        board[attack_pos].regular_damage(weapon.get_total_damage())
+        board.regular_damage(attack_pos, weapon.get_total_damage())
 
     # Push all the tiles around the attack. Modify attacked, so Push will understand
     for x in [-1, 1]:

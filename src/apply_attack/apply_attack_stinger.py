@@ -32,7 +32,7 @@ def apply_attack_stinger(board, attack):
     damage_tile(board, attack_pos)
 
     # Damage any present objects
-    board[attack_pos].regular_damage(attack.get_weapon().get_total_damage())
+    board.regular_damage(attack_pos, attack.get_weapon().get_total_damage())
 
     convert_tile_if_needed(board, attack_pos)
 

@@ -27,7 +27,7 @@ def apply_attack_spitting_glands(board, attack):
         ret[attack_pos] = copy.deepcopy(board[attack_pos])
 
     damage_tile(board, attack_pos)
-    board[attack_pos].regular_damage(weapon.get_total_damage())
+    board.regular_damage(attack_pos, weapon.get_total_damage())
 
     convert_tile_if_needed(board, attack_pos)
 
