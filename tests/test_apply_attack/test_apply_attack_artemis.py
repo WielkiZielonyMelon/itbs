@@ -7,7 +7,7 @@ from src.game_objects.attack import Attack
 from src.game_objects.board import Board
 from src.game_objects.mech import ArtilleryMech
 from src.game_objects.tiles.tile import AcidTile, LavaTile, WaterTile, ChasmTile, IceTile, DamagedFrozenAcidTile
-from src.game_objects.vek import Spiderling, BlastPsion
+from src.game_objects.vek import Spiderling, BlastPsion, ShellPsion, Firefly
 from src.game_objects.weapons.artemis import Artemis
 
 
@@ -231,3 +231,26 @@ def test_attack_spiderlings_on_acid_blast_psion_push_to_death_tile(tile):
         assert isinstance(board[pos], WaterTile)
 
     assert isinstance(board[spiderling_pos[0]], DamagedFrozenAcidTile)
+
+
+def test_spitting_glands_shell_psion():
+    board = Board()
+
+    vek0_pos = (1, 1)
+    vek0 = Firefly()
+    board[vek0_pos].set_object(vek0)
+
+    mech1_pos = (1, 3)
+    mech1 = ArtilleryMech()
+    board[mech1_pos].set_object(mech1)
+
+    shell_psion0_pos = (0, 0)
+    shell_psion0 = ShellPsion()
+    board[shell_psion0_pos].set_object(shell_psion0)
+
+    attack_vector = (0, -2)
+    attack = Attack(attacker=mech1.get_id(), weapon=Artemis(),
+                    vector=attack_vector)
+    apply_attack(board, attack)
+
+    assert vek0.get_health() == vek0.get_max_health()

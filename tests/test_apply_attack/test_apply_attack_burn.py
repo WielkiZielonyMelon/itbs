@@ -10,7 +10,7 @@ from src.game_objects.mech import CombatMech, JetMech
 from src.game_objects.mountain import Mountain
 from src.game_objects.tiles.tile import GroundTile, ForestTile, FrozenAcidTile, IceTile, DamagedFrozenAcidTile, \
     DamagedIceTile, WaterTile, AcidTile
-from src.game_objects.vek import Hornet, Firefly, Spiderling, BlastPsion
+from src.game_objects.vek import Hornet, Firefly, Spiderling, BlastPsion, ShellPsion
 from src.game_objects.weapons.burn import Burn
 
 
@@ -145,3 +145,21 @@ def test_burn_attack_exploding_vek_chain_reaction():
     assert isinstance(board[(5, 1)], DamagedIceTile)
     assert isinstance(board[spiderling3_pos], WaterTile)
     assert isinstance(board[(6, 1)], WaterTile)
+
+
+def test_burn_shell_psion():
+    board = Board()
+
+    vek0_pos = (1, 1)
+    vek0 = Firefly()
+    board[vek0_pos].set_object(vek0)
+
+    shell_psion0_pos = (0, 0)
+    shell_psion0 = ShellPsion()
+    board[shell_psion0_pos].set_object(shell_psion0)
+
+    attack = Attack(attacker=vek0_pos, weapon=Burn(),
+                    vector=None)
+    apply_attack(board, attack)
+
+    assert vek0.get_health() + 1 == vek0.get_max_health()

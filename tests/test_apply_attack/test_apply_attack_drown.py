@@ -8,7 +8,7 @@ from src.game_objects.board import Board
 from src.game_objects.mech import CombatMech, JetMech
 from src.game_objects.tiles.tile import GroundTile, WaterTile, ForestTile, FrozenAcidTile, IceTile, \
     DamagedFrozenAcidTile, DamagedIceTile, AcidTile
-from src.game_objects.vek import Firefly, Hornet, Spiderling, BlastPsion
+from src.game_objects.vek import Firefly, Hornet, Spiderling, BlastPsion, ShellPsion
 from src.game_objects.weapons.drown import Drown
 
 
@@ -125,3 +125,22 @@ def test_drown_exploding_vek_chain_reaction():
     assert isinstance(board[(5, 1)], DamagedIceTile)
     assert isinstance(board[spiderling3_pos], WaterTile)
     assert isinstance(board[(6, 1)], WaterTile)
+
+
+def test_drown_shell_psion():
+    board = Board()
+
+    vek0_pos = (1, 1)
+    vek0 = Firefly()
+    board[vek0_pos].set_object(vek0)
+
+    shell_psion0_pos = (0, 0)
+    shell_psion0 = ShellPsion()
+    board[shell_psion0_pos].set_object(shell_psion0)
+
+    attack = Attack(attacker=vek0_pos, weapon=Drown(),
+                    vector=None)
+    apply_attack(board, attack)
+
+    obj = board[vek0_pos].get_object()
+    assert obj is None
