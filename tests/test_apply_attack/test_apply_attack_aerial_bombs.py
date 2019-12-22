@@ -185,7 +185,7 @@ def test_aerial_bombs_on_frozen_tile_with_acided_vek(mech_pos, vector, smoke_pos
                           ((7, 0), (0, 3), (7, 1), (7, 2)),
                           ((7, 7), (-3, 0), (6, 7), (5, 7)),
                           ((7, 7), (0, -3), (7, 6), (7, 5)),
-                          ((0, 7), (3, 0), (1, 7), (2,  7)),
+                          ((0, 7), (3, 0), (1, 7), (2, 7)),
                           ((0, 7), (0, -3), (0, 6), (0, 5))])
 def test_aerial_bombs_on_empty_tile_extra_range(mech_pos, vector, smoke_pos_1, smoke_pos_2):
     board = Board()
@@ -210,7 +210,7 @@ def test_aerial_bombs_on_empty_tile_extra_range(mech_pos, vector, smoke_pos_1, s
                           ((7, 0), (0, 3), (7, 1), (7, 2)),
                           ((7, 7), (-3, 0), (6, 7), (5, 7)),
                           ((7, 7), (0, -3), (7, 6), (7, 5)),
-                          ((0, 7), (3, 0), (1, 7), (2,  7)),
+                          ((0, 7), (3, 0), (1, 7), (2, 7)),
                           ((0, 7), (0, -3), (0, 6), (0, 5))])
 def test_aerial_bombs_on_mech_extra_range(mech_pos, vector, smoke_pos_1, smoke_pos_2):
     board = Board()
@@ -243,7 +243,7 @@ def test_aerial_bombs_on_mech_extra_range(mech_pos, vector, smoke_pos_1, smoke_p
                           ((7, 0), (0, 3), (7, 1), (7, 2)),
                           ((7, 7), (-3, 0), (6, 7), (5, 7)),
                           ((7, 7), (0, -3), (7, 6), (7, 5)),
-                          ((0, 7), (3, 0), (1, 7), (2,  7)),
+                          ((0, 7), (3, 0), (1, 7), (2, 7)),
                           ((0, 7), (0, -3), (0, 6), (0, 5))])
 def test_aerial_bombs_on_vek_dies_extra_range_extra_damage(mech_pos, vector, smoke_pos_1, smoke_pos_2):
     board = Board()

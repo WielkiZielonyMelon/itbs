@@ -36,7 +36,7 @@ def test_acidify_object_ground_tile(obj):
     board[fire_pos] = GroundTile(_object=None)
     tile = board[fire_pos]
     tile.set_object(obj)
-        
+
     exp_obj_health = obj.get_health()
 
     attack = Attack(attacker=fire_pos, weapon=Acid(), vector=None)
