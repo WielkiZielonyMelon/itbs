@@ -277,3 +277,22 @@ def test_artemis_shell_psion_on_mech():
     apply_attack(board, attack)
 
     assert mech0.get_health() == mech0.get_max_health() - 1
+
+
+def test_artemis_shell_psion_on_psion():
+    board = Board()
+
+    mech1_pos = (1, 3)
+    mech1 = ArtilleryMech()
+    board[mech1_pos].set_object(mech1)
+
+    shell_psion0_pos = (1, 1)
+    shell_psion0 = ShellPsion()
+    board[shell_psion0_pos].set_object(shell_psion0)
+
+    attack_vector = (0, -2)
+    attack = Attack(attacker=mech1.get_id(), weapon=Artemis(),
+                    vector=attack_vector)
+    apply_attack(board, attack)
+
+    assert shell_psion0.get_health() == shell_psion0.get_max_health() - 1

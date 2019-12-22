@@ -315,3 +315,22 @@ def test_stinger_shell_psion_on_mech():
     apply_attack(board, attack)
 
     assert mech0.get_health() == mech0.get_max_health() - 1
+
+
+def test_stinger_shell_psion_on_psion():
+    board = Board()
+
+    vek1_pos = (1, 2)
+    vek1 = Hornet()
+    board[vek1_pos].set_object(vek1)
+
+    shell_psion0_pos = (1, 1)
+    shell_psion0 = ShellPsion()
+    board[shell_psion0_pos].set_object(shell_psion0)
+
+    attack_vector = (0, -1)
+    attack = Attack(attacker=vek1.get_id(), weapon=Stinger(),
+                    vector=attack_vector)
+    apply_attack(board, attack)
+
+    assert shell_psion0.get_health() == shell_psion0.get_max_health() - 1
