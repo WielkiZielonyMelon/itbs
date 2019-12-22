@@ -163,34 +163,38 @@ class Spiderling(Vek):
                      moves=4)
 
 
-class BlastPsion(Vek):
+class Psion(Vek):
+    def __init__(self, health, moves):
+        Vek.__init__(self=self, health=health, weapons=[],
+                     moves=moves)
+
+    def is_flying(self):
+        return True
+
+
+class BlastPsion(Psion):
     def __init__(self):
-        Vek.__init__(self=self, health=2, weapons=[],
-                     moves=2)
+        Psion.__init__(self=self, health=2, moves=2)
 
 
-class BloodPsion(Vek):
+class BloodPsion(Psion):
     def __init__(self):
-        Vek.__init__(self=self, health=2, weapons=[],
-                     moves=2)
+        Psion.__init__(self=self, health=2, moves=2)
 
 
-class PsionTyrant(Vek):
+class PsionTyrant(Psion):
     def __init__(self):
-        Vek.__init__(self=self, health=2, weapons=[],
-                     moves=2)
+        Psion.__init__(self=self, health=2, moves=2)
 
 
-class SoldierPsion(Vek):
+class SoldierPsion(Psion):
     def __init__(self):
-        Vek.__init__(self=self, health=2, weapons=[],
-                     moves=2)
+        Psion.__init__(self=self, health=2, moves=2)
 
 
-class ShellPsion(Vek):
+class ShellPsion(Psion):
     def __init__(self):
-        Vek.__init__(self=self, health=2, weapons=[],
-                     moves=2)
+        Psion.__init__(self=self, health=2, moves=2)
 
 
 class Emerged(Vek):
@@ -207,9 +211,6 @@ class FireflyLeader(Vek):
         return True
 
 
-class PsionAbomination(Vek):
+class PsionAbomination(Psion):
     def __init__(self):
-        Vek.__init__(self=self, health=5, weapons=[], moves=3)
-
-    def is_flying(self):
-        return True
+        Psion.__init__(self=self, health=5, moves=3)

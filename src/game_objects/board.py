@@ -1,6 +1,6 @@
 from src.apply_attack.apply_attack import damage_tile
 from src.game_objects.tiles.tile import GroundTile, TimePodTile
-from src.game_objects.vek import BlastPsion, PsionAbomination, ShellPsion, Vek
+from src.game_objects.vek import BlastPsion, PsionAbomination, ShellPsion, Vek, Psion
 
 
 class Board:
@@ -29,7 +29,7 @@ class Board:
         damage_tile(self, pos)
         obj = self[pos].get_object()
         if obj is not None:
-            if self.is_shell_psion_present() and isinstance(obj, Vek):
+            if self.is_shell_psion_present() and isinstance(obj, Vek) and not isinstance(obj, Psion):
                 damage -= 1
 
             self[pos].regular_damage(damage)
