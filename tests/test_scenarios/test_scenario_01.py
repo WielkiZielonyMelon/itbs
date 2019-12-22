@@ -3,7 +3,7 @@ from src.game_objects.board import Board
 from src.game_objects.building import CivilianBuilding, PowerGenerator
 from src.game_objects.mech import CombatMech, ArtilleryMech, CannonMech
 from src.game_objects.mountain import Mountain
-from src.game_objects.tiles.tile import WaterTile, ForestTile, TimePodTile
+from src.game_objects.tiles.tile import WaterTile, ForestTile, TimePodTile, ForestFireTile
 from src.game_objects.vek import AlphaFirefly, Firefly, ShellPsion, Hornet, Scarab
 from src.game_objects.weapons.accelerating_thorax import EnhancedThorax, AcceleratingThorax
 from src.game_objects.weapons.artemis import Artemis
@@ -96,6 +96,7 @@ def create_board_02():
     board[(1, 5)] = ForestTile(_object=None)
     board[(2, 5)].set_object(Mountain())
     board[(3, 5)].set_object(PowerGenerator())
+    board[(4, 5)] = ForestFireTile(_object=None)
     board[(5, 5)].set_object(CivilianBuilding(health=2))
 
     cannon_mech = CannonMech()
@@ -137,7 +138,7 @@ def test_scenario_01_01():
                    Attack(attacker=cannon_mech.get_id(), weapon=TaurusCannon(), vector=(0, -1))]
 
     attacks = plans[0].get_executed_orders()
-    exp_score = 745
+    exp_score = 1205
     assert plans[0].get_score() == exp_score
     assert attacks == exp_attacks
 
@@ -147,21 +148,15 @@ def test_scenario_01_02():
         combat_mech, cannon_mech, artillery_mech = create_board_02()
     enemy_actions.extend(emerging)
     environment.extend(enemy_actions)
-    # TODO: This scenario does not give optimum solution, change points
-    # in get_score_of_board
-    #plans = get_battle_plans(board, size=1, enemy_attacks=environment)
+    plans = get_battle_plans(board, size=1, enemy_attacks=environment)
 
-    exp_attacks = [Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(1, 0)),
-                   Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector=(3, 0)),
-                   Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 6)),
-                   Attack(attacker=cannon_mech.get_id(), weapon=TaurusCannon(), vector=(0, -1))]
+    exp_attacks = [Attack(attacker=artillery_mech.get_id(), weapon=Move(), vector=(1, 3)),
+                   Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector = (4, 0)),
+                   Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 7)),
+                   Attack(attacker=cannon_mech.get_id(), weapon=TaurusCannon(), vector = (0, -1)),
+                   Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector = (1, 0))]
 
-    """
     attacks = plans[0].get_executed_orders()
-    print("")
-    for attack in attacks:
-        print(attack)
-    exp_score = 745
+    exp_score = 1000
     assert plans[0].get_score() == exp_score
     assert attacks == exp_attacks
-    """

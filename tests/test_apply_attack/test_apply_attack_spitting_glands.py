@@ -174,7 +174,6 @@ def test_spitting_glands_attack_neighbour_exploding_vek():
                          vector=vek0_attack_vector)
 
     original_tiles = apply_attack(board, vek0_attack)
-    print(original_tiles)
     assert len(original_tiles) == 2
 
     assert orig_tile30 == original_tiles[spiderling0_pos]

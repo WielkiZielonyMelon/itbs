@@ -7,13 +7,13 @@ player_u_pts = 200
 # points for each player lost health
 player_lost_health_pts = -50
 # points for each health point in buildings
-building_health_bar_points = 25
+building_health_bar_points = 75
 # points for each special building
 special_building_pts = 100
 # points for each vek
-vek_pts = -100
+vek_pts = -75
 # points for each vek lost health
-vek_lost_health_pts = 15
+vek_lost_health_pts = 10
 # Extra point for having a time pod
 time_pod_present = 100
 # And extra more for picking it up

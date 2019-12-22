@@ -116,7 +116,7 @@ def test_get_score_of_board():
     vek3 = Hornet()
     board[(5, 5)].set_object(vek3)
 
-    expected_score = 400
+    expected_score = 500
     unittest.TestCase().assertEqual(expected_score, get_score_of_board(board))
 
 
@@ -222,7 +222,7 @@ def test_solver_combat_mech_firefly_attacks():
     board[vek0_pos].set_object(vek0)
 
     plans = get_battle_plans(board, size=1, enemy_attacks=[vek0_attack])
-    exp_score_0 = 130
+    exp_score_0 = 145
     exp_attacks_0 = [Attack(attacker=mech0.get_id(), weapon=Move(),
                             vector=(1, 1)),
                      Attack(attacker=mech0.get_id(), weapon=TitanFist(),
