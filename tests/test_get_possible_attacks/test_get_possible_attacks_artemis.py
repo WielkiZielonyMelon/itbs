@@ -1,11 +1,12 @@
-import pytest
 import unittest
+
+import pytest
 
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
 from src.game_objects.mech import ArtilleryMech
-from src.game_objects.weapons.repair import Repair
 from src.game_objects.weapons.artemis import Artemis
+from src.game_objects.weapons.repair import Repair
 from src.helpers.get_possible_attacks import get_possible_attacks
 
 

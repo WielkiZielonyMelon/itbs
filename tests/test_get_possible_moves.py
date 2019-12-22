@@ -1,5 +1,6 @@
-import pytest
 import unittest
+
+import pytest
 
 from src.game_objects.board import Board
 from src.game_objects.mech import CombatMech

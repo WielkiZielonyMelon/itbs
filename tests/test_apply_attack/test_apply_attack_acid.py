@@ -4,10 +4,10 @@ from src.apply_attack.apply_attack import apply_attack
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
 from src.game_objects.building import CivilianBuilding
-from src.game_objects.mech import CombatMech 
+from src.game_objects.mech import CombatMech
 from src.game_objects.mountain import Mountain
 from src.game_objects.tiles.tile import AcidPool, AcidTile, GroundTile, \
-        WaterTile
+    WaterTile
 from src.game_objects.vek import Hornet, Firefly
 from src.game_objects.weapons.acid import Acid
 from src.game_objects.weapons.titan_fist import TitanFist

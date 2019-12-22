@@ -1,12 +1,12 @@
 import copy
 
 from src.apply_attack.apply_attack import apply_attack
-from src.game_objects.tiles.tile import ForestTile, FrozenAcidTile, IceTile, DamagedFrozenAcidTile, DamagedIceTile, \
-    AcidTile, WaterTile
-from src.game_objects.vek import Emerged, Firefly, Spiderling, BlastPsion
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
 from src.game_objects.mech import CombatMech
+from src.game_objects.tiles.tile import ForestTile, FrozenAcidTile, IceTile, DamagedFrozenAcidTile, DamagedIceTile, \
+    AcidTile, WaterTile
+from src.game_objects.vek import Emerged, Firefly, Spiderling, BlastPsion
 from src.game_objects.weapons.emerging import Emerging
 
 

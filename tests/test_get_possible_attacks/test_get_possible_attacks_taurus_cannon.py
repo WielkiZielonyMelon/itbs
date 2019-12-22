@@ -1,5 +1,6 @@
-import pytest
 import unittest
+
+import pytest
 
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board

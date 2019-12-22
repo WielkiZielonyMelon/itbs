@@ -5,13 +5,13 @@ from src.game_objects.board import Board
 from src.game_objects.mech import CombatMech, JetMech, ArtilleryMech
 from src.game_objects.mountain import Mountain
 from src.game_objects.tiles.tile import AcidTile, WaterTile
+from src.game_objects.vek import Firefly, Hornet, AlphaFirefly
 from src.game_objects.weapons.accelerating_thorax import AcceleratingThorax
 from src.game_objects.weapons.artemis import Artemis
-from src.game_objects.weapons.titan_fist import TitanFist
 from src.game_objects.weapons.move import Move
-from src.game_objects.vek import Firefly, Hornet, AlphaFirefly
-from src.solver.battle_plans import get_battle_plans
+from src.game_objects.weapons.titan_fist import TitanFist
 from src.helpers.get_score_of_board import get_score_of_board
+from src.solver.battle_plans import get_battle_plans
 
 
 def test_find_player_objects():

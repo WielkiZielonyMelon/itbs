@@ -1,4 +1,5 @@
 import copy
+
 import pytest
 
 from src.apply_attack.apply_attack import apply_attack

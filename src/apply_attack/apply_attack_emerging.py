@@ -1,7 +1,7 @@
 import copy
 
-from src.game_objects.vek import Emerged
 from src.game_objects.tiles.tile import ChasmTile
+from src.game_objects.vek import Emerged
 from src.helpers.kill_object import kill_object_if_possible
 from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_present
 
