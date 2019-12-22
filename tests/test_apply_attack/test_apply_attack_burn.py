@@ -163,3 +163,21 @@ def test_burn_shell_psion():
     apply_attack(board, attack)
 
     assert vek0.get_health() + 1 == vek0.get_max_health()
+
+
+def test_burn_shell_psion_on_mech():
+    board = Board()
+
+    mech0_pos = (1, 1)
+    mech0 = CombatMech()
+    board[mech0_pos].set_object(mech0)
+
+    shell_psion0_pos = (0, 0)
+    shell_psion0 = ShellPsion()
+    board[shell_psion0_pos].set_object(shell_psion0)
+
+    attack = Attack(attacker=mech0_pos, weapon=Burn(),
+                    vector=None)
+    apply_attack(board, attack)
+
+    assert mech0.get_health() + 1 == mech0.get_max_health()

@@ -144,3 +144,22 @@ def test_drown_shell_psion():
 
     obj = board[vek0_pos].get_object()
     assert obj is None
+
+
+def test_drown_shell_psion_on_mech():
+    board = Board()
+
+    mech0_pos = (1, 1)
+    mech0 = CombatMech()
+    board[mech0_pos].set_object(mech0)
+
+    shell_psion0_pos = (0, 0)
+    shell_psion0 = ShellPsion()
+    board[shell_psion0_pos].set_object(shell_psion0)
+
+    attack = Attack(attacker=mech0_pos, weapon=Drown(),
+                    vector=None)
+    apply_attack(board, attack)
+
+    obj = board[mech0_pos].get_object()
+    assert obj == mech0

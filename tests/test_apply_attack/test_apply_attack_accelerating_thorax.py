@@ -320,3 +320,25 @@ def test_accelerating_thorax_shell_psion():
     assert vek1.get_health() == vek1.get_max_health()
     apply_attack(board, vek1_attack)
     assert vek0.get_health() == vek0.get_max_health()
+
+
+def test_accelerating_thorax_shell_psion_on_mech():
+    board = Board()
+
+    vek0_pos = (1, 1)
+    vek0 = Firefly()
+    board[vek0_pos].set_object(vek0)
+    vek0_attack_vector = (0, 1)
+    vek0_attack = Attack(attacker=vek0.get_id(), weapon=AcceleratingThorax(),
+                         vector=vek0_attack_vector)
+
+    mech1_pos = (1, 6)
+    mech1 = CombatMech()
+    board[mech1_pos].set_object(mech1)
+
+    shell_psion0_pos = (0, 0)
+    shell_psion0 = ShellPsion()
+    board[shell_psion0_pos].set_object(shell_psion0)
+
+    apply_attack(board, vek0_attack)
+    assert mech1.get_health() == mech1.get_max_health() - 1
