@@ -64,15 +64,6 @@ class Board:
 
         return True
 
-    def are_tiles_the_same(self, other):
-        """Compare tiles, not objects"""
-        for x in range(0, self.BOARD_X_SIZE):
-            for y in range(0, self.BOARD_Y_SIZE):
-                if type(self) != type(other):
-                    return False
-
-        return True
-
     # TODO: Refactor, this is ugly
     def print_board(self):
         width = 25
