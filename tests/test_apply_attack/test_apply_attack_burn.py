@@ -195,3 +195,51 @@ def test_burn_shell_psion_on_psion():
     apply_attack(board, attack)
 
     assert shell_psion0.get_health() + 1 == shell_psion0.get_max_health()
+
+
+def test_burn_on_shielded_vek():
+    board = Board()
+
+    vek0_pos = (1, 3)
+    vek0 = Firefly()
+    vek0.set_shield()
+    board[vek0_pos].set_object(vek0)
+
+    attack = Attack(attacker=vek0_pos, weapon=Burn(),
+                    vector=None)
+
+    apply_attack(board, attack)
+    assert vek0.get_health() == vek0.get_max_health() - 1
+    assert vek0.is_shielded()
+
+
+def test_burn_on_shielded_mech():
+    board = Board()
+
+    mech0_pos = (1, 3)
+    mech0 = CombatMech()
+    mech0.set_shield()
+    board[mech0_pos].set_object(mech0)
+
+    attack = Attack(attacker=mech0_pos, weapon=Burn(),
+                    vector=None)
+
+    apply_attack(board, attack)
+    assert mech0.get_health() == mech0.get_max_health() - 1
+    assert mech0.is_shielded()
+
+
+def test_burn_on_shielded_building():
+    board = Board()
+
+    building1_pos = (1, 3)
+    building1 = CivilianBuilding(health=2)
+    building1.set_shield()
+    board[building1_pos].set_object(building1)
+
+    attack = Attack(attacker=building1_pos, weapon=Burn(),
+                    vector=None)
+
+    apply_attack(board, attack)
+    assert building1.get_health() == building1.get_max_health()
+    assert building1.is_shielded()

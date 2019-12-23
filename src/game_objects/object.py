@@ -101,6 +101,10 @@ class Object:
             self._health = 0
 
     def emerge_damage(self):
+        if self.is_shielded():
+            self.clear_shield()
+            return
+
         self._health -= 1
         if self._health <= 0:
             self._health = 0
