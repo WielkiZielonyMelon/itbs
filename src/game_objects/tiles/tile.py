@@ -56,7 +56,11 @@ class Tile:
 
     def regular_damage(self, val):
         obj = self.get_object()
-        if obj is not None:
+        if obj is None:
+            return
+        if obj.is_shielded():
+            obj.clear_shield()
+        else:
             obj.regular_damage(val)
 
     def get_object(self):

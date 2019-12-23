@@ -3,6 +3,7 @@ import copy
 from src.apply_attack.apply_attack import apply_attack
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
+from src.game_objects.building import CivilianBuilding
 from src.game_objects.mech import CombatMech
 from src.game_objects.tiles.tile import ForestTile, ForestFireTile, FrozenAcidTile, IceTile, DamagedFrozenAcidTile, \
     DamagedIceTile, AcidTile, WaterTile
@@ -360,3 +361,63 @@ def test_accelerating_thorax_shell_psion_on_psion():
 
     apply_attack(board, vek0_attack)
     assert shell_psion0.get_health() == shell_psion0.get_max_health() - 1
+
+
+def test_accelerating_thorax_on_shielded_vek():
+    board = Board()
+
+    vek0_pos = (1, 1)
+    vek0 = Firefly()
+    board[vek0_pos].set_object(vek0)
+    vek0_attack_vector = (0, 1)
+    vek0_attack = Attack(attacker=vek0.get_id(), weapon=AcceleratingThorax(),
+                         vector=vek0_attack_vector)
+
+    vek1_pos = (1, 3)
+    vek1 = Firefly()
+    vek1.set_shield()
+    board[vek1_pos].set_object(vek1)
+
+    apply_attack(board, vek0_attack)
+    assert vek1.get_health() == vek1.get_max_health()
+    assert not vek1.is_shielded()
+
+
+def test_accelerating_thorax_on_shielded_mech():
+    board = Board()
+
+    vek0_pos = (1, 1)
+    vek0 = Firefly()
+    board[vek0_pos].set_object(vek0)
+    vek0_attack_vector = (0, 1)
+    vek0_attack = Attack(attacker=vek0.get_id(), weapon=AcceleratingThorax(),
+                         vector=vek0_attack_vector)
+
+    mech1_pos = (1, 3)
+    mech1 = CombatMech()
+    mech1.set_shield()
+    board[mech1_pos].set_object(mech1)
+
+    apply_attack(board, vek0_attack)
+    assert mech1.get_health() == mech1.get_max_health()
+    assert not mech1.is_shielded()
+
+
+def test_accelerating_thorax_on_shielded_building():
+    board = Board()
+
+    vek0_pos = (1, 1)
+    vek0 = Firefly()
+    board[vek0_pos].set_object(vek0)
+    vek0_attack_vector = (0, 1)
+    vek0_attack = Attack(attacker=vek0.get_id(), weapon=AcceleratingThorax(),
+                         vector=vek0_attack_vector)
+
+    building1_pos = (1, 3)
+    building1 = CivilianBuilding(health=2)
+    building1.set_shield()
+    board[building1_pos].set_object(building1)
+
+    apply_attack(board, vek0_attack)
+    assert building1.get_health() == building1.get_max_health()
+    assert not building1.is_shielded()
