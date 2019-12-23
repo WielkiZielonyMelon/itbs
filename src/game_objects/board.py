@@ -64,33 +64,6 @@ class Board:
 
         return True
 
-    # TODO: Refactor, this is ugly
-    def print_board(self):
-        width = 25
-        s = ""
-        for y in range(0, self.BOARD_Y_SIZE):
-            s += "Description".ljust(width)
-            for x in range(0, self.BOARD_X_SIZE):
-                s += type(self[(x, y)]).__name__.ljust(width)
-
-            s += "\n"
-            s += "Smoke".ljust(width)
-            for x in range(0, self.BOARD_X_SIZE):
-                s += str(self[(x, y)].has_smoke()).ljust(width)
-
-            s += "\n"
-            s += "Object".ljust(width)
-            for x in range(0, self.BOARD_X_SIZE):
-                obj = self[(x, y)].get_object()
-                if obj is None:
-                    s += "non".ljust(width)
-                else:
-                    s += type(obj).__name__.ljust(width - 5)
-                    s += str(obj.get_health()).ljust(5)
-            s += "\n\n"
-
-        return s
-
     def find_object_position(self, _object):
         _id = _object.get_id()
         return self.find_object_id_position(_id)
