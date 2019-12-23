@@ -18,6 +18,7 @@ class Object:
         self._on_fire = False
         self._on_acid = False
         self._is_frozen = False
+        self._is_shielded = False
 
     def get_id(self):
         return self._id
@@ -37,11 +38,39 @@ class Object:
     def is_on_fire(self):
         return self._on_fire
 
+    def set_fire(self):
+        self._on_fire = True
+
+    def clear_fire(self):
+        self._on_fire = False
+
     def is_on_acid(self):
         return self._on_acid
 
+    def set_acid(self):
+        self._on_acid = True
+
+    def clear_acid(self):
+        self._on_acid = False
+
     def is_frozen(self):
         return self._is_frozen
+
+    def freeze(self):
+        self._is_frozen = True
+        self.clear_fire()
+
+    def thaw(self):
+        self._is_frozen = False
+
+    def is_shielded(self):
+        return self._is_shielded
+
+    def set_shield(self):
+        self._is_shielded = True
+
+    def clear_shield(self):
+        self._is_shielded = False
 
     def is_player_controlled(self):
         return False
@@ -66,13 +95,6 @@ class Object:
         self.clear_fire()
         self.thaw()
         
-    def freeze(self):
-        self._is_frozen = True
-        self.clear_fire()
-
-    def thaw(self):
-        self._is_frozen = False
-
     def fire_damage(self):
         self._health -= 1
         if self._health <= 0:
@@ -96,18 +118,6 @@ class Object:
 
         if self._health < 0:
             self._health = 0
-
-    def set_fire(self):
-        self._on_fire = True
-
-    def clear_fire(self):
-        self._on_fire = False
-
-    def set_acid(self):
-        self._on_acid = True
-
-    def clear_acid(self):
-        self._on_acid = False
 
     def __hash__(self):
         return self.get_id()
