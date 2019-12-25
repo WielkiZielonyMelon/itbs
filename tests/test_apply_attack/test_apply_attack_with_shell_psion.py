@@ -83,7 +83,7 @@ def test_weapon_on_mech_with_shell_psion_present(obj, attacker, weapon, vector, 
                           (Hornet(),        Stinger(),            (0, 1), (1, 2),  1),
                           (CannonMech(),    TaurusCannon(),       (0, 1), (1, 3),  1),
                           (CombatMech(),    TitanFist(),          (0, 1), (1, 2),  2)])
-def test_weapon_on_civilian_building_with_shell_psion_present(obj, attacker, weapon, vector, obj_pos, exp_dmg):
+def test_weapon_on_building_with_shell_psion_present(obj, attacker, weapon, vector, obj_pos, exp_dmg):
     obj = obj(health=3)
     board = Board()
 

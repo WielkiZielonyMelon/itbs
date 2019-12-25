@@ -116,42 +116,6 @@ def test_emerging_attack_exploding_vek_chain_reaction():
     assert isinstance(board[(6, 1)], WaterTile)
 
 
-def test_emerging_shell_psion():
-    board = Board()
-
-    vek0_pos = (1, 1)
-    vek0 = Firefly()
-    board[vek0_pos].set_object(vek0)
-
-    shell_psion0_pos = (0, 0)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
-
-    attack = Attack(attacker=vek0_pos, weapon=Emerging(),
-                    vector=None)
-    apply_attack(board, attack)
-
-    assert vek0.get_health() == vek0.get_max_health() - 1
-
-
-def test_emerging_shell_psion_on_mech():
-    board = Board()
-
-    mech0_pos = (1, 1)
-    mech0 = CombatMech()
-    board[mech0_pos].set_object(mech0)
-
-    shell_psion0_pos = (0, 0)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
-
-    attack = Attack(attacker=mech0_pos, weapon=Emerging(),
-                    vector=None)
-    apply_attack(board, attack)
-
-    assert mech0.get_health() == mech0.get_max_health() - 1
-
-
 def test_emerging_shell_psion_on_psion():
     board = Board()
 
@@ -164,6 +128,27 @@ def test_emerging_shell_psion_on_psion():
     apply_attack(board, attack)
 
     assert shell_psion0.get_health() == shell_psion0.get_max_health() - 1
+
+
+@pytest.mark.parametrize("obj",
+                         [(Firefly()),
+                          (CombatMech())])
+def test_emerging_on_object_with_shell_psion_present(obj):
+    board = Board()
+
+    psion0_pos = (0, 0)
+    psion0 = ShellPsion()
+    board[psion0_pos].set_object(psion0)
+
+    obj0_pos = (1, 3)
+    obj0 = obj
+    board[obj0_pos].set_object(obj0)
+
+    attack = Attack(attacker=obj0_pos, weapon=Emerging(),
+                    vector=None)
+
+    apply_attack(board, attack)
+    assert obj0.get_health() + 1 == obj0.get_max_health()
 
 
 @pytest.mark.parametrize("obj",

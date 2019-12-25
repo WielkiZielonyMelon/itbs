@@ -8,7 +8,7 @@ from src.game_objects.board import Board
 from src.game_objects.mech import CombatMech, JetMech
 from src.game_objects.tiles.tile import GroundTile, WaterTile, ForestTile, FrozenAcidTile, IceTile, \
     DamagedFrozenAcidTile, DamagedIceTile, AcidTile
-from src.game_objects.vek import Firefly, Hornet, Spiderling, BlastPsion, ShellPsion
+from src.game_objects.vek import Firefly, Hornet, Spiderling, BlastPsion, ShellPsion, Scarab
 from src.game_objects.weapons.drown import Drown
 
 
@@ -127,73 +127,60 @@ def test_drown_exploding_vek_chain_reaction():
     assert isinstance(board[(6, 1)], WaterTile)
 
 
-def test_drown_shell_psion():
+@pytest.mark.parametrize("obj",
+                         [(Firefly()),
+                          (Scarab())])
+def test_drown_on_sinkable_object_with_shell_psion_present(obj):
     board = Board()
 
-    vek0_pos = (1, 1)
-    vek0 = Firefly()
-    board[vek0_pos].set_object(vek0)
+    obj_pos = (1, 1)
+    board[obj_pos].set_object(obj)
 
     shell_psion0_pos = (0, 0)
     shell_psion0 = ShellPsion()
     board[shell_psion0_pos].set_object(shell_psion0)
 
-    attack = Attack(attacker=vek0_pos, weapon=Drown(),
+    attack = Attack(attacker=obj_pos, weapon=Drown(),
                     vector=None)
     apply_attack(board, attack)
 
-    obj = board[vek0_pos].get_object()
+    obj = board[obj_pos].get_object()
     assert obj is None
 
 
-def test_drown_shell_psion_on_mech():
+@pytest.mark.parametrize("obj",
+                         [(Hornet()),
+                          (CombatMech())])
+def test_drown_on_non_sinkable_object_with_shell_psion_present(obj):
     board = Board()
 
-    mech0_pos = (1, 1)
-    mech0 = CombatMech()
-    board[mech0_pos].set_object(mech0)
+    obj_pos = (1, 1)
+    board[obj_pos].set_object(obj)
 
     shell_psion0_pos = (0, 0)
     shell_psion0 = ShellPsion()
     board[shell_psion0_pos].set_object(shell_psion0)
 
-    attack = Attack(attacker=mech0_pos, weapon=Drown(),
+    attack = Attack(attacker=obj_pos, weapon=Drown(),
                     vector=None)
     apply_attack(board, attack)
 
-    obj = board[mech0_pos].get_object()
-    assert obj == mech0
+    obj = board[obj_pos].get_object()
+    assert obj.get_health() == obj.get_max_health()
 
 
-def test_drown_shell_psion_on_psion():
+@pytest.mark.parametrize("obj",
+                         [(ShellPsion()),
+                          (BlastPsion())])
+def test_drown_on_psion(obj):
     board = Board()
 
     shell_psion0_pos = (0, 0)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
+    board[shell_psion0_pos].set_object(obj)
 
     attack = Attack(attacker=shell_psion0_pos, weapon=Drown(),
                     vector=None)
     apply_attack(board, attack)
 
     obj = board[shell_psion0_pos].get_object()
-    assert obj == shell_psion0
-
-
-@pytest.mark.parametrize("obj",
-                         [(Firefly()),
-                          (CombatMech())])
-def test_drown_on_shielded_object(obj):
-    board = Board()
-
-    obj0_pos = (1, 3)
-    obj0 = Firefly()
-    obj0.set_shield()
-    board[obj0_pos].set_object(obj0)
-
-    attack = Attack(attacker=obj0_pos, weapon=Drown(),
-                    vector=None)
-
-    apply_attack(board, attack)
-    assert isinstance(board[obj0_pos], WaterTile)
-    assert board[obj0_pos].get_object() is None
+    assert obj.get_health() == obj.get_max_health()
