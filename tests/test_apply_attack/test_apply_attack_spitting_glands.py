@@ -6,7 +6,7 @@ from src.game_objects.board import Board
 from src.game_objects.mech import CombatMech
 from src.game_objects.tiles.tile import ForestTile, ForestFireTile, FrozenAcidTile, IceTile, DamagedFrozenAcidTile, \
     DamagedIceTile, AcidTile, WaterTile
-from src.game_objects.vek import Spiderling, BlastPsion, Scarab, AlphaScarab, Firefly, ShellPsion
+from src.game_objects.vek import Spiderling, BlastPsion, Scarab, AlphaScarab
 from src.game_objects.weapons.spitting_glands import SpittingGlands, AlphaSpittingGlands
 
 
@@ -256,68 +256,3 @@ def test_spitting_glands_attack_neighbour_exploding_vek_chain_reaction():
     assert isinstance(board[(5, 1)], DamagedIceTile)
     assert isinstance(board[spiderling3_pos], WaterTile)
     assert isinstance(board[(6, 1)], WaterTile)
-
-
-def test_spitting_glands_shell_psion():
-    board = Board()
-
-    vek0_pos = (1, 1)
-    vek0 = Firefly()
-    board[vek0_pos].set_object(vek0)
-
-    vek1_pos = (1, 3)
-    vek1 = Scarab()
-    board[vek1_pos].set_object(vek1)
-
-    shell_psion0_pos = (0, 0)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
-
-    attack_vector = (0, -2)
-    attack = Attack(attacker=vek1.get_id(), weapon=SpittingGlands(),
-                    vector=attack_vector)
-    apply_attack(board, attack)
-
-    assert vek0.get_health() == vek0.get_max_health()
-
-
-def test_spitting_glands_shell_psion_on_mech():
-    board = Board()
-
-    mech0_pos = (1, 1)
-    mech0 = CombatMech()
-    board[mech0_pos].set_object(mech0)
-
-    vek1_pos = (1, 3)
-    vek1 = Scarab()
-    board[vek1_pos].set_object(vek1)
-
-    shell_psion0_pos = (0, 0)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
-
-    attack_vector = (0, -2)
-    attack = Attack(attacker=vek1.get_id(), weapon=SpittingGlands(),
-                    vector=attack_vector)
-    apply_attack(board, attack)
-
-    assert mech0.get_health() == mech0.get_max_health() - 1
-
-
-def test_spitting_glands_shell_psion_on_psion():
-    board = Board()
-
-    vek1_pos = (1, 3)
-    vek1 = Scarab()
-    board[vek1_pos].set_object(vek1)
-
-    shell_psion0_pos = (1, 1)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
-
-    attack_vector = (0, -2)
-    attack = Attack(attacker=vek1.get_id(), weapon=SpittingGlands(),
-                    vector=attack_vector)
-    apply_attack(board, attack)
-
-    assert shell_psion0.get_health() == shell_psion0.get_max_health() - 1

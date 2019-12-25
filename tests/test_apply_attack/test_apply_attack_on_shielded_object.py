@@ -16,9 +16,8 @@ from src.game_objects.weapons.titan_fist import TitanFist
 
 
 @pytest.mark.parametrize("obj",
-                         [Firefly(),
-                          CombatMech(),
-                          CivilianBuilding(health=2)])
+                         [Firefly,
+                          CombatMech])
 @pytest.mark.parametrize("attacker,         weapon,               vector, obj_pos",
                          [(Firefly(),       AcceleratingThorax(), (0, 1), (1, 3)),
                           (ArtilleryMech(), Artemis(),            (0, 2), (1, 3)),
@@ -28,6 +27,34 @@ from src.game_objects.weapons.titan_fist import TitanFist
                           (CannonMech(),    TaurusCannon(),       (0, 1), (1, 3)),
                           (CombatMech(),    TitanFist(),          (0, 1), (1, 2))])
 def test_weapon_on_shielded_object(obj, attacker, weapon, vector, obj_pos):
+    obj = obj()
+    board = Board()
+
+    attacker_pos = (1, 1)
+    board[attacker_pos].set_object(attacker)
+    attack = Attack(attacker=attacker.get_id(), weapon=weapon,
+                    vector=vector)
+
+    obj.set_shield()
+    board[obj_pos].set_object(obj)
+
+    apply_attack(board, attack)
+    assert obj.get_health() == obj.get_max_health()
+    assert not obj.is_shielded()
+
+
+@pytest.mark.parametrize("obj",
+                         [CivilianBuilding])
+@pytest.mark.parametrize("attacker,         weapon,               vector, obj_pos",
+                         [(Firefly(),       AcceleratingThorax(), (0, 1), (1, 3)),
+                          (ArtilleryMech(), Artemis(),            (0, 2), (1, 3)),
+                          (JetMech(),       AerialBombs(),        (0, 2), (1, 2)),
+                          (Scarab(),        SpittingGlands(),     (0, 2), (1, 3)),
+                          (Hornet(),        Stinger(),            (0, 1), (1, 2)),
+                          (CannonMech(),    TaurusCannon(),       (0, 1), (1, 3)),
+                          (CombatMech(),    TitanFist(),          (0, 1), (1, 2))])
+def test_weapon_on_shielded_building(obj, attacker, weapon, vector, obj_pos):
+    obj = obj(health=2)
     board = Board()
 
     attacker_pos = (1, 1)

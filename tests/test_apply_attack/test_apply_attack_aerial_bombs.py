@@ -6,7 +6,7 @@ from src.game_objects.board import Board
 from src.game_objects.mech import CombatMech, JetMech
 from src.game_objects.tiles.tile import ForestTile, DamagedIceTile, IceTile, WaterTile, FrozenAcidTile, \
     DamagedFrozenAcidTile, AcidTile, DamagedFrozenLavaTile, FrozenLavaTile, LavaTile
-from src.game_objects.vek import Hornet, Firefly, ShellPsion
+from src.game_objects.vek import Hornet
 from src.game_objects.weapons.aerial_bombs import AerialBombs
 
 
@@ -266,68 +266,3 @@ def test_aerial_bombs_on_vek_dies_extra_range_extra_damage(mech_pos, vector, smo
     assert not board[mech_pos].has_smoke()
     assert board[smoke_pos_1].get_object() is None
     assert board[smoke_pos_2].get_object() is None
-
-
-def test_aerial_bombs_shell_psion():
-    board = Board()
-
-    vek0_pos = (1, 1)
-    vek0 = Firefly()
-    board[vek0_pos].set_object(vek0)
-
-    mech0_pos = (0, 1)
-    mech0 = JetMech()
-    board[mech0_pos].set_object(mech0)
-
-    shell_psion0_pos = (0, 0)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
-
-    attack_vector = (2, 0)
-    attack = Attack(attacker=mech0.get_id(), weapon=AerialBombs(),
-                    vector=attack_vector)
-    apply_attack(board, attack)
-
-    assert vek0.get_health() == vek0.get_max_health()
-
-
-def test_aerial_bombs_shell_psion_on_mech():
-    board = Board()
-
-    mech0_pos = (1, 1)
-    mech0 = CombatMech()
-    board[mech0_pos].set_object(mech0)
-
-    mech1_pos = (0, 1)
-    mech1 = JetMech()
-    board[mech1_pos].set_object(mech1)
-
-    shell_psion0_pos = (0, 0)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
-
-    attack_vector = (2, 0)
-    attack = Attack(attacker=mech1.get_id(), weapon=AerialBombs(),
-                    vector=attack_vector)
-    apply_attack(board, attack)
-
-    assert mech0.get_health() == mech0.get_max_health() - 1
-
-
-def test_aerial_bombs_shell_psion_on_psion():
-    board = Board()
-
-    mech1_pos = (0, 1)
-    mech1 = JetMech()
-    board[mech1_pos].set_object(mech1)
-
-    shell_psion0_pos = (1, 1)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
-
-    attack_vector = (2, 0)
-    attack = Attack(attacker=mech1.get_id(), weapon=AerialBombs(),
-                    vector=attack_vector)
-    apply_attack(board, attack)
-
-    assert shell_psion0.get_health() == shell_psion0.get_max_health() - 1

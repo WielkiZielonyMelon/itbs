@@ -6,7 +6,7 @@ from src.game_objects.board import Board
 from src.game_objects.mech import CombatMech
 from src.game_objects.tiles.tile import ForestTile, ForestFireTile, FrozenAcidTile, IceTile, DamagedFrozenAcidTile, \
     DamagedIceTile, AcidTile, WaterTile
-from src.game_objects.vek import Firefly, AlphaFirefly, Spiderling, BlastPsion, ShellPsion
+from src.game_objects.vek import Firefly, AlphaFirefly, Spiderling, BlastPsion
 from src.game_objects.weapons.accelerating_thorax import AcceleratingThorax, EnhancedThorax
 
 
@@ -293,70 +293,3 @@ def test_accelerating_thorax_attack_neighbour_exploding_vek_chain_reaction():
     assert isinstance(board[(5, 1)], DamagedIceTile)
     assert isinstance(board[spiderling3_pos], WaterTile)
     assert isinstance(board[(6, 1)], WaterTile)
-
-
-def test_accelerating_thorax_shell_psion():
-    board = Board()
-
-    vek0_pos = (1, 1)
-    vek0 = Firefly()
-    board[vek0_pos].set_object(vek0)
-    vek0_attack_vector = (0, 1)
-    vek0_attack = Attack(attacker=vek0.get_id(), weapon=AcceleratingThorax(),
-                         vector=vek0_attack_vector)
-
-    vek1_pos = (1, 6)
-    vek1 = Firefly()
-    board[vek1_pos].set_object(vek1)
-    vek1_attack_vector = (0, -1)
-    vek1_attack = Attack(attacker=vek1.get_id(), weapon=AcceleratingThorax(),
-                         vector=vek1_attack_vector)
-
-    shell_psion0_pos = (0, 0)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
-
-    apply_attack(board, vek0_attack)
-    assert vek1.get_health() == vek1.get_max_health()
-    apply_attack(board, vek1_attack)
-    assert vek0.get_health() == vek0.get_max_health()
-
-
-def test_accelerating_thorax_shell_psion_on_mech():
-    board = Board()
-
-    vek0_pos = (1, 1)
-    vek0 = Firefly()
-    board[vek0_pos].set_object(vek0)
-    vek0_attack_vector = (0, 1)
-    vek0_attack = Attack(attacker=vek0.get_id(), weapon=AcceleratingThorax(),
-                         vector=vek0_attack_vector)
-
-    mech1_pos = (1, 6)
-    mech1 = CombatMech()
-    board[mech1_pos].set_object(mech1)
-
-    shell_psion0_pos = (0, 0)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
-
-    apply_attack(board, vek0_attack)
-    assert mech1.get_health() == mech1.get_max_health() - 1
-
-
-def test_accelerating_thorax_shell_psion_on_psion():
-    board = Board()
-
-    vek0_pos = (1, 1)
-    vek0 = Firefly()
-    board[vek0_pos].set_object(vek0)
-    vek0_attack_vector = (0, 1)
-    vek0_attack = Attack(attacker=vek0.get_id(), weapon=AcceleratingThorax(),
-                         vector=vek0_attack_vector)
-
-    shell_psion0_pos = (1, 6)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
-
-    apply_attack(board, vek0_attack)
-    assert shell_psion0.get_health() == shell_psion0.get_max_health() - 1

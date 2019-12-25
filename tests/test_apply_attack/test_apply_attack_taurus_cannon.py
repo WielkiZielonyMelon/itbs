@@ -8,7 +8,7 @@ from src.game_objects.board import Board
 from src.game_objects.mech import CannonMech, CombatMech
 from src.game_objects.tiles.tile import ForestTile, ForestFireTile, SandTile, GroundTile, ChasmTile, WaterTile, \
     AcidTile, FrozenAcidTile, DamagedIceTile, IceTile
-from src.game_objects.vek import BlastPsion, Spiderling, Firefly, ShellPsion
+from src.game_objects.vek import BlastPsion, Spiderling
 from src.game_objects.weapons.taurus_cannon import TaurusCannon
 
 
@@ -242,74 +242,3 @@ def test_push_vek_to_death_chain_reaction(death_tile, s05):
     assert isinstance(board[s02_pos], AcidTile)
     assert isinstance(board[s03_pos], WaterTile)
     assert isinstance(board[s04_pos], DamagedIceTile)
-
-
-def test_taurus_cannon_shell_psion():
-    board = Board()
-
-    vek0_pos = (1, 1)
-    vek0 = Firefly()
-    board[vek0_pos].set_object(vek0)
-
-    mech1_pos = (1, 2)
-    mech1 = CannonMech()
-    board[mech1_pos].set_object(mech1)
-
-    shell_psion0_pos = (0, 0)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
-
-    attack_vector = (0, -1)
-    attack = Attack(attacker=mech1.get_id(), weapon=TaurusCannon(),
-                    vector=attack_vector)
-    apply_attack(board, attack)
-
-    assert vek0.get_health() == vek0.get_max_health()
-    assert board[vek0_pos].get_object() is None
-    assert board[(1, 0)].get_object() == vek0
-
-
-def test_taurus_cannon_shell_psion_on_mech():
-    board = Board()
-
-    mech0_pos = (1, 1)
-    mech0 = CombatMech()
-    board[mech0_pos].set_object(mech0)
-
-    mech1_pos = (1, 2)
-    mech1 = CannonMech()
-    board[mech1_pos].set_object(mech1)
-
-    shell_psion0_pos = (0, 0)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
-
-    attack_vector = (0, -1)
-    attack = Attack(attacker=mech1.get_id(), weapon=TaurusCannon(),
-                    vector=attack_vector)
-    apply_attack(board, attack)
-
-    assert mech0.get_health() == mech0.get_max_health() - 1
-    assert board[mech0_pos].get_object() is None
-    assert board[(1, 0)].get_object() == mech0
-
-
-def test_taurus_cannon_shell_psion_on_psion():
-    board = Board()
-
-    mech1_pos = (1, 2)
-    mech1 = CannonMech()
-    board[mech1_pos].set_object(mech1)
-
-    shell_psion0_pos = (1, 1)
-    shell_psion0 = ShellPsion()
-    board[shell_psion0_pos].set_object(shell_psion0)
-
-    attack_vector = (0, -1)
-    attack = Attack(attacker=mech1.get_id(), weapon=TaurusCannon(),
-                    vector=attack_vector)
-    apply_attack(board, attack)
-
-    assert shell_psion0.get_health() == shell_psion0.get_max_health() - 1
-    assert board[shell_psion0_pos].get_object() is None
-    assert board[(1, 0)].get_object() == shell_psion0
