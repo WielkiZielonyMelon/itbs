@@ -5,7 +5,6 @@ import pytest
 from src.apply_attack.apply_attack import apply_attack
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
-from src.game_objects.building import CivilianBuilding
 from src.game_objects.mech import CombatMech
 from src.game_objects.mountain import Mountain
 from src.game_objects.tiles.tile import ChasmTile, AcidTile, WaterTile, ForestTile, FrozenAcidTile, DamagedIceTile, \
@@ -407,27 +406,3 @@ def test_titan_fist_shell_psion_on_psion():
     assert shell_psion0.get_health() == shell_psion0.get_max_health() - 2
     assert board[shell_psion0_pos].get_object() is None
     assert board[(1, 3)].get_object() is None
-
-
-@pytest.mark.parametrize("obj",
-                         [(Firefly()),
-                          (CombatMech()),
-                          (CivilianBuilding(health=2))])
-def test_titan_fist_on_shielded_object(obj):
-    board = Board()
-
-    mech0_pos = (1, 1)
-    mech0 = obj
-    board[mech0_pos].set_object(mech0)
-    mech0_attack_vector = (0, 1)
-    vek0_attack = Attack(attacker=mech0.get_id(), weapon=TitanFist(),
-                         vector=mech0_attack_vector)
-
-    obj1_pos = (1, 2)
-    obj1 = obj
-    obj1.set_shield()
-    board[obj1_pos].set_object(obj1)
-
-    apply_attack(board, vek0_attack)
-    assert obj1.get_health() == obj1.get_max_health()
-    assert not obj1.is_shielded()

@@ -3,7 +3,6 @@ import pytest
 from src.apply_attack.apply_attack import apply_attack
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
-from src.game_objects.building import CivilianBuilding
 from src.game_objects.mech import CombatMech, JetMech
 from src.game_objects.tiles.tile import ForestTile, DamagedIceTile, IceTile, WaterTile, FrozenAcidTile, \
     DamagedFrozenAcidTile, AcidTile, DamagedFrozenLavaTile, FrozenLavaTile, LavaTile
@@ -332,27 +331,3 @@ def test_aerial_bombs_shell_psion_on_psion():
     apply_attack(board, attack)
 
     assert shell_psion0.get_health() == shell_psion0.get_max_health() - 1
-
-
-@pytest.mark.parametrize("obj",
-                         [(Firefly()),
-                          (CombatMech()),
-                          (CivilianBuilding(health=2))])
-def test_aerial_bombs_on_shielded_object(obj):
-    board = Board()
-
-    mech0_pos = (1, 1)
-    mech0 = JetMech()
-    board[mech0_pos].set_object(mech0)
-    mech0_attack_vector = (0, 2)
-    mech0_attack = Attack(attacker=mech0.get_id(), weapon=AerialBombs(),
-                          vector=mech0_attack_vector)
-
-    obj1_pos = (1, 2)
-    obj1 = Firefly()
-    obj1.set_shield()
-    board[obj1_pos].set_object(obj1)
-
-    apply_attack(board, mech0_attack)
-    assert obj1.get_health() == obj1.get_max_health()
-    assert not obj1.is_shielded()

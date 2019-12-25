@@ -1,11 +1,8 @@
 import copy
 
-import pytest
-
 from src.apply_attack.apply_attack import apply_attack
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
-from src.game_objects.building import CivilianBuilding
 from src.game_objects.mech import CombatMech
 from src.game_objects.tiles.tile import ForestTile, ForestFireTile, FrozenAcidTile, IceTile, DamagedFrozenAcidTile, \
     DamagedIceTile, AcidTile, WaterTile
@@ -324,27 +321,3 @@ def test_spitting_glands_shell_psion_on_psion():
     apply_attack(board, attack)
 
     assert shell_psion0.get_health() == shell_psion0.get_max_health() - 1
-
-
-@pytest.mark.parametrize("obj",
-                         [(Firefly()),
-                          (CombatMech()),
-                          (CivilianBuilding(health=2))])
-def test_spitting_glands_on_shielded_object(obj):
-    board = Board()
-
-    vek0_pos = (1, 1)
-    vek0 = Scarab()
-    board[vek0_pos].set_object(vek0)
-    vek0_attack_vector = (0, 2)
-    vek0_attack = Attack(attacker=vek0.get_id(), weapon=SpittingGlands(),
-                         vector=vek0_attack_vector)
-
-    obj1_pos = (1, 3)
-    obj1 = obj
-    obj1.set_shield()
-    board[obj1_pos].set_object(obj1)
-
-    apply_attack(board, vek0_attack)
-    assert obj1.get_health() == obj1.get_max_health()
-    assert not obj1.is_shielded()
