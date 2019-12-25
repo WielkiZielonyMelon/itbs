@@ -1,5 +1,7 @@
 import copy
 
+import pytest
+
 from src.apply_attack.apply_attack import apply_attack
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
@@ -164,33 +166,20 @@ def test_emerging_shell_psion_on_psion():
     assert shell_psion0.get_health() == shell_psion0.get_max_health() - 1
 
 
-def test_emerging_on_shielded_vek():
+@pytest.mark.parametrize("obj",
+                         [(Firefly()),
+                          (CombatMech())])
+def test_emerging_on_shielded_object(obj):
     board = Board()
 
-    vek0_pos = (1, 3)
-    vek0 = Firefly()
-    vek0.set_shield()
-    board[vek0_pos].set_object(vek0)
+    obj0_pos = (1, 3)
+    obj0 = obj
+    obj0.set_shield()
+    board[obj0_pos].set_object(obj0)
 
-    attack = Attack(attacker=vek0_pos, weapon=Emerging(),
+    attack = Attack(attacker=obj0_pos, weapon=Emerging(),
                     vector=None)
 
     apply_attack(board, attack)
-    assert vek0.get_health() == vek0.get_max_health()
-    assert not vek0.is_shielded()
-
-
-def test_emerging_on_shielded_mech():
-    board = Board()
-
-    mech0_pos = (1, 3)
-    mech0 = CombatMech()
-    mech0.set_shield()
-    board[mech0_pos].set_object(mech0)
-
-    attack = Attack(attacker=mech0_pos, weapon=Emerging(),
-                    vector=None)
-
-    apply_attack(board, attack)
-    assert mech0.get_health() == mech0.get_max_health()
-    assert not mech0.is_shielded()
+    assert obj0.get_health() == obj0.get_max_health()
+    assert not obj0.is_shielded()

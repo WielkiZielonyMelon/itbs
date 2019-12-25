@@ -409,61 +409,25 @@ def test_titan_fist_shell_psion_on_psion():
     assert board[(1, 3)].get_object() is None
 
 
-def test_titan_fist_on_shielded_vek():
+@pytest.mark.parametrize("obj",
+                         [(Firefly()),
+                          (CombatMech()),
+                          (CivilianBuilding(health=2))])
+def test_titan_fist_on_shielded_object(obj):
     board = Board()
 
     mech0_pos = (1, 1)
-    mech0 = CombatMech()
+    mech0 = obj
     board[mech0_pos].set_object(mech0)
     mech0_attack_vector = (0, 1)
     vek0_attack = Attack(attacker=mech0.get_id(), weapon=TitanFist(),
                          vector=mech0_attack_vector)
 
-    vek1_pos = (1, 2)
-    vek1 = Firefly()
-    vek1.set_shield()
-    board[vek1_pos].set_object(vek1)
+    obj1_pos = (1, 2)
+    obj1 = obj
+    obj1.set_shield()
+    board[obj1_pos].set_object(obj1)
 
     apply_attack(board, vek0_attack)
-    assert vek1.get_health() == vek1.get_max_health()
-    assert not vek1.is_shielded()
-
-
-def test_titan_fist_on_shielded_mech():
-    board = Board()
-
-    mech0_pos = (1, 1)
-    mech0 = CombatMech()
-    board[mech0_pos].set_object(mech0)
-    mech0_attack_vector = (0, 1)
-    vek0_attack = Attack(attacker=mech0.get_id(), weapon=TitanFist(),
-                         vector=mech0_attack_vector)
-
-    mech1_pos = (1, 2)
-    mech1 = CombatMech()
-    mech1.set_shield()
-    board[mech1_pos].set_object(mech1)
-
-    apply_attack(board, vek0_attack)
-    assert mech1.get_health() == mech1.get_max_health()
-    assert not mech1.is_shielded()
-
-
-def test_titan_fist_on_shielded_building():
-    board = Board()
-
-    mech0_pos = (1, 1)
-    mech0 = CombatMech()
-    board[mech0_pos].set_object(mech0)
-    mech0_attack_vector = (0, 1)
-    vek0_attack = Attack(attacker=mech0.get_id(), weapon=TitanFist(),
-                         vector=mech0_attack_vector)
-
-    building1_pos = (1, 2)
-    building1 = CivilianBuilding(health=2)
-    building1.set_shield()
-    board[building1_pos].set_object(building1)
-
-    apply_attack(board, vek0_attack)
-    assert building1.get_health() == building1.get_max_health()
-    assert not building1.is_shielded()
+    assert obj1.get_health() == obj1.get_max_health()
+    assert not obj1.is_shielded()

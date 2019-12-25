@@ -180,34 +180,20 @@ def test_drown_shell_psion_on_psion():
     assert obj == shell_psion0
 
 
-def test_drown_on_shielded_vek():
+@pytest.mark.parametrize("obj",
+                         [(Firefly()),
+                          (CombatMech())])
+def test_drown_on_shielded_object(obj):
     board = Board()
 
-    vek0_pos = (1, 3)
-    vek0 = Firefly()
-    vek0.set_shield()
-    board[vek0_pos].set_object(vek0)
+    obj0_pos = (1, 3)
+    obj0 = Firefly()
+    obj0.set_shield()
+    board[obj0_pos].set_object(obj0)
 
-    attack = Attack(attacker=vek0_pos, weapon=Drown(),
+    attack = Attack(attacker=obj0_pos, weapon=Drown(),
                     vector=None)
 
     apply_attack(board, attack)
-    assert isinstance(board[vek0_pos], WaterTile)
-    assert board[vek0_pos].get_object() is None
-
-
-def test_drown_on_shielded_mech():
-    board = Board()
-
-    mech0_pos = (1, 3)
-    mech0 = CombatMech()
-    mech0.set_shield()
-    board[mech0_pos].set_object(mech0)
-
-    attack = Attack(attacker=mech0_pos, weapon=Drown(),
-                    vector=None)
-
-    apply_attack(board, attack)
-    assert mech0.get_health() == mech0.get_max_health()
-    assert mech0.is_shielded()
-    assert isinstance(board[mech0_pos], WaterTile)
+    assert isinstance(board[obj0_pos], WaterTile)
+    assert board[obj0_pos].get_object() is None
