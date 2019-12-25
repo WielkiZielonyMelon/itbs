@@ -199,13 +199,12 @@ def test_burn_shell_psion_on_psion():
 
 @pytest.mark.parametrize("obj",
                          [(Firefly()),
-                          (CombatMech()),
-                          (CivilianBuilding(health=2))])
+                          (CombatMech())])
 def test_burn_on_shielded_object(obj):
     board = Board()
 
     obj0_pos = (1, 3)
-    obj0 = Firefly()
+    obj0 = obj
     obj0.set_shield()
     board[obj0_pos].set_object(obj0)
 
@@ -214,4 +213,20 @@ def test_burn_on_shielded_object(obj):
 
     apply_attack(board, attack)
     assert obj0.get_health() == obj0.get_max_health() - 1
+    assert obj0.is_shielded()
+
+
+def test_burn_on_shielded_building():
+    board = Board()
+
+    obj0_pos = (1, 3)
+    obj0 = CivilianBuilding(health=2)
+    obj0.set_shield()
+    board[obj0_pos].set_object(obj0)
+
+    attack = Attack(attacker=obj0_pos, weapon=Burn(),
+                    vector=None)
+
+    apply_attack(board, attack)
+    assert obj0.get_health() == obj0.get_max_health()
     assert obj0.is_shielded()
