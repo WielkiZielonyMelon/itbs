@@ -54,27 +54,6 @@ def test_single_stinger_on_edge():
     assert isinstance(board[vek0_pos], ForestTile)
 
 
-def test_single_stinger_forest_tile():
-    board = Board()
-
-    vek0 = Hornet()
-    vek0_pos = (7, 0)
-    vek0_attack_vector = (-1, 0)
-    vek0_expected_health = vek0.get_health()
-    board[vek0_pos].set_object(vek0)
-
-    forest0_pos = (6, 0)
-    board[forest0_pos] = ForestTile(_object=None)
-
-    vek0_attack = Attack(attacker=vek0.get_id(), weapon=Stinger(),
-                         vector=vek0_attack_vector)
-
-    apply_attack(board, vek0_attack)
-
-    assert vek0_expected_health == vek0.get_health()
-    assert isinstance(board[forest0_pos], ForestFireTile)
-
-
 def test_single_stinger_mech_on_forest_tile():
     board = Board()
 
