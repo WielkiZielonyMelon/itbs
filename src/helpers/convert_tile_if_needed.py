@@ -39,6 +39,8 @@ def convert_tile_if_needed(board, pos):
             obj.set_fire()
     elif not obj.is_flying() and isinstance(tile, (ForestFireTile, FireTile, LavaTile)):
         obj.set_fire()
+    elif isinstance(tile, (ForestFireTile, FireTile)):
+        obj.set_fire()
     elif isinstance(tile, TimePodTile):
         board[pos] = GroundTile(_object=obj)
         if obj.is_player_controlled():

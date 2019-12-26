@@ -67,50 +67,6 @@ def test_single_taurus_cannon_push_object():
     assert board[mech0_pos_after_attack].get_object().get_health() == mech0_expected_health
 
 
-def test_single_taurus_cannon_on_edge_forest_tile():
-    board = Board()
-    forest_pos = (0, 0)
-    board[forest_pos] = ForestTile(_object=None)
-
-    cannon0 = CannonMech()
-    cannon0_pos = (7, 0)
-    cannon0_attack_vector = (-1, 0)
-    board[cannon0_pos].set_object(cannon0)
-
-    orig_00 = copy.deepcopy(board[forest_pos])
-    attack = Attack(attacker=cannon0.get_id(), weapon=TaurusCannon(),
-                    vector=cannon0_attack_vector)
-
-    original_tiles = apply_attack(board, attack)
-    assert len(original_tiles) == 1
-    assert orig_00 == original_tiles[forest_pos]
-
-    assert isinstance(board[forest_pos], ForestFireTile)
-
-
-def test_single_taurus_cannon_on_edge_sand_tile():
-    board = Board()
-    sand_pos = (0, 0)
-    board[sand_pos] = SandTile(_object=None)
-
-    cannon0 = CannonMech()
-    cannon0_pos = (7, 0)
-    cannon0_attack_vector = (-1, 0)
-    board[cannon0_pos].set_object(cannon0)
-
-    orig00 = copy.deepcopy(board[sand_pos])
-
-    attack = Attack(attacker=cannon0.get_id(), weapon=TaurusCannon(),
-                    vector=cannon0_attack_vector)
-
-    original_tiles = apply_attack(board, attack)
-    assert len(original_tiles) == 1
-    assert orig00 == original_tiles[sand_pos]
-
-    assert isinstance(board[sand_pos], GroundTile)
-    assert board[sand_pos].has_smoke()
-
-
 def test_single_taurus_cannon_mech_on_forest_tile_in_middle():
     board = Board()
 
