@@ -23,7 +23,7 @@ def kill_object(board, obj):
         if isinstance(tile, ForestTile):
             board[pos] = ForestFireTile(_object=None)
 
-    if obj.is_exploding() or (isinstance(obj, Vek) and board.is_explosive_psion_present()):
+    if obj.is_exploding() or (isinstance(obj, Vek) and board.is_blast_psion_present()):
         # Damage neighbouring tiles, damage objects and convert tiles if needed
         tiles_pos = [(pos[0] + 1, pos[1]), (pos[0] - 1, pos[1]),
                      (pos[0], pos[1] + 1), (pos[0], pos[1] - 1)]

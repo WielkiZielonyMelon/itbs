@@ -1,6 +1,7 @@
 from src.apply_attack.apply_attack import damage_tile
 from src.game_objects.tiles.tile import GroundTile, TimePodTile
-from src.game_objects.vek import BlastPsion, PsionAbomination, ShellPsion, Vek, Psion
+from src.game_objects.vek import BlastPsion, PsionAbomination, ShellPsion, Vek, Psion, BloodPsion, SoldierPsion, \
+    PsionTyrant
 
 
 class Board:
@@ -34,20 +35,50 @@ class Board:
 
             self[pos].regular_damage(damage)
 
+    # TODO: In the long run, those function will take a lot time to process.
+    # Consider having a some sort of cache to store information if psion is present.
+    # Something similar in function restore_tiles and how time pods are restored
+    def is_blast_psion_present(self):
+        for x in range(0, self.BOARD_X_SIZE):
+            for y in range(0, self.BOARD_Y_SIZE):
+                obj = self[(x, y)].get_object()
+                if obj is not None and isinstance(obj, (BlastPsion, PsionAbomination)):
+                    return True
+
+        return False
+
+    def is_blood_psion_present(self):
+        for x in range(0, self.BOARD_X_SIZE):
+            for y in range(0, self.BOARD_Y_SIZE):
+                obj = self[(x, y)].get_object()
+                if obj is not None and isinstance(obj, (BloodPsion, PsionAbomination)):
+                    return True
+
+        return False
+
+    def is_psion_tyrant_present(self):
+        for x in range(0, self.BOARD_X_SIZE):
+            for y in range(0, self.BOARD_Y_SIZE):
+                obj = self[(x, y)].get_object()
+                if obj is not None and isinstance(obj, PsionTyrant):
+                    return True
+
+        return False
+
+    def is_soldier_psion_present(self):
+        for x in range(0, self.BOARD_X_SIZE):
+            for y in range(0, self.BOARD_Y_SIZE):
+                obj = self[(x, y)].get_object()
+                if obj is not None and isinstance(obj, (SoldierPsion, PsionAbomination)):
+                    return True
+
+        return False
+
     def is_shell_psion_present(self):
         for x in range(0, self.BOARD_X_SIZE):
             for y in range(0, self.BOARD_Y_SIZE):
                 obj = self[(x, y)].get_object()
                 if obj is not None and isinstance(obj, ShellPsion):
-                    return True
-
-        return False
-
-    def is_explosive_psion_present(self):
-        for x in range(0, self.BOARD_X_SIZE):
-            for y in range(0, self.BOARD_Y_SIZE):
-                obj = self[(x, y)].get_object()
-                if obj is not None and isinstance(obj, (BlastPsion, PsionAbomination)):
                     return True
 
         return False
