@@ -12,10 +12,6 @@ def get_possible_attacks(board, obj):
     if obj is None:
         return []
 
-    # I will not list attacks for an object that is not player controlled
-    if not obj.is_player_controlled():
-        return []
-
     # No weapons? This is straightforward
     if not obj.get_weapons():
         return []
