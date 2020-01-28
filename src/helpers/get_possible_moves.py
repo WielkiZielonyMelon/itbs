@@ -7,9 +7,6 @@ def get_possible_moves(board, obj):
 
     If provided obj is None, exception will be risen"""
 
-    if not obj.is_player_controlled():
-        return []
-
     if obj.get_moves() == 0:
         return []
 
