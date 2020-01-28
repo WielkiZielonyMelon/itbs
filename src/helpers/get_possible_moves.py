@@ -7,9 +7,6 @@ def get_possible_moves(board, obj):
 
     If provided obj is None, exception will be risen"""
 
-    if obj.get_moves() == 0:
-        return []
-
     possible_moves = []
     pos = board.find_object_position(obj)
     if pos is None:
