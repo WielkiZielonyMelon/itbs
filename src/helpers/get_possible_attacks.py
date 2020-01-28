@@ -7,17 +7,10 @@ from src.game_objects.weapons.titan_fist import TitanFist
 
 
 def get_possible_attacks(board, obj):
-    """Return a list of possible attacks. If provided object is None, exception will be risen"""
-    # This object is probably dead
-    if obj.get_health() <= 0:
-        return []
-
+    """Return a list of possible attacks. If provided object is None, exception will be risen.
+    If object's position cannot be found, exception will be risen"""
     # Get attackers position, that still might be removed from the board
     attacker_pos = board.find_object_position(obj)
-    if attacker_pos is None:
-        # Whoopsie, someone died
-        return []
-
     # If attacker is in liquid tile, there are no possible attacks
     if board[attacker_pos].is_liquid() and not obj.is_flying():
         return []
