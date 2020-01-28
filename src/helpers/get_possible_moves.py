@@ -19,6 +19,9 @@ def get_possible_moves(board, obj):
     moves_left = obj.get_moves()
     q.put((pos, moves_left))
 
+    #          East     West    South    North
+    vectors = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
     while not q.empty():
         it = q.get()
         moves_left = it[1]
@@ -26,34 +29,10 @@ def get_possible_moves(board, obj):
             continue
 
         moves_left -= 1
-
-        # Go north
-        north = it[0][1] - 1
-        new_pos = (it[0][0], north)
-        if north >= 0 and new_pos not in possible_moves and \
-                not board[new_pos].has_object():
-            possible_moves.append(new_pos)
-            q.put((new_pos, moves_left))
-        # Go east
-        east = it[0][0] + 1
-        new_pos = (east, it[0][1])
-        if east < board.BOARD_X_SIZE and new_pos not in possible_moves and \
-                not board[new_pos].has_object():
-            possible_moves.append(new_pos)
-            q.put((new_pos, moves_left))
-        # Go south
-        south = it[0][1] + 1
-        new_pos = (it[0][0], south)
-        if south < board.BOARD_Y_SIZE and new_pos not in possible_moves and \
-                not board[new_pos].has_object():
-            possible_moves.append(new_pos)
-            q.put((new_pos, moves_left))
-        # Go west
-        west = it[0][0] - 1
-        new_pos = (west, it[0][1])
-        if west >= 0 and new_pos not in possible_moves and \
-                not board[new_pos].has_object():
-            possible_moves.append(new_pos)
-            q.put((new_pos, moves_left))
+        for vector in vectors:
+            new_pos = (it[0][0] + vector[0], it[0][1] + vector[1])
+            if board.in_bounds(new_pos) and new_pos not in possible_moves and not board[new_pos].has_object():
+                possible_moves.append(new_pos)
+                q.put((new_pos, moves_left))
 
     return possible_moves
