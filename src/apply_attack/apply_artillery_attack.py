@@ -24,9 +24,7 @@ def apply_attack_artillery(board, attack):
     ret = {}
     weapon = attack.get_weapon()
     attacked_obj = board[attack_pos].get_object()
-    if attacked_obj is None and not is_tile_damageable(board[attack_pos]):
-        pass
-    else:
+    if attacked_obj or is_tile_damageable(board[attack_pos]):
         ret[attack_pos] = copy.deepcopy(board[attack_pos])
 
     # Do not damage buildings, if we have proper power-up
