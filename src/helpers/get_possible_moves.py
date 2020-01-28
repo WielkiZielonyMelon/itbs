@@ -3,9 +3,9 @@ from queue import Queue
 
 def get_possible_moves(board, obj):
     """Returns all possible moves for a player controlled object
-    at given position"""
-    if obj is None:
-        return []
+    at given position.
+
+    If provided obj is None, exception will be risen"""
 
     if not obj.is_player_controlled():
         return []

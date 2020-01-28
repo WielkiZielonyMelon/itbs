@@ -7,13 +7,6 @@ from src.game_objects.mech import CombatMech
 from src.helpers.get_possible_moves import get_possible_moves
 
 
-def test_no_mech():
-    board = Board()
-    moves = get_possible_moves(board, None)
-    expected_moves = []
-    assert moves == expected_moves
-
-
 @pytest.mark.parametrize("pos, mobility,expected_moves",
                          [((0, 0), 0, []),
                           ((0, 0), 1, [(0, 1), (1, 0)]),
