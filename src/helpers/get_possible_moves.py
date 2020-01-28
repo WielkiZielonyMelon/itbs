@@ -7,12 +7,12 @@ def get_possible_moves(board, obj):
 
     If provided obj is None, exception will be risen"""
 
-    possible_moves = []
+    # Check if object is still present on board, if not, return empty array of possible moves
     pos = board.find_object_position(obj)
     if pos is None:
-        # Whooopsie, seems someone has died
         return []
 
+    possible_moves = []
     # Queue hold a tuple, current player controlled object position
     # and how many moves are left from that position
     q = Queue()
