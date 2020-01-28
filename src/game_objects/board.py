@@ -84,13 +84,7 @@ class Board:
         return False
 
     def in_bounds(self, pos):
-        if pos[0] < 0:
-            return False
-        if pos[0] >= self.BOARD_X_SIZE:
-            return False
-        if pos[1] < 0:
-            return False
-        if pos[1] >= self.BOARD_Y_SIZE:
+        if not (0 <= pos[0] < self.BOARD_X_SIZE) or not (0 <= pos[1] < self.BOARD_Y_SIZE):
             return False
 
         return True
