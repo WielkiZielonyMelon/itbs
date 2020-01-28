@@ -1,3 +1,5 @@
+import itertools
+
 from src.game_objects.attack import Attack
 from src.game_objects.weapons.aerial_bombs import AerialBombs
 from src.game_objects.weapons.artemis import Artemis
@@ -90,25 +92,18 @@ def get_possible_attacks_aerial_bombs(board, weapon, attacker_pos):
 def get_possible_attacks_artemis(board, weapon, attacker_pos):
     possible_attacks = []
     attacker = board[attacker_pos].get_object()
-    vectors = []
+    attacker_pos_x = attacker_pos[0]
+    attacker_pos_y = attacker_pos[1]
 
-    candidate = set((attacker_pos[0], y) for y in range(0, board.BOARD_Y_SIZE))
-    # Remove object position itself and nearest tiles
-    candidate.discard(attacker_pos)
-    candidate.discard((attacker_pos[0], attacker_pos[1] + 1))
-    candidate.discard((attacker_pos[0], attacker_pos[1] - 1))
-    vectors.extend(candidate)
+    vectors = [(attacker_pos_x, y) for y in itertools.chain(range(0, attacker_pos_y - 1),
+                                                            range(attacker_pos_y + 2, board.BOARD_Y_SIZE))]
 
-    candidate = set((x, attacker_pos[1]) for x in range(0, board.BOARD_X_SIZE))
-    # Remove object position itself and nearest tiles
-    candidate.discard(attacker_pos)
-    candidate.discard((attacker_pos[0] + 1, attacker_pos[1]))
-    candidate.discard((attacker_pos[0] - 1, attacker_pos[1]))
-    vectors.extend(candidate)
+    vectors.extend([(x, attacker_pos_y) for x in itertools.chain(range(0, attacker_pos_x - 1),
+                                                                 range(attacker_pos_x + 2, board.BOARD_X_SIZE))])
 
     for vector in vectors:
         possible_attacks.append(Attack(attacker=attacker.get_id(), weapon=weapon,
-                                       vector=(vector[0] - attacker_pos[0], vector[1] - attacker_pos[1])))
+                                       vector=(vector[0] - attacker_pos_x, vector[1] - attacker_pos_y)))
 
     return possible_attacks
 
