@@ -29,8 +29,10 @@ def get_possible_moves(board, obj):
             continue
 
         moves_left -= 1
+        pos_x = it[0][0]
+        pos_y = it[0][1]
         for vector in vectors:
-            new_pos = (it[0][0] + vector[0], it[0][1] + vector[1])
+            new_pos = (pos_x + vector[0], pos_y + vector[1])
             if board.in_bounds(new_pos) and new_pos not in possible_moves and not board[new_pos].has_object():
                 possible_moves.append(new_pos)
                 q.put((new_pos, moves_left))
