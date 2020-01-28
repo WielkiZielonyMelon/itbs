@@ -8,10 +8,6 @@ from src.game_objects.weapons.titan_fist import TitanFist
 
 def get_possible_attacks(board, obj):
     """Return a list of possible attacks. If provided object is None, exception will be risen"""
-    # No weapons? This is straightforward
-    if not obj.get_weapons():
-        return []
-
     # This object is probably dead
     if obj.get_health() <= 0:
         return []
