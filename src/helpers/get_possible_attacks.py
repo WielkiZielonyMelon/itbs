@@ -7,11 +7,7 @@ from src.game_objects.weapons.titan_fist import TitanFist
 
 
 def get_possible_attacks(board, obj):
-    """Return a list of possible attacks."""
-    # Can't get any possible attacks if there is no object
-    if obj is None:
-        return []
-
+    """Return a list of possible attacks. If provided object is None, exception will be risen"""
     # No weapons? This is straightforward
     if not obj.get_weapons():
         return []

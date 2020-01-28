@@ -10,14 +10,6 @@ from src.game_objects.weapons.titan_fist import TitanFist
 from src.helpers.get_possible_attacks import get_possible_attacks
 
 
-def test_no_mech():
-    board = Board()
-
-    attacks = get_possible_attacks(board, None)
-    expected_attacks = []
-    assert attacks == expected_attacks
-
-
 @pytest.mark.parametrize("pos,dir_1,dir_2",
                          [((0, 0), (1, 0), (0, 1)),
                           ((7, 0), (-1, 0), (0, 1)),
