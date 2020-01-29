@@ -47,6 +47,9 @@ def apply_attack_projectile_weapon(board, attack, push=False):
     # Convert the tile (for example, object might have been on acid and it's sinking
     # in WaterTile(convert to AcidTile) or it was on acid and was killed convert to (AcidPool)
     convert_tile_if_needed(board, attack_pos)
+
+    # If object still exist and wasn't killed by push function, it still might be killed here.
+    obj = board[attack_pos].get_object()
     if obj is not None:
         update_dict_if_key_not_present(ret, kill_object_if_possible(board, obj))
 

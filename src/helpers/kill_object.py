@@ -60,10 +60,8 @@ def kill_object_if_possible(board, obj):
     """
     # Does this object still exist?
     pos = board.find_object_position(obj)
-    if pos is None:
-        return {}
-
     tile = board[pos]
+
     # If object's health is below zero, we can kill it
     if obj.get_health() <= 0:
         # Remove object already
