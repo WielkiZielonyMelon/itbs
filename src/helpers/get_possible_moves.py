@@ -19,21 +19,21 @@ def get_possible_moves(board, obj):
     moves_left = obj.get_moves()
     q.put((pos, moves_left))
 
-    #          East     West    South    North
-    vectors = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-
     while not q.empty():
         it = q.get()
+
         moves_left = it[1]
         if moves_left <= 0:
             continue
-
         moves_left -= 1
+
         pos_x = it[0][0]
         pos_y = it[0][1]
-        for vector in vectors:
+
+        #              West     East    South    North
+        for vector in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             new_pos = (pos_x + vector[0], pos_y + vector[1])
-            if board.in_bounds(new_pos) and new_pos not in possible_moves and not board[new_pos].has_object():
+            if board.in_bounds(new_pos) and not board[new_pos].has_object() and new_pos not in possible_moves:
                 possible_moves.append(new_pos)
                 q.put((new_pos, moves_left))
 
