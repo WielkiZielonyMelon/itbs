@@ -38,8 +38,6 @@ def apply_attack_projectile_weapon(board, attack, push=False):
     # Damage tile and object
     dmg = attack.get_weapon().get_total_damage()
     board.regular_damage(attack_pos, dmg)
-    # Store object for later reference
-    obj = board[attack_pos].get_object()
     if push is True:
         attack = Attack(attacker=attack_pos, weapon=Push(), vector=vector)
         update_dict_if_key_not_present(ret, apply_attack_push(board, attack))
