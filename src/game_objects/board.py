@@ -30,7 +30,7 @@ class Board:
         damage_tile(self, pos)
         obj = self[pos].get_object()
         if obj is not None:
-            if self.is_shell_psion_present() and isinstance(obj, Vek) and not isinstance(obj, Psion):
+            if isinstance(obj, Vek) and self.is_shell_psion_present() and not isinstance(obj, Psion):
                 damage -= 1
 
             self[pos].regular_damage(damage)
