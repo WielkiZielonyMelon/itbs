@@ -10,9 +10,6 @@ def apply_attack_move(board, attack):
     return their original states along with their positions."""
     attacker = attack.get_attacker()
     attacker_pos = board.find_object_id_position(attacker)
-    if attacker is None:
-        return {}
-
     attacker = board[attacker_pos].get_object()
     start_pos = attacker_pos
     dst_pos = attack.get_vector()
