@@ -19,19 +19,15 @@ def apply_attack_projectile_weapon(board, attack, push=False):
         # Seems object was pushed to a position where it cannot perform attack
         return {}
 
-    while True:
-        obj = board[attack_pos].get_object()
-        if obj is not None:
-            break
-
+    while board[attack_pos].get_object() is None:
         new_attack_pos = (attack_pos[0] + vector[0], attack_pos[1] + vector[1])
         if not board.in_bounds(new_attack_pos):
+            # We reached end of the board, can the tile be damaged in any way?
+            if not is_tile_damageable(board[attack_pos]):
+                return {}
             break
 
         attack_pos = new_attack_pos
-
-    if not board[attack_pos].has_object() and not is_tile_damageable(board[attack_pos]):
-        return {}
 
     # Store original tile
     ret = {attack_pos: copy.deepcopy(board[attack_pos])}
