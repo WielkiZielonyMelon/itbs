@@ -14,6 +14,9 @@ def apply_attack_stinger(board, attack):
     vector = attack.get_vector()
 
     attack_pos = [(attacker_pos[0] + vector[0], attacker_pos[1] + vector[1])]
+    if not board.in_bounds(attack_pos[0]):
+        # Seems object was pushed to a position where it cannot perform attack
+        return {}
     if isinstance(attack.get_weapon(), LaunchingStinger):
         proposition = (attack_pos[-1][0] + vector[0], attack_pos[-1][1] + vector[1])
         if board.in_bounds(proposition):
@@ -22,18 +25,12 @@ def apply_attack_stinger(board, attack):
         proposition = (attack_pos[-1][0] + vector[0], attack_pos[-1][1] + vector[1])
         if board.in_bounds(proposition):
             attack_pos.append(proposition)
-    if not board.in_bounds(attack_pos[0]):
-        # Seems object was pushed to a position where it cannot perform attack
-        return {}
 
     # Will this attack have any effect?
-    has_effect = False
     for a_pos in attack_pos:
         if board[a_pos].has_object() or is_tile_damageable(board[a_pos]):
-            has_effect = True
             break
-
-    if not has_effect:
+    else:
         return {}
 
     ret = {}
