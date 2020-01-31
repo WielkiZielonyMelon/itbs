@@ -9,9 +9,6 @@ def get_possible_moves(board, obj):
 
     # Check if object is still present on board, if not, return empty array of possible moves
     pos = board.find_object_position(obj)
-    if pos is None:
-        return []
-
     possible_moves = []
     # Queue hold a tuple, current player controlled object position
     # and how many moves are left from that position
