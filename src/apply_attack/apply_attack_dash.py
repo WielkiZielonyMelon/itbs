@@ -1,12 +1,7 @@
 import copy
 
 
-def apply_attack_dash(board, attack):
-    attacker = attack.get_attacker()
-    attacker_pos = board.find_object_id_position(attacker)
-    if attacker_pos is None:
-        return
-
+def apply_attack_dash(board, attack, attacker_pos):
     attacker = board[attacker_pos].get_object()
 
     ret = {attacker_pos: copy.deepcopy(board[attacker_pos])}

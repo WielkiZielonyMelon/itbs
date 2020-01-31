@@ -53,57 +53,72 @@ def apply_attack(board, attack):
     weapon = attack.get_weapon()
     if isinstance(weapon, Move):
         from src.apply_attack.apply_attack_move import apply_attack_move
-        return apply_attack_move(board, attack)
+        return apply_attack_move(board, attack, attacker_pos)
+
     elif isinstance(weapon, TitanFist):
         from src.apply_attack.apply_attack_titan_fist \
             import apply_attack_titan_fist
-        return apply_attack_titan_fist(board, attack)
+        return apply_attack_titan_fist(board, attack, attacker_pos)
+
     elif isinstance(weapon, AerialBombs):
         from src.apply_attack.apply_attack_aerial_bombs \
             import apply_attack_aerial_bombs
-        apply_attack_aerial_bombs(board, attack)
+        apply_attack_aerial_bombs(board, attack, attacker_pos)
+
     elif isinstance(weapon, TaurusCannon):
         from src.apply_attack.apply_attack_projectile_weapon \
             import apply_attack_projectile_weapon
-        return apply_attack_projectile_weapon(board, attack, push=True)
+        return apply_attack_projectile_weapon(board, attack, attacker_pos, push=True)
+
     elif isinstance(weapon, (Artemis, SpittingGlands, AlphaSpittingGlands)):
         from src.apply_attack.apply_artillery_attack import apply_attack_artillery
-        return apply_attack_artillery(board, attack)
+        return apply_attack_artillery(board, attack, attacker_pos)
+
     elif isinstance(weapon, (AcceleratingThorax, EnhancedThorax)):
         from src.apply_attack.apply_attack_projectile_weapon \
             import apply_attack_projectile_weapon
-        return apply_attack_projectile_weapon(board, attack)
+        return apply_attack_projectile_weapon(board, attack, attacker_pos, push=False)
+
     elif isinstance(weapon, (Stinger, LaunchingStinger, SuperStinger)):
         from src.apply_attack.apply_attack_stinger import apply_attack_stinger
-        return apply_attack_stinger(board, attack)
+        return apply_attack_stinger(board, attack, attacker_pos)
+
     elif isinstance(weapon, Push):
         from src.apply_attack.apply_attack_push import apply_attack_push
         return apply_attack_push(board, attack)
+
     elif isinstance(weapon, Dash):
         from src.apply_attack.apply_attack_dash import apply_attack_dash
-        return apply_attack_dash(board, attack)
+        return apply_attack_dash(board, attack, attacker_pos)
+
     elif isinstance(weapon, Drown):
         from src.apply_attack.apply_attack_drown import apply_attack_drown
         return apply_attack_drown(board, attack)
+
     elif isinstance(weapon, Emerging):
         from src.apply_attack.apply_attack_emerging import apply_attack_emerging
         return apply_attack_emerging(board, attack)
+
     elif isinstance(weapon, Burn):
         from src.apply_attack.apply_attack_burn import apply_attack_burn
         return apply_attack_burn(board, attack)
+
     elif isinstance(weapon, SetOnFire):
         from src.apply_attack.apply_attack_set_on_fire \
             import apply_attack_set_on_fire
         return apply_attack_set_on_fire(board, attack)
+
     elif isinstance(weapon, Freeze):
         from src.apply_attack.apply_attack_freeze import apply_attack_freeze
         apply_attack_freeze(board, attack)
+
     elif isinstance(weapon, Acid):
         from src.apply_attack.apply_attack_acid import apply_attack_acid
         apply_attack_acid(board, attack)
+        
     elif isinstance(weapon, Repair):
         from src.apply_attack.apply_attack_repair import apply_attack_repair
-        return apply_attack_repair(board, attack)
+        return apply_attack_repair(board, attack, attacker_pos)
     else:
         raise Exception("Do not know weapon = " + str(weapon) + "!")
 

@@ -9,14 +9,14 @@ from src.helpers.is_tile_damagable import is_tile_damageable
 from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_present
 
 
-def apply_attack_titan_fist(board, attack):
+def apply_attack_titan_fist(board, attack, attacker_pos):
     # If titan first has dash, move the attacker
     ret = {}
     if attack.get_weapon().has_dash():
-        update_dict_if_key_not_present(ret, apply_attack_dash(board, attack))
+        update_dict_if_key_not_present(ret, apply_attack_dash(board, attack, attacker_pos))
+        attacker = attack.get_attacker()
+        attacker_pos = board.find_object_id_position(attacker)
 
-    attacker = attack.get_attacker()
-    attacker_pos = board.find_object_id_position(attacker)
     vector = attack.get_vector()
     attack_pos = (attacker_pos[0] + vector[0], attacker_pos[1] + vector[1])
     if not board.in_bounds(attack_pos):

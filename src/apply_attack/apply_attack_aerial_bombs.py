@@ -2,9 +2,7 @@ from src.apply_attack.apply_attack import smoke_tile
 from src.helpers.kill_object import kill_object_if_possible
 
 
-def apply_attack_aerial_bombs(board, attack):
-    attacker = attack.get_attacker()
-    attacker_pos = board.find_object_id_position(attacker)
+def apply_attack_aerial_bombs(board, attack, attacker_pos):
     attacker = board[attacker_pos].get_object()
     vector = attack.get_vector()
     attack_pos = (attacker_pos[0] + vector[0], attacker_pos[1] + vector[1])

@@ -31,7 +31,7 @@ def apply_attack_push(board, attack):
     # If not obstructed, push!
     if not board[new_pos].has_object():
         attack = Attack(attacker=object_to_push.get_id(), weapon=Move(), vector=new_pos)
-        return apply_attack_move(board, attack)
+        return apply_attack_move(board, attack, push_pos)
 
     # Destination is obstructed
     ret = {new_pos: copy.deepcopy(board[new_pos]), push_pos: copy.deepcopy(board[push_pos])}

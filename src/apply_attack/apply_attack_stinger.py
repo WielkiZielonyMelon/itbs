@@ -8,9 +8,7 @@ from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_pr
 
 
 # TODO: Rewrite this function, looks a bit ugly
-def apply_attack_stinger(board, attack):
-    attacker = attack.get_attacker()
-    attacker_pos = board.find_object_id_position(attacker)
+def apply_attack_stinger(board, attack, attacker_pos):
     vector = attack.get_vector()
 
     attack_pos = [(attacker_pos[0] + vector[0], attacker_pos[1] + vector[1])]

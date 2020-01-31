@@ -4,9 +4,8 @@ from src.apply_attack.apply_attack import repair_tile
 from src.game_objects.tiles.tile import ForestFireTile, FireTile
 
 
-def apply_attack_repair(board, attack):
+def apply_attack_repair(board, attack, attack_pos):
     attacker = attack.get_attacker()
-    attack_pos = board.find_object_id_position(attacker)
     attacker = board[attack_pos].get_object()
     if attacker.get_health() == attacker.get_max_health() and \
             not isinstance(board[attack_pos], (ForestFireTile, FireTile)) and \
