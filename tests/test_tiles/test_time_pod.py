@@ -14,11 +14,9 @@ def test_time_pod_titan_fist():
     time_pod_pos = (1, 1)
     assert board.is_time_pod_destroyed() is False
     assert board.is_time_pod_picked_up() is False
-    assert board.is_time_pod_present() is False
     board[time_pod_pos] = TimePodTile(_object=None)
     assert board.is_time_pod_destroyed() is False
     assert board.is_time_pod_picked_up() is False
-    assert board.is_time_pod_present() is True
 
     mech_pos = (1, 2)
     mech = CombatMech()
@@ -31,7 +29,6 @@ def test_time_pod_titan_fist():
     assert isinstance(board[time_pod_pos], GroundTile)
     assert board.is_time_pod_destroyed() is True
     assert board.is_time_pod_picked_up() is False
-    assert board.is_time_pod_present() is False
 
 
 def test_time_pod_pick_up():
@@ -40,11 +37,9 @@ def test_time_pod_pick_up():
     time_pod_pos = (1, 1)
     assert board.is_time_pod_destroyed() is False
     assert board.is_time_pod_picked_up() is False
-    assert board.is_time_pod_present() is False
     board[time_pod_pos] = TimePodTile(_object=None)
     assert board.is_time_pod_destroyed() is False
     assert board.is_time_pod_picked_up() is False
-    assert board.is_time_pod_present() is True
 
     mech_pos = (1, 2)
     mech = CombatMech()
@@ -56,7 +51,6 @@ def test_time_pod_pick_up():
     assert isinstance(board[time_pod_pos], GroundTile)
     assert board.is_time_pod_destroyed() is False
     assert board.is_time_pod_picked_up() is True
-    assert board.is_time_pod_present() is False
 
 
 def test_time_pod_run_over_by_vek():
@@ -65,11 +59,9 @@ def test_time_pod_run_over_by_vek():
     time_pod_pos = (1, 1)
     assert board.is_time_pod_destroyed() is False
     assert board.is_time_pod_picked_up() is False
-    assert board.is_time_pod_present() is False
     board[time_pod_pos] = TimePodTile(_object=None)
     assert board.is_time_pod_destroyed() is False
     assert board.is_time_pod_picked_up() is False
-    assert board.is_time_pod_present() is True
 
     mech_pos = (1, 2)
     vek = Firefly()
@@ -81,4 +73,3 @@ def test_time_pod_run_over_by_vek():
     assert isinstance(board[time_pod_pos], GroundTile)
     assert board.is_time_pod_destroyed() is True
     assert board.is_time_pod_picked_up() is False
-    assert board.is_time_pod_present() is False

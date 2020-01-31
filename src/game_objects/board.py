@@ -124,14 +124,6 @@ class Board:
     def clear_time_pod_picked_up(self):
         self._is_time_pod_picked_up = False
 
-    def is_time_pod_present(self):
-        for x in range(0, self.BOARD_X_SIZE):
-            for y in range(0, self.BOARD_Y_SIZE):
-                if isinstance(self[(x, y)], TimePodTile):
-                    return True
-
-        return False
-
     def is_time_pod_destroyed(self):
         return self._is_time_pod_destroyed
 
