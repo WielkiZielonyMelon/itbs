@@ -25,11 +25,11 @@ from src.game_objects.weapons.taurus_cannon import TaurusCannon
 from src.game_objects.weapons.titan_fist import TitanFist
 
 
-def apply_attack(board, attack):
+def apply_attack(board, attack, attacker_pos=None):
     attacker = attack.get_attacker()
     # If this is an id...
     if not isinstance(attacker, tuple):
-        attacker_pos = board.find_object_id_position(attacker)
+        attacker_pos = board.find_object_id_position(attacker) if attacker_pos is None else attacker_pos
         if attacker_pos is None:
             return {}
         attacker = board[attacker_pos].get_object()

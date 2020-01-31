@@ -99,11 +99,12 @@ class LatestMovesCache:
         return self.ADDED
 
 
-def execute_attack(board, attacks, battle_plans, latest_moves_cache, orders_executed, orders_left, enemy_attacks):
+def execute_attack(board, attacks, battle_plans, latest_moves_cache, orders_executed, orders_left, enemy_attacks,
+                   attacker_pos):
     for attack in attacks:
         if LatestMovesCache.PRESENT == latest_moves_cache.add(orders_executed, attack):
             continue
-        latest_order_undo = apply_attack(board, attack)
+        latest_order_undo = apply_attack(board, attack, attacker_pos)
         if not latest_order_undo:
             # Nothing actually happened, cut this branch
             continue
@@ -159,14 +160,14 @@ def fill_battle_plans(board, battle_plans, latest_moves_cache, orders_executed, 
             attacks = [Attack(attacker=obj_id, weapon=Move(), vector=move)
                        for move in moves]
             execute_attack(board, attacks, battle_plans, latest_moves_cache,
-                           orders_executed, new_orders_left, enemy_attacks)
+                           orders_executed, new_orders_left, enemy_attacks, pos)
 
         if Order.ATTACK in orders:
             new_orders_left = copy.copy(orders_left)
             del new_orders_left[obj_id]
             attacks = get_possible_attacks(board, obj)
             execute_attack(board, attacks, battle_plans, latest_moves_cache,
-                           orders_executed, new_orders_left, enemy_attacks)
+                           orders_executed, new_orders_left, enemy_attacks, pos)
 
 
 def get_battle_plans(board, size, enemy_attacks):
