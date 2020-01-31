@@ -51,9 +51,14 @@ def apply_attack(board, attack):
             return {}
 
     weapon = attack.get_weapon()
+
     if isinstance(weapon, Move):
         from src.apply_attack.apply_attack_move import apply_attack_move
         return apply_attack_move(board, attack, attacker_pos)
+
+    elif isinstance(weapon, Repair):
+        from src.apply_attack.apply_attack_repair import apply_attack_repair
+        return apply_attack_repair(board, attack, attacker_pos)
 
     elif isinstance(weapon, TitanFist):
         from src.apply_attack.apply_attack_titan_fist \
@@ -116,9 +121,6 @@ def apply_attack(board, attack):
         from src.apply_attack.apply_attack_acid import apply_attack_acid
         apply_attack_acid(board, attack)
 
-    elif isinstance(weapon, Repair):
-        from src.apply_attack.apply_attack_repair import apply_attack_repair
-        return apply_attack_repair(board, attack, attacker_pos)
     else:
         raise Exception("Do not know weapon = " + str(weapon) + "!")
 
