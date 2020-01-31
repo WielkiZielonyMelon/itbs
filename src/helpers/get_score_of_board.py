@@ -28,24 +28,27 @@ def get_score_of_board(board):
         for y in range(0, board.BOARD_Y_SIZE):
             if isinstance(board[(x, y)], TimePodTile):
                 points += time_pod_present
+
             obj = board[(x, y)].get_object()
-            if obj is not None and obj.is_player_controlled():
-                if obj.is_player_controlled():
-                    points += player_u_pts
-                    lost_health = obj.get_max_health() - obj.get_health()
-                    points += lost_health * player_lost_health_pts
+            if obj is None:
+                continue
+
+            if isinstance(obj, SpecialBuilding):
+                points += special_building_pts
+                points += obj.get_health() * building_health_bar_points
+
+            elif isinstance(obj, Building):
+                points += obj.get_health() * building_health_bar_points
 
             elif isinstance(obj, Vek):
                 points += vek_pts
                 lost_health = obj.get_max_health() - obj.get_health()
                 points += lost_health * vek_lost_health_pts
 
-            elif isinstance(obj, SpecialBuilding):
-                points += special_building_pts
-                points += obj.get_health() * building_health_bar_points
-
-            elif isinstance(obj, Building):
-                points += obj.get_health() * building_health_bar_points
+            elif obj.is_player_controlled():
+                points += player_u_pts
+                lost_health = obj.get_max_health() - obj.get_health()
+                points += lost_health * player_lost_health_pts
 
     if board.is_time_pod_destroyed():
         points += time_pod_destroyed
