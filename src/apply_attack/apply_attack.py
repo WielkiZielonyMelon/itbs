@@ -115,7 +115,7 @@ def apply_attack(board, attack):
     elif isinstance(weapon, Acid):
         from src.apply_attack.apply_attack_acid import apply_attack_acid
         apply_attack_acid(board, attack)
-        
+
     elif isinstance(weapon, Repair):
         from src.apply_attack.apply_attack_repair import apply_attack_repair
         return apply_attack_repair(board, attack, attacker_pos)

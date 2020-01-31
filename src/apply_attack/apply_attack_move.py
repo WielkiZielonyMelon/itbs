@@ -12,7 +12,7 @@ def apply_attack_move(board, attack, attacker_pos):
     start_pos = attacker_pos
     dst_pos = attack.get_vector()
     if start_pos == dst_pos:
-        return {}
+        raise Exception
     if board[dst_pos].has_object():
         raise Exception("Space is occupied")
 
