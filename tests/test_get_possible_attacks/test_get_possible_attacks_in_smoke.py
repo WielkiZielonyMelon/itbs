@@ -18,7 +18,7 @@ def test_get_possible_attacks_in_land_smoke_combat_mech(stable_tile):
 
     board[stable_tile_pos] = stable_tile
     board[stable_tile_pos].set_object(mech0)
-    attacks = get_possible_attacks(board, mech0)
+    attacks = get_possible_attacks(board, stable_tile_pos)
 
     assert attacks == []
 
@@ -35,6 +35,6 @@ def test_get_possible_attacks_in_water_smoke_jet_mech(liquid_tile):
 
     board[liquid_pos] = liquid_tile
     board[liquid_pos].set_object(mech0)
-    attacks = get_possible_attacks(board, mech0)
+    attacks = get_possible_attacks(board, liquid_pos)
 
     assert attacks == []

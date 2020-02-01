@@ -20,7 +20,7 @@ def test_get_possible_attacks_taurus_cannon_in_corners(pos, dir_1, dir_2):
     mech = CannonMech()
 
     board[pos].set_object(mech)
-    attacks = get_possible_attacks(board, mech)
+    attacks = get_possible_attacks(board, pos)
 
     expected_attacks = [Attack(attacker=mech.get_id(), weapon=TaurusCannon(), vector=dir_1),
                         Attack(attacker=mech.get_id(), weapon=TaurusCannon(), vector=dir_2),
@@ -34,7 +34,7 @@ def test_2_2():
     mech = CannonMech()
 
     board[pos].set_object(mech)
-    attacks = get_possible_attacks(board, mech)
+    attacks = get_possible_attacks(board, pos)
     expected_attacks = [Attack(attacker=mech.get_id(), weapon=TaurusCannon(), vector=(-1, 0)),
                         Attack(attacker=mech.get_id(), weapon=TaurusCannon(), vector=(1, 0)),
                         Attack(attacker=mech.get_id(), weapon=TaurusCannon(), vector=(0, -1)),

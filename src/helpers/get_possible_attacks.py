@@ -8,11 +8,11 @@ from src.game_objects.weapons.taurus_cannon import TaurusCannon
 from src.game_objects.weapons.titan_fist import TitanFist
 
 
-def get_possible_attacks(board, obj):
+def get_possible_attacks(board, attacker_pos):
     """Return a list of possible attacks. If provided object is None, exception will be risen.
     If object's position cannot be found, exception will be risen"""
     # Get attackers position, that still might be removed from the board
-    attacker_pos = board.find_object_position(obj)
+    obj = board[attacker_pos].get_object()
     # If attacker is in liquid tile, there are no possible attacks
     if board[attacker_pos].is_liquid() and not obj.is_flying():
         return []

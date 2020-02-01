@@ -22,7 +22,7 @@ def test_expected_moves(pos, mobility, expected_moves):
     mech._moves = mobility
 
     board[pos].set_object(mech)
-    moves = get_possible_moves(board, mech)
+    moves = get_possible_moves(board, pos)
     unittest.TestCase().assertCountEqual(moves, expected_moves)
 
 
@@ -43,7 +43,7 @@ def test_expected_moves_with_blocker_vek(pos_start, mobility, pos_block, expecte
 
     board[pos_start].set_object(mech)
     board[pos_block].set_object(vek)
-    moves = get_possible_moves(board, mech)
+    moves = get_possible_moves(board, pos_start)
     unittest.TestCase().assertCountEqual(moves, expected_moves)
 
 
@@ -64,7 +64,7 @@ def test_expected_moves_with_blocker_mech(pos_start, mobility, pos_block, expect
 
     board[pos_start].set_object(mech)
     board[pos_block].set_object(mech_blocker)
-    moves = get_possible_moves(board, mech)
+    moves = get_possible_moves(board, pos_start)
     unittest.TestCase().assertCountEqual(moves, expected_moves)
 
 
@@ -88,9 +88,9 @@ def test_2_move_1_1_blocked(blocker, exp_moves):
     board[pos_block_1].set_object(blocker())
     board[pos_block_2].set_object(blocker())
     board[pos_block_3].set_object(blocker())
-    moves = get_possible_moves(board, mech)
-#    expected_moves =
+    moves = get_possible_moves(board, pos_start)
     unittest.TestCase().assertCountEqual(moves, exp_moves)
+
 
 def test_moves_with_blocked_mech():
     board = Board()
@@ -108,8 +108,8 @@ def test_moves_with_blocked_mech():
     board[(3, 1)].set_object(Mountain())
 
     expected_moves = [(2, 0)]
-    moves = get_possible_moves(board, mech00)
+    moves = get_possible_moves(board, mech00_pos)
     unittest.TestCase().assertCountEqual(moves, expected_moves)
 
-    moves = get_possible_moves(board, mech01)
+    moves = get_possible_moves(board, mech01_pos)
     unittest.TestCase().assertCountEqual(moves, expected_moves)

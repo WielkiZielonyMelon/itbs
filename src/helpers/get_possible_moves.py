@@ -1,14 +1,14 @@
 from queue import Queue
 
 
-def get_possible_moves(board, obj):
+def get_possible_moves(board, pos):
     """Returns all possible moves for a player controlled object
     at given position.
 
     If provided obj is None, exception will be risen"""
 
     # Check if object is still present on board, if not, return empty array of possible moves
-    pos = board.find_object_position(obj)
+    obj = board[pos].get_object()
     # Holder for visited moves
     possible_moves = []
     # Holder for position that were visited (however not possible to move there)

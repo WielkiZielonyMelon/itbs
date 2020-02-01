@@ -22,7 +22,7 @@ def test_get_possible_attacks_in_water_combat_mech(liquid_tile):
 
     board[liquid_pos] = liquid_tile
     board[liquid_pos].set_object(mech0)
-    attacks = get_possible_attacks(board, mech0)
+    attacks = get_possible_attacks(board, liquid_pos)
 
     assert attacks == []
 
@@ -38,7 +38,7 @@ def test_get_possible_attacks_in_water_jet_mech(liquid_tile):
 
     board[liquid_pos] = liquid_tile
     board[liquid_pos].set_object(mech0)
-    attacks = get_possible_attacks(board, mech0)
+    attacks = get_possible_attacks(board, liquid_pos)
     exp_attacks = [Attack(attacker=mech0.get_id(), weapon=AerialBombs(), vector=(0, 2)),
                    Attack(attacker=mech0.get_id(), weapon=AerialBombs(), vector=(2, 0)),
                    Attack(attacker=mech0.get_id(), weapon=Repair(), vector=None)]

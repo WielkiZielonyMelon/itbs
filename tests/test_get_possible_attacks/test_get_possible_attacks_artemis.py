@@ -24,7 +24,7 @@ def test_get_possible_attacks_artemis_in_corners(mech_pos, vectors):
     mech = ArtilleryMech()
 
     board[mech_pos].set_object(mech)
-    attacks = get_possible_attacks(board, mech)
+    attacks = get_possible_attacks(board, mech_pos)
 
     expected_attacks = [Attack(attacker=mech.get_id(), weapon=Artemis(), vector=v) for v in vectors]
     expected_attacks.append(Attack(attacker=mech.get_id(), weapon=Repair(), vector=None))
@@ -37,7 +37,7 @@ def test_1_1():
     mech = ArtilleryMech()
 
     board[pos].set_object(mech)
-    attacks = get_possible_attacks(board, mech)
+    attacks = get_possible_attacks(board, pos)
     vectors = [(0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0)]
     expected_attacks = [Attack(attacker=mech.get_id(), weapon=Artemis(), vector=v) for v in vectors]
     expected_attacks.append(Attack(attacker=mech.get_id(), weapon=Repair(), vector=None))

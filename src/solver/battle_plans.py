@@ -156,7 +156,7 @@ def fill_battle_plans(board, battle_plans, latest_moves_cache, orders_executed, 
         if Order.MOVE in orders:
             new_orders_left = copy.copy(orders_left)
             new_orders_left[obj_id] = [Order.ATTACK]
-            moves = get_possible_moves(board, obj)
+            moves = get_possible_moves(board, pos)
             attacks = [Attack(attacker=obj_id, weapon=Move(), vector=move)
                        for move in moves]
             execute_attack(board, attacks, battle_plans, latest_moves_cache,
@@ -165,7 +165,7 @@ def fill_battle_plans(board, battle_plans, latest_moves_cache, orders_executed, 
         if Order.ATTACK in orders:
             new_orders_left = copy.copy(orders_left)
             del new_orders_left[obj_id]
-            attacks = get_possible_attacks(board, obj)
+            attacks = get_possible_attacks(board, pos)
             execute_attack(board, attacks, battle_plans, latest_moves_cache,
                            orders_executed, new_orders_left, enemy_attacks, pos)
 
