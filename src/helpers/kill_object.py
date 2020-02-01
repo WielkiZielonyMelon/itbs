@@ -8,10 +8,10 @@ from src.helpers.is_tile_damagable import is_tile_damageable
 from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_present
 
 
-def kill_object(board, obj):
+def kill_object(board, pos):
     """Kills object. No questions asked"""
-    pos = board.find_object_position(obj)
     tile = board[pos]
+    obj = tile.get_object()
     ret = {pos: copy.deepcopy(tile)}
     board[pos].set_object(None)
 
@@ -64,24 +64,24 @@ def kill_object_if_possible(board, pos):
     # If object's health is below zero, we can kill it
     if obj.get_health() <= 0:
         # Remove object already
-        return kill_object(board, obj)
+        return kill_object(board, pos)
 
     # If object is flying and frozen...
     if obj.is_flying():
         if obj.is_frozen():
             # ... it will always die over chasm tile ...
             if isinstance(tile, ChasmTile):
-                return kill_object(board, obj)
+                return kill_object(board, pos)
             # ... if it's non-massive it will drown in liquid...
             elif not obj.is_massive() and tile.is_liquid():
-                return kill_object(board, obj)
+                return kill_object(board, pos)
 
         return {}
 
     # All non-flying objects can be instantly killed over chasm
     if isinstance(tile, ChasmTile):
         # Remove object already
-        return kill_object(board, obj)
+        return kill_object(board, pos)
 
     # Massive objects cannot be killed over other tiles
     if obj.is_massive():
@@ -89,6 +89,6 @@ def kill_object_if_possible(board, pos):
 
     # We are left with non-massive, non-flying object. They will die in liquid tiles
     if tile.is_liquid():
-        return kill_object(board, obj)
+        return kill_object(board, pos)
 
     return {}
