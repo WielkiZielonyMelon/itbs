@@ -42,12 +42,12 @@ def kill_object(board, pos, tile, obj):
         for affected_tile_pos in affected_tiles_pos:
             obj = board[affected_tile_pos].get_object()
             if obj is not None:
-                update_dict_if_key_not_present(ret, kill_object_if_possible(board, affected_tile_pos))
+                update_dict_if_key_not_present(ret, kill_object_if_possible(board, affected_tile_pos, obj))
 
     return ret
 
 
-def kill_object_if_possible(board, pos):
+def kill_object_if_possible(board, pos, obj):
     """Kill object if it is possible.
 
     Attempts to remove an object from board, if conditions are met (like health below zero, object is non-flying
@@ -55,7 +55,6 @@ def kill_object_if_possible(board, pos):
     killed on a ground tile will leave an AcidPool behind).
     """
     tile = board[pos]
-    obj = tile.get_object()
 
     # If object's health is below zero, we can kill it
     if obj.get_health() <= 0:

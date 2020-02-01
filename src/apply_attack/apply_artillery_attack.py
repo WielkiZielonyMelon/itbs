@@ -44,6 +44,6 @@ def apply_attack_artillery(board, attack, attacker_pos):
     convert_tile_if_needed(board, attack_pos)
 
     if attacked_obj is not None:
-        update_dict_if_key_not_present(ret, kill_object_if_possible(board, attack_pos))
+        update_dict_if_key_not_present(ret, kill_object_if_possible(board, attack_pos, attacked_obj))
 
     return ret

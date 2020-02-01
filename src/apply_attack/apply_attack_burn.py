@@ -11,6 +11,6 @@ def apply_attack_burn(board, attack):
     board[pos].fire_damage()
 
     if obj is not None:
-        update_dict_if_key_not_present(ret, kill_object_if_possible(board, pos))
+        update_dict_if_key_not_present(ret, kill_object_if_possible(board, pos, obj))
 
     return ret

@@ -13,6 +13,6 @@ def apply_attack_drown(board, attack):
     board[attack_pos] = WaterTile(_object=obj)
     convert_tile_if_needed(board, attack_pos)
     if obj is not None:
-        update_dict_if_key_not_present(ret, kill_object_if_possible(board, attack_pos))
+        update_dict_if_key_not_present(ret, kill_object_if_possible(board, attack_pos, obj))
 
     return ret
