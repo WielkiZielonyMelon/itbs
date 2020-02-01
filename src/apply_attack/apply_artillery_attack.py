@@ -22,14 +22,13 @@ def apply_attack_artillery(board, attack, attacker_pos):
     ret = {}
     weapon = attack.get_weapon()
     attacked_obj = board[attack_pos].get_object()
-    if attacked_obj or is_tile_damageable(board[attack_pos]):
-        ret[attack_pos] = copy.deepcopy(board[attack_pos])
 
     # Do not damage buildings, if we have proper power-up
     if isinstance(weapon, Artemis) and weapon.has_buildings_immune() and isinstance(attacked_obj, Building):
         pass
     # Damage the tile and object
-    else:
+    elif attacked_obj or is_tile_damageable(board[attack_pos]):
+        ret[attack_pos] = copy.deepcopy(board[attack_pos])
         board.regular_damage(attack_pos, weapon.get_total_damage())
 
     if isinstance(weapon, Artemis):
@@ -44,8 +43,7 @@ def apply_attack_artillery(board, attack, attacker_pos):
 
     convert_tile_if_needed(board, attack_pos)
 
-    obj_to_kill = board[attack_pos].get_object()
-    if obj_to_kill is not None:
+    if attacked_obj is not None:
         update_dict_if_key_not_present(ret, kill_object_if_possible(board, attack_pos))
 
     return ret
