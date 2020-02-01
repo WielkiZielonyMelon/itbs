@@ -20,11 +20,11 @@ def apply_attack_titan_fist(board, attack, attacker_pos):
     vector = attack.get_vector()
     attack_pos = (attacker_pos[0] + vector[0], attacker_pos[1] + vector[1])
     if not board.in_bounds(attack_pos):
-        return {}
+        return ret
 
     # Will this attack have any effect?
     if not board[attack_pos].has_object() and not is_tile_damageable(board[attack_pos]):
-        return {}
+        return ret
 
     update_dict_if_key_not_present(ret, {attack_pos: copy.deepcopy(board[attack_pos])})
 
