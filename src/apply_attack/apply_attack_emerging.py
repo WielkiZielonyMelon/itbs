@@ -17,13 +17,15 @@ def apply_attack_emerging(board, attack):
     if isinstance(tile, ChasmTile):
         return {}
 
-    ret = {pos: copy.deepcopy(board[pos])}
     # If there is no object present on tile, spawn dummy vek
+    # Also, return a shallow copy
     obj = tile.get_object()
     if obj is None:
+        ret = {pos: copy.copy(board[pos])}
         tile.set_object(Emerged())
         return ret
 
+    ret = {pos: copy.deepcopy(board[pos])}
     # There is an object present. Damage it and kill if possible
     tile.emerge_damage(1)
     update_dict_if_key_not_present(ret, kill_object_if_possible(board, pos, obj))
