@@ -8,8 +8,14 @@ from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_pr
 
 def apply_attack_drown(board, attack):
     attack_pos = attack.get_attacker()
-    ret = {attack_pos: copy.deepcopy(board[attack_pos])}
+
+    # If obj is None, then shallow copy is sufficient
     obj = board[attack_pos].get_object()
+    if obj is None:
+        ret = {attack_pos: copy.copy(board[attack_pos])}
+    else:
+        ret = {attack_pos: copy.deepcopy(board[attack_pos])}
+
     board[attack_pos] = WaterTile(_object=obj)
     convert_tile_if_needed(board, attack_pos)
     if obj is not None:
