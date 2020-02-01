@@ -12,7 +12,9 @@ def kill_object(board, pos):
     """Kills object. No questions asked"""
     tile = board[pos]
     obj = tile.get_object()
-    ret = {pos: copy.deepcopy(tile)}
+    # As an exception do not perform full deepcopy. Object will no longer be referenced, it cannot be changed
+    # so a flat copy is appropriate.
+    ret = {pos: copy.copy(tile)}
     board[pos].set_object(None)
 
     # Acid has higher priority than...
