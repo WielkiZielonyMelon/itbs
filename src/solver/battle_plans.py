@@ -152,7 +152,6 @@ def fill_battle_plans(board, battle_plans, latest_moves_cache, orders_executed, 
         pos = board.find_object_id_position(obj_id)
         if pos is None:
             continue
-        obj = board[pos].get_object()
         if Order.MOVE in orders:
             new_orders_left = copy.copy(orders_left)
             new_orders_left[obj_id] = [Order.ATTACK]
