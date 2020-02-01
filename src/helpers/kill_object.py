@@ -27,11 +27,7 @@ def kill_object(board, pos):
         # Damage neighbouring tiles, damage objects and convert tiles if needed
         tiles_pos = [(pos[0] + 1, pos[1]), (pos[0] - 1, pos[1]),
                      (pos[0], pos[1] + 1), (pos[0], pos[1] - 1)]
-        affected_tiles_pos = []
-        for tile_pos in tiles_pos:
-            if not board.in_bounds(tile_pos):
-                continue
-            affected_tiles_pos.append(tile_pos)
+        affected_tiles_pos = [tile_pos for tile_pos in tiles_pos if board.in_bounds(tile_pos)]
 
         for affected_tile_pos in affected_tiles_pos:
             # Will this attack have any effect?
