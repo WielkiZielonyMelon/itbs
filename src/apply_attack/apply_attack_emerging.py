@@ -26,7 +26,7 @@ def apply_attack_emerging(board, attack):
 
     # There is an object present. Damage it and kill if possible
     tile.emerge_damage(1)
-    update_dict_if_key_not_present(ret, kill_object_if_possible(board, obj))
+    update_dict_if_key_not_present(ret, kill_object_if_possible(board, pos))
     return ret
 
 

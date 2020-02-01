@@ -40,10 +40,10 @@ def apply_attack_push(board, attack):
 
     tile = board[new_pos]
     obj = tile.get_object()
-    update_dict_if_key_not_present(ret, kill_object_if_possible(board, obj))
+    update_dict_if_key_not_present(ret, kill_object_if_possible(board, new_pos))
 
     tile = board[push_pos]
     obj = tile.get_object()
-    update_dict_if_key_not_present(ret, kill_object_if_possible(board, obj))
+    update_dict_if_key_not_present(ret, kill_object_if_possible(board, push_pos))
 
     return ret

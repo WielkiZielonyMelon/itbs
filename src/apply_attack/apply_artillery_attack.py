@@ -46,6 +46,6 @@ def apply_attack_artillery(board, attack, attacker_pos):
 
     obj_to_kill = board[attack_pos].get_object()
     if obj_to_kill is not None:
-        update_dict_if_key_not_present(ret, kill_object_if_possible(board, obj_to_kill))
+        update_dict_if_key_not_present(ret, kill_object_if_possible(board, attack_pos))
 
     return ret

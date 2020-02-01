@@ -13,5 +13,5 @@ def apply_attack_set_on_fire(board, attack):
     convert_tile_if_needed(board, attack_pos)
     obj = board[attack_pos].get_object()
     if obj is not None:
-        update_dict_if_key_not_present(ret, kill_object_if_possible(board, obj))
+        update_dict_if_key_not_present(ret, kill_object_if_possible(board, attack_pos))
     return ret
