@@ -17,7 +17,8 @@ def apply_attack_move(board, attack, attacker_pos):
         raise Exception("Space is occupied")
 
     start_tile = copy.deepcopy(board[start_pos])
-    destination_tile = copy.deepcopy(board[dst_pos])
+    # Shallow copy possible as there is no object on destination tile
+    destination_tile = copy.copy(board[dst_pos])
     ret = {start_pos: start_tile, dst_pos: destination_tile}
 
     board[dst_pos].set_object(attacker)
