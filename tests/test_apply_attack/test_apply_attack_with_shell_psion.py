@@ -40,6 +40,7 @@ def test_weapon_on_vek_with_shell_psion_present(obj, attacker, weapon, vector, o
     shell_psion0 = ShellPsion()
     board[shell_psion0_pos].set_object(shell_psion0)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
     assert obj.get_health() + exp_dmg == obj.get_max_health()
 
@@ -60,6 +61,7 @@ def test_weapon_on_mech_with_shell_psion_present(obj, attacker, weapon, vector, 
 
     attacker_pos = (1, 1)
     board[attacker_pos].set_object(attacker)
+    board.fill_object_position_cache()
     attack = Attack(attacker=attacker.get_id(), weapon=weapon,
                     vector=vector)
 
@@ -89,6 +91,7 @@ def test_weapon_on_building_with_shell_psion_present(obj, attacker, weapon, vect
 
     attacker_pos = (1, 1)
     board[attacker_pos].set_object(attacker)
+    board.fill_object_position_cache()
     attack = Attack(attacker=attacker.get_id(), weapon=weapon,
                     vector=vector)
 
@@ -115,6 +118,7 @@ def test_weapon_on_shell_psion(attacker, weapon, vector, obj_pos, exp_dmg):
 
     attacker_pos = (1, 1)
     board[attacker_pos].set_object(attacker)
+    board.fill_object_position_cache()
     attack = Attack(attacker=attacker.get_id(), weapon=weapon,
                     vector=vector)
 

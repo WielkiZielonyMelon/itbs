@@ -24,6 +24,7 @@ def test_aerial_bombs_on_empty_tile(mech_pos, vector, smoke_pos):
     mech = JetMech()
     board[mech_pos].set_object(mech)
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=AerialBombs(), vector=vector)
     apply_attack(board, attack)
 
@@ -49,6 +50,7 @@ def test_aerial_bombs_on_frozen_tile(mech_pos, vector, smoke_pos, frozen_tile, t
     board[mech_pos].set_object(mech)
     board[smoke_pos] = frozen_tile
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=AerialBombs(), vector=vector)
     apply_attack(board, attack)
 
@@ -77,6 +79,7 @@ def test_aerial_bombs_on_mech(mech_pos, vector, smoke_pos):
     board[smoke_pos].set_object(victim)
     exp_victim_health = victim.get_health() - 1
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=AerialBombs(), vector=vector)
     apply_attack(board, attack)
 
@@ -106,6 +109,7 @@ def test_aerial_bombs_on_mech_forest_tile(mech_pos, vector, smoke_pos):
 
     exp_victim_health = victim.get_health() - 1
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=AerialBombs(), vector=vector)
     apply_attack(board, attack)
 
@@ -137,6 +141,7 @@ def test_aerial_bombs_on_frozen_tile_with_mech(mech_pos, vector, smoke_pos, froz
     board[smoke_pos] = frozen_tile
     board[smoke_pos].set_object(victim)
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=AerialBombs(), vector=vector)
     apply_attack(board, attack)
 
@@ -167,6 +172,7 @@ def test_aerial_bombs_on_frozen_tile_with_acided_vek(mech_pos, vector, smoke_pos
     board[smoke_pos] = frozen_tile
     board[smoke_pos].set_object(victim)
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=AerialBombs(), vector=vector)
     apply_attack(board, attack)
 
@@ -192,6 +198,7 @@ def test_aerial_bombs_on_empty_tile_extra_range(mech_pos, vector, smoke_pos_1, s
     mech = JetMech()
     board[mech_pos].set_object(mech)
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=AerialBombs(range_plus_1=True), vector=vector)
     apply_attack(board, attack)
 
@@ -223,6 +230,7 @@ def test_aerial_bombs_on_mech_extra_range(mech_pos, vector, smoke_pos_1, smoke_p
     board[smoke_pos_2].set_object(victim2)
     exp_victim_health_2 = victim2.get_health() - 1
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=AerialBombs(range_plus_1=True), vector=vector)
     apply_attack(board, attack)
 
@@ -254,6 +262,7 @@ def test_aerial_bombs_on_vek_dies_extra_range_extra_damage(mech_pos, vector, smo
     victim2 = Hornet()
     board[smoke_pos_2].set_object(victim2)
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=AerialBombs(damage_plus_1=True, range_plus_1=True),
                     vector=vector)
     apply_attack(board, attack)

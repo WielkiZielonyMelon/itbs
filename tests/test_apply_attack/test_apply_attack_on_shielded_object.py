@@ -38,6 +38,7 @@ def test_weapon_on_shielded_object(obj, attacker, weapon, vector, obj_pos):
     obj.set_shield()
     board[obj_pos].set_object(obj)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
     assert obj.get_health() == obj.get_max_health()
     assert not obj.is_shielded()
@@ -65,6 +66,7 @@ def test_weapon_on_shielded_building(obj, attacker, weapon, vector, obj_pos):
     obj.set_shield()
     board[obj_pos].set_object(obj)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
     assert obj.get_health() == obj.get_max_health()
     assert not obj.is_shielded()

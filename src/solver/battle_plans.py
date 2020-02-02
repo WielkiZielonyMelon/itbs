@@ -173,6 +173,8 @@ def get_battle_plans(board, size, enemy_attacks):
     # Initialize empty battle plans, with board as a reference
     battle_plans = BattlePlans(size=size, board=board)
 
+    # Fill the cache
+    board.fill_object_position_cache()
     # Find all player objects
     player_objects_pos = board.find_player_objects()
 

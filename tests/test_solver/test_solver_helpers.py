@@ -39,6 +39,7 @@ def test_find_player_objects():
     vek3 = Hornet()
     board[(5, 5)].set_object(vek3)
 
+    board.fill_object_position_cache()
     expected_pos = [mech0_pos, mech1_pos, mech2_pos, mech3_pos]
     received = board.find_player_objects()
 
@@ -75,7 +76,7 @@ def test_find_object_position():
     board[vek3_pos].set_object(vek3)
 
     tc = unittest.TestCase()
-
+    board.fill_object_position_cache()
     tc.assertEqual(board.find_object_position(mech0),
                    mech0_pos)
     tc.assertEqual(board.find_object_position(mech1),

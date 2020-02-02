@@ -103,6 +103,7 @@ def test_kill_object_on_acid_over_water(obj):
     puncher_pos = (pos[0] - direction[0], pos[1] - direction[1])
     board[puncher_pos].set_object(puncher)
 
+    board.fill_object_position_cache()
     attack_acid = Attack(attacker=pos, weapon=Acid(), vector=None)
     attack_fist = Attack(attacker=puncher.get_id(), weapon=TitanFist(damage_plus_2=True), vector=direction)
 
@@ -140,6 +141,7 @@ def test_kill_object_on_acid_over_ground_tile(obj):
     puncher_pos = (pos[0] - direction[0], pos[1] - direction[1])
     board[puncher_pos].set_object(puncher)
 
+    board.fill_object_position_cache()
     attack_acid = Attack(attacker=pos, weapon=Acid(), vector=None)
     attack_fist = Attack(attacker=puncher.get_id(), weapon=TitanFist(), vector=direction)
 

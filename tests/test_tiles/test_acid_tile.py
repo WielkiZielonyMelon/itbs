@@ -197,6 +197,7 @@ def test_set_on_fire_object_over_frozen_acid_tile_survives(obj):
 
     board[pos].set_object(obj)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     tile = board[pos]
@@ -220,6 +221,7 @@ def test_damage_object_over_frozen_acid_tile_survives():
     obj = CombatMech()
     board[pos].set_object(obj)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     tile = board[pos]
@@ -248,6 +250,7 @@ def test_damage_object_over_frozen_acid_tile_blocked_survives():
     mountain_exp_health = mountain.get_health() - 1
     board[pos_after_attack].set_object(mountain)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     tile = board[pos]
@@ -294,6 +297,7 @@ def test_damage_object_over_frozen_acid_tile():
     obj = CombatMech()
     board[pos].set_object(obj)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     tile = board[pos]
@@ -322,6 +326,7 @@ def test_damage_object_over_frozen_acid_tile_blocked():
     mountain_exp_health = mountain.get_health() - 1
     board[pos_after_attack].set_object(mountain)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     tile = board[pos]

@@ -26,6 +26,7 @@ def test_forest_tile_repair(weapon):
 
     attack = Attack(attacker=puncher.get_id(), weapon=weapon,
                     vector=direction)
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     # Lamely put another mech to repair
@@ -33,6 +34,7 @@ def test_forest_tile_repair(weapon):
     board[fire_pos].set_object(repairer)
     board[fire_pos].apply_tile_effects()
 
+    board.fill_object_position_cache()
     repair = Attack(attacker=repairer.get_id(), weapon=Repair(),
                     vector=None)
 
@@ -88,6 +90,7 @@ def test_repair_object_over_forest_fire(obj):
     board[pos].apply_tile_effects()
     attack = Attack(obj.get_id(), weapon=Repair(), vector=None)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     tile = board[pos]

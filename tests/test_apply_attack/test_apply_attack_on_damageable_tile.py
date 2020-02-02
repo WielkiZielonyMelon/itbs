@@ -48,6 +48,7 @@ def test_melee_weapon_on_damageable_tile(tile_before, tile_after, tile_pos, atta
     board[attacker_pos].set_object(attacker)
 
     vector = (tile_pos[0] - attacker_pos[0], tile_pos[1] - attacker_pos[1])
+    board.fill_object_position_cache()
     attack = Attack(attacker=attacker.get_id(), weapon=weapon, vector=vector)
     apply_attack(board, attack)
 
@@ -88,6 +89,7 @@ def test_artillery_weapon_on_damageable_tile(tile_before, tile_after, tile_pos, 
     board[attacker_pos].set_object(attacker)
 
     vector = (tile_pos[0] - attacker_pos[0], tile_pos[1] - attacker_pos[1])
+    board.fill_object_position_cache()
     attack = Attack(attacker=attacker.get_id(), weapon=weapon, vector=vector)
     apply_attack(board, attack)
 
@@ -141,6 +143,7 @@ def test_projectile_weapon_on_damageable_tile(tile_before, tile_after, object_on
         vector = (0, 1)
     else:
         raise Exception("Bad input data")
+    board.fill_object_position_cache()
     attack = Attack(attacker=attacker.get_id(), weapon=weapon, vector=vector)
     apply_attack(board, attack)
 
@@ -174,6 +177,7 @@ def test_projectile_weapon_on_damageable_tile_in_middle_no_object(tile_before, t
     board[attacker_pos].set_object(attacker)
 
     vector = (tile_pos[0] - attacker_pos[0], tile_pos[1] - attacker_pos[1])
+    board.fill_object_position_cache()
     attack = Attack(attacker=attacker.get_id(), weapon=weapon, vector=vector)
     apply_attack(board, attack)
 
@@ -211,6 +215,7 @@ def test_projectile_weapon_on_damageable_tile_in_middle_with_object(tile_before,
     board[attacker_pos].set_object(attacker)
 
     vector = (tile_pos[0] - attacker_pos[0], tile_pos[1] - attacker_pos[1])
+    board.fill_object_position_cache()
     attack = Attack(attacker=attacker.get_id(), weapon=weapon, vector=vector)
     apply_attack(board, attack)
 
@@ -258,6 +263,7 @@ def test_projectile_weapon_on_forest_tile_on_edge_with_object(object_on_tile, ti
     else:
         raise Exception("Bad input data")
     attack = Attack(attacker=attacker.get_id(), weapon=weapon, vector=vector)
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     assert isinstance(board[tile_pos], ForestFireTile)
@@ -308,6 +314,7 @@ def test_projectile_weapon_on_sand_on_edge(object_on_tile, tile_pos, attacker_po
     else:
         raise Exception("Bad input data")
     attack = Attack(attacker=attacker.get_id(), weapon=weapon, vector=vector)
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     assert isinstance(board[tile_pos], GroundTile)

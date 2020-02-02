@@ -58,6 +58,7 @@ def test_titan_fist_on_mech(before_punch, direction, after_punch):
 
     orig_punch = copy.deepcopy(board[before_punch])
     orig_after_punch = copy.deepcopy(board[after_punch])
+    board.fill_object_position_cache()
     attack = Attack(attacker=puncher.get_id(), weapon=TitanFist(), vector=direction)
     original_tiles = apply_attack(board, attack)
     assert len(original_tiles) == 2
@@ -86,6 +87,7 @@ def test_titan_fist_mech_out_of_board(before_punch, direction):
     expected_damage = 2
 
     orig_tile = copy.deepcopy(board[before_punch])
+    board.fill_object_position_cache()
     attack = Attack(attacker=puncher.get_id(), weapon=TitanFist(), vector=direction)
     original_tiles = apply_attack(board, attack)
     assert len(original_tiles) == 1
@@ -111,6 +113,7 @@ def test_titan_fist_mount():
 
     orig_tile = copy.deepcopy(board[before_punch])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=puncher.get_id(), weapon=TitanFist(), vector=direction)
     original_tiles = apply_attack(board, attack)
     assert len(original_tiles) == 1
@@ -140,6 +143,7 @@ def test_titan_fist_against_object(obj, punch_pos, direction, block_pos):
     orig_pushed = copy.deepcopy(board[punch_pos])
     orig_blocked = copy.deepcopy(board[block_pos])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=puncher.get_id(), weapon=TitanFist(), vector=direction)
     original_tiles = apply_attack(board, attack)
     assert len(original_tiles) == 2
@@ -167,6 +171,7 @@ def test_titan_fist_extra_damage_on_mech():
 
     orig_before_punch = copy.deepcopy(board[before_punch])
     orig_after_punch = copy.deepcopy(board[after_punch])
+    board.fill_object_position_cache()
     attack = Attack(attacker=puncher.get_id(), weapon=TitanFist(damage_plus_2=True),
                     vector=direction)
     original_tiles = apply_attack(board, attack)
@@ -198,6 +203,7 @@ def test_titan_fist_with_dash():
     orig_vek_before = copy.deepcopy(board[vek_pos_before])
     orig_vek_after = copy.deepcopy(board[vek_pos_after])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=attack_mech.get_id(), weapon=TitanFist(dash=True),
                     vector=attack_direction)
     original_tiles = apply_attack(board, attack)
@@ -236,6 +242,7 @@ def test_titan_fist_cooperation():
 
     orig_00 = copy.deepcopy(board[mech0_pos])
     orig_01 = copy.deepcopy(board[mech0_move])
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech0.get_id(), weapon=Move(), vector=mech0_move)
     original_tiles = apply_attack(board, attack)
     assert len(original_tiles) == 2
@@ -301,6 +308,7 @@ def test_push_vek_to_death_chain_reaction(death_tile, s05):
     board[s05_pos].set_object(s05)
     s05_expected_health = s05.get_health() - 1
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech0.get_id(), weapon=TitanFist(), vector=(-1, 0))
 
     orig00 = copy.deepcopy(board[s00_pos])

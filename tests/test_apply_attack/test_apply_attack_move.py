@@ -22,6 +22,7 @@ def test_simple_move():
     orig_tile_pos = copy.deepcopy(board[pos])
     orig_tile_pos_after = copy.deepcopy(board[pos_after])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=pos_after)
     original_tiles = apply_attack(board, attack)
 
@@ -46,6 +47,7 @@ def test_simple_move_to_acid_pool():
     orig_tile_pos = copy.deepcopy(board[pos])
     orig_tile_pos_after = copy.deepcopy(board[pos_after])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=pos_after)
     original_tiles = apply_attack(board, attack)
 
@@ -71,6 +73,7 @@ def test_simple_move_flying_vek_to_acid_pool():
     orig_tile_pos = copy.deepcopy(board[pos])
     orig_tile_pos_after = copy.deepcopy(board[pos_after])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=pos_after)
     original_tiles = apply_attack(board, attack)
 
@@ -97,6 +100,7 @@ def test_simple_move_acided_mech_to_water():
     orig_tile_pos = copy.deepcopy(board[pos])
     orig_tile_pos_after = copy.deepcopy(board[pos_after])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=pos_after)
     original_tiles = apply_attack(board, attack)
 
@@ -123,6 +127,7 @@ def test_simple_move_acided_vek_to_water():
     orig_tile_pos = copy.deepcopy(board[pos])
     orig_tile_pos_after = copy.deepcopy(board[pos_after])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=pos_after)
     original_tiles = apply_attack(board, attack)
 
@@ -149,6 +154,7 @@ def test_simple_move_acided_masive_vek_to_water():
     orig_tile_pos = copy.deepcopy(board[pos])
     orig_tile_pos_after = copy.deepcopy(board[pos_after])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=pos_after)
     original_tiles = apply_attack(board, attack)
 
@@ -174,6 +180,7 @@ def test_move_over_fire():
     orig_tile_pos = copy.deepcopy(board[pos])
     orig_tile_pos_after = copy.deepcopy(board[pos_after])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=pos_after)
     original_tiles = apply_attack(board, attack)
 
@@ -219,6 +226,7 @@ def test_move_vek_to_death_with_blast_psion_present(psion0):
     orig_damaged_ice_tile0 = copy.deepcopy(board[damaged_ice_tile0_pos])
     orig_frozen_acid0 = copy.deepcopy(board[frozen_acid0_pos])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=vek0.get_id(), weapon=Move(), vector=vek0_pos_death)
     original_tiles = apply_attack(board, attack)
 
@@ -269,6 +277,7 @@ def test_move_chain_reaction(death_tile, s05):
     board[s05_pos].set_object(s05)
     s05_expected_health = s05.get_health() - 1
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=s00.get_id(), weapon=Move(), vector=chasm0_pos)
 
     orig00 = copy.deepcopy(board[s00_pos])

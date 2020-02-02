@@ -15,6 +15,7 @@ def apply_attack_dash(board, attack, attacker_pos):
         dict_candidate = copy.deepcopy(board[attack_pos])
         board[attack_pos].set_object(attacker)
         board[attacker_pos].set_object(None)
+        board.modify_object_position_cache(attacker.get_id(), attack_pos)
         attacker_pos = attack_pos
         attack_pos = (attack_pos[0] + direction[0], attack_pos[1] + direction[1])
 

@@ -1,4 +1,5 @@
 from src.apply_attack.apply_attack import damage_tile
+from src.game_objects.mech import Mech
 from src.game_objects.tiles.tile import GroundTile, TimePodTile
 from src.game_objects.vek import BlastPsion, PsionAbomination, ShellPsion, Vek, Psion, BloodPsion, SoldierPsion, \
     PsionTyrant
@@ -17,12 +18,30 @@ class Board:
 
         self._is_time_pod_destroyed = False
         self._is_time_pod_picked_up = False
+        self._object_position_cache = {}
+
+    def fill_object_position_cache(self):
+        for x in range(0, self.BOARD_X_SIZE):
+            for y in range(0, self.BOARD_Y_SIZE):
+                obj = self[(x, y)].get_object()
+                if obj is not None:
+                    self._object_position_cache[obj.get_id()] = (x, y)
+
+    def remove_from_object_position_cache(self, _id):
+        del(self._object_position_cache[_id])
+
+    def modify_object_position_cache(self, k, v):
+        self._object_position_cache[k] = v
 
     def restore_tiles(self, tiles):
         for position, tile in tiles.items():
             if isinstance(tile, TimePodTile):
                 self.clear_time_pod_destroyed()
                 self.clear_time_pod_picked_up()
+
+            obj = tile.get_object()
+            if obj is not None:
+                self.modify_object_position_cache(obj.get_id(), position)
 
             self[position] = tile
 
@@ -39,47 +58,37 @@ class Board:
     # Consider having a some sort of cache to store information if psion is present.
     # Something similar in function restore_tiles and how time pods are restored
     def is_blast_psion_present(self):
-        for x in range(0, self.BOARD_X_SIZE):
-            for y in range(0, self.BOARD_Y_SIZE):
-                obj = self[(x, y)].get_object()
-                if obj is not None and isinstance(obj, (BlastPsion, PsionAbomination)):
-                    return True
+        for _, v in self._object_position_cache.items():
+            if isinstance(self[v].get_object(), (BlastPsion, PsionAbomination)):
+                return True
 
         return False
 
     def is_blood_psion_present(self):
-        for x in range(0, self.BOARD_X_SIZE):
-            for y in range(0, self.BOARD_Y_SIZE):
-                obj = self[(x, y)].get_object()
-                if obj is not None and isinstance(obj, (BloodPsion, PsionAbomination)):
-                    return True
+        for _, v in self._object_position_cache.items():
+            if isinstance(self[v].get_object(), (BloodPsion, PsionAbomination)):
+                return True
 
         return False
 
     def is_psion_tyrant_present(self):
-        for x in range(0, self.BOARD_X_SIZE):
-            for y in range(0, self.BOARD_Y_SIZE):
-                obj = self[(x, y)].get_object()
-                if obj is not None and isinstance(obj, PsionTyrant):
-                    return True
+        for _, v in self._object_position_cache.items():
+            if isinstance(self[v].get_object(), PsionTyrant):
+                return True
 
         return False
 
     def is_soldier_psion_present(self):
-        for x in range(0, self.BOARD_X_SIZE):
-            for y in range(0, self.BOARD_Y_SIZE):
-                obj = self[(x, y)].get_object()
-                if obj is not None and isinstance(obj, (SoldierPsion, PsionAbomination)):
-                    return True
+        for _, v in self._object_position_cache.items():
+            if isinstance(self[v].get_object(), (SoldierPsion, PsionAbomination)):
+                return True
 
         return False
 
     def is_shell_psion_present(self):
-        for x in range(0, self.BOARD_X_SIZE):
-            for y in range(0, self.BOARD_Y_SIZE):
-                obj = self[(x, y)].get_object()
-                if obj is not None and isinstance(obj, ShellPsion):
-                    return True
+        for _, v in self._object_position_cache.items():
+            if isinstance(self[v].get_object(), ShellPsion):
+                return True
 
         return False
 
@@ -94,21 +103,13 @@ class Board:
         return self.find_object_id_position(_id)
 
     def find_object_id_position(self, _id):
-        for x in range(0, self.BOARD_X_SIZE):
-            for y in range(0, self.BOARD_Y_SIZE):
-                obj = self[(x, y)].get_object()
-                if obj is not None and _id == obj.get_id():
-                    return x, y
-
-        return None
+        return None if _id not in self._object_position_cache else self._object_position_cache[_id]
 
     def find_player_objects(self):
         player_controlled_objects = []
-        for x in range(0, self.BOARD_X_SIZE):
-            for y in range(0, self.BOARD_Y_SIZE):
-                obj = self[(x, y)].get_object()
-                if obj is not None and obj.is_player_controlled():
-                    player_controlled_objects.append((x, y))
+        for _, v in self._object_position_cache.items():
+            if isinstance(self[v].get_object(), Mech):
+                player_controlled_objects.append(v)
 
         return player_controlled_objects
 

@@ -14,6 +14,7 @@ def kill_object(board, pos, tile, obj):
     # so a flat copy is appropriate.
     ret = {pos: copy.copy(tile)}
     board[pos].set_object(None)
+    board.remove_from_object_position_cache(obj.get_id())
 
     # Acid has higher priority than...
     if obj.is_on_acid():

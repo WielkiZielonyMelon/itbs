@@ -154,6 +154,7 @@ def test_push_vek_to_death_chain_reaction(death_tile, s05):
 
     orig10 = copy.deepcopy(board[(1, 0)])
 
+    board.fill_object_position_cache()
     original_tiles = apply_attack(board, attack)
     assert len(original_tiles) == 7
 

@@ -30,6 +30,7 @@ def test_attack_spiderlings():
     for pos in after_attack_pos:
         orig_tiles[pos] = copy.deepcopy(board[pos])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=Artemis(), vector=(4, 0))
 
     original_tiles = apply_attack(board, attack)
@@ -70,6 +71,7 @@ def test_attack_spiderlings_with_blast_psion():
     for pos in after_attack_pos:
         orig_tiles[pos] = copy.deepcopy(board[pos])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=Artemis(), vector=(4, 0))
 
     original_tiles = apply_attack(board, attack)
@@ -115,6 +117,7 @@ def test_attack_spiderlings_push_to_death_tile(tile):
     for pos in after_attack_pos:
         orig_tiles[pos] = copy.deepcopy(board[pos])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=Artemis(), vector=(4, 0))
 
     original_tiles = apply_attack(board, attack)
@@ -157,6 +160,7 @@ def test_attack_spiderlings_on_acid_push_to_death_tile(tile):
     for pos in after_attack_pos:
         orig_tiles[pos] = copy.deepcopy(board[pos])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=Artemis(), vector=(4, 0))
 
     original_tiles = apply_attack(board, attack)
@@ -209,6 +213,7 @@ def test_attack_spiderlings_on_acid_blast_psion_push_to_death_tile(tile):
         board[pos] = DamagedFrozenAcidTile(_object=None)
         orig_tiles[pos] = copy.deepcopy(board[pos])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=Artemis(), vector=(4, 0))
     original_tiles = apply_attack(board, attack)
 

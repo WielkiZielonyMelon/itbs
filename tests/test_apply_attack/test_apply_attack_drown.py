@@ -44,6 +44,7 @@ def test_drown_firefly():
     board[drown_pos] = GroundTile(_object=hornet)
     orig_tile = copy.deepcopy(board[drown_pos])
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=drown_pos, weapon=Drown(), vector=None)
     original_tiles = apply_attack(board, attack)
     assert len(original_tiles) == 1
@@ -97,6 +98,7 @@ def test_drown_exploding_vek_chain_reaction():
     orig_tile60 = copy.deepcopy(board[spiderling3_pos])
     orig_tile61 = copy.deepcopy(board[(6, 1)])
 
+    board.fill_object_position_cache()
     vek0_attack = Attack(attacker=spiderling0_pos, weapon=Drown(),
                          vector=None)
 
@@ -140,6 +142,7 @@ def test_drown_on_sinkable_object_with_shell_psion_present(obj):
     shell_psion0 = ShellPsion()
     board[shell_psion0_pos].set_object(shell_psion0)
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=obj_pos, weapon=Drown(),
                     vector=None)
     apply_attack(board, attack)

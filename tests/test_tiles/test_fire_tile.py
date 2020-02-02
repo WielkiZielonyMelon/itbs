@@ -58,6 +58,7 @@ def test_fire_tile_repair():
     attack = Attack(attacker=obj.get_id(), weapon=Repair(),
                     vector=None)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     tile = board[pos]

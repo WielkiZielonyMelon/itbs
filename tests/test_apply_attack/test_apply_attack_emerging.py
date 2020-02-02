@@ -86,6 +86,7 @@ def test_emerging_attack_exploding_vek_chain_reaction():
     orig_tile60 = copy.deepcopy(board[spiderling3_pos])
     orig_tile61 = copy.deepcopy(board[(6, 1)])
 
+    board.fill_object_position_cache()
     vek0_attack = Attack(attacker=spiderling0_pos, weapon=Emerging(),
                          vector=None)
 

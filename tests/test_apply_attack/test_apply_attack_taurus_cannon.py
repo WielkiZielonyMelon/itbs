@@ -26,6 +26,7 @@ def test_single_taurus_cannon():
     board[cannon0_pos].set_object(cannon0)
 
     orig_00 = copy.deepcopy(board[mech0_pos])
+    board.fill_object_position_cache()
     attack = Attack(attacker=cannon0.get_id(), weapon=TaurusCannon(),
                     vector=cannon0_attack_vector)
 
@@ -53,6 +54,7 @@ def test_single_taurus_cannon_push_object():
 
     orig_10 = copy.deepcopy(board[mech0_pos])
     orig_00 = copy.deepcopy(board[mech0_pos_after_attack])
+    board.fill_object_position_cache()
     attack = Attack(attacker=cannon0.get_id(), weapon=TaurusCannon(),
                     vector=cannon0_attack_vector)
 
@@ -83,6 +85,7 @@ def test_single_taurus_cannon_mech_on_forest_tile_in_middle():
 
     orig30 = copy.deepcopy(board[forest0_pos])
     orig20 = copy.deepcopy(board[pos_after])
+    board.fill_object_position_cache()
     cannon0_attack = Attack(attacker=cannon0.get_id(), weapon=TaurusCannon(),
                             vector=cannon0_attack_vector)
 
@@ -118,6 +121,7 @@ def test_taurus_cannon_attack_neighbour_mech():
     orig30 = copy.deepcopy(board[mech0_pos])
     orig40 = copy.deepcopy(board[mech1_pos])
 
+    board.fill_object_position_cache()
     cannon0_attack = Attack(attacker=cannon0.get_id(), weapon=TaurusCannon(),
                             vector=cannon0_attack_vector)
 
@@ -164,6 +168,7 @@ def test_push_vek_to_death_chain_reaction(death_tile, s05):
     board[s05_pos].set_object(s05)
     s05_expected_health = s05.get_health() - 1
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech0.get_id(), weapon=TaurusCannon(), vector=(-1, 0))
 
     orig00 = copy.deepcopy(board[s00_pos])

@@ -182,6 +182,7 @@ def test_titan_fist_object_over_damaged_frozen_lava_tile(obj):
 
     board[pos].set_object(obj)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     tile = board[pos]
@@ -215,6 +216,7 @@ def test_titan_fist_object_over_damaged_frozen_lava_tile_blocked_survives(obj, o
     mountain_exp_health = mountain.get_health() - 1
     board[pos_after_attack].set_object(mountain)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     tile = board[pos]
@@ -257,6 +259,7 @@ def test_set_on_fire_object_over_frozen_lava_tile_blocked_survives(obj):
 
     board[pos].set_object(obj)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     tile = board[pos]
@@ -276,6 +279,7 @@ def test_set_on_fire_object_over_frozen_lava_tile_blocked_dies(obj):
 
     board[pos].set_object(obj)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     tile = board[pos]
@@ -303,6 +307,7 @@ def test_titan_fist_object_over_frozen_lava_tile(obj):
 
     board[pos].set_object(obj)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     tile = board[pos]
@@ -338,6 +343,7 @@ def test_titan_fist_object_over_frozen_lava_tile_blocked(obj):
     mountain_exp_health = mountain.get_health() - 1
     board[pos_after_attack].set_object(mountain)
 
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     tile = board[pos]

@@ -23,6 +23,7 @@ def apply_attack_move(board, attack, attacker_pos):
 
     board[dst_pos].set_object(attacker)
     board[start_pos].set_object(None)
+    board.modify_object_position_cache(attacker.get_id(), dst_pos)
     convert_tile_if_needed(board, dst_pos)
     update_dict_if_key_not_present(ret, kill_object_if_possible(board, dst_pos, attacker))
 

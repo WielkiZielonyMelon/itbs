@@ -24,6 +24,7 @@ def test_time_pod_titan_fist():
     attack_dir = (0, -1)
 
     attack = Attack(attacker=mech.get_id(), weapon=TitanFist(), vector=attack_dir)
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     assert isinstance(board[time_pod_pos], GroundTile)
@@ -46,6 +47,7 @@ def test_time_pod_pick_up():
     board[mech_pos].set_object(mech)
 
     attack = Attack(attacker=mech.get_id(), weapon=Move(), vector=time_pod_pos)
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     assert isinstance(board[time_pod_pos], GroundTile)
@@ -68,6 +70,7 @@ def test_time_pod_run_over_by_vek():
     board[mech_pos].set_object(vek)
 
     attack = Attack(attacker=vek.get_id(), weapon=Move(), vector=time_pod_pos)
+    board.fill_object_position_cache()
     apply_attack(board, attack)
 
     assert isinstance(board[time_pod_pos], GroundTile)

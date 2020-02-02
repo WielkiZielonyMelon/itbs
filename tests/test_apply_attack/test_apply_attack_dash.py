@@ -22,6 +22,7 @@ def test_apply_dash_unobstructed(mech_pos, attack_pos, direction, end_pos):
 
     board[mech_pos].set_object(mech)
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=Dash(), vector=direction)
     apply_attack(board, attack)
 
@@ -43,6 +44,7 @@ def test_apply_dash_blocked(mech_pos, attack_pos, direction, mech_blocker_pos, e
     board[mech_pos].set_object(mech)
     board[mech_blocker_pos].set_object(mech_blocker)
 
+    board.fill_object_position_cache()
     attack = Attack(attacker=mech.get_id(), weapon=Dash(), vector=direction)
     apply_attack(board, attack)
 

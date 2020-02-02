@@ -23,6 +23,7 @@ def test_single_accelerating_thorax():
     vek0_attack_vector = (-1, 0)
     vek0_expected_health = vek0.get_health()
     board[vek0_pos].set_object(vek0)
+    board.fill_object_position_cache()
 
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=AcceleratingThorax(),
                          vector=vek0_attack_vector)
@@ -48,6 +49,7 @@ def test_single_accelerating_thorax_mech_on_forest_tile_in_middle():
     mech0_expected_health = mech0.get_health() - 1
     forest0_pos = (3, 0)
     board[forest0_pos] = ForestTile(_object=mech0)
+    board.fill_object_position_cache()
 
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=AcceleratingThorax(),
                          vector=vek0_attack_vector)
@@ -72,6 +74,7 @@ def test_single_enhanced_thorax_mech_on_forest_tile_in_middle():
     mech0 = CombatMech()
     forest0_pos = (3, 0)
     board[forest0_pos] = ForestTile(_object=mech0)
+    board.fill_object_position_cache()
 
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=EnhancedThorax(),
                          vector=vek0_attack_vector)
@@ -103,6 +106,7 @@ def test_accelerating_thorax_attack_neighbour_mech():
 
     exp_mech0_health = mech0.get_health() - 1
     exp_mech1_health = mech1.get_health()
+    board.fill_object_position_cache()
 
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=AcceleratingThorax(),
                          vector=vek0_attack_vector)
@@ -139,6 +143,7 @@ def test_accelerating_thorax_attack_neighbour_exploding_vek():
     orig_tile20 = copy.deepcopy(board[vek0_pos])
     orig_tile30 = copy.deepcopy(board[spiderling0_pos])
     orig_tile40 = copy.deepcopy(board[psion1_pos])
+    board.fill_object_position_cache()
 
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=AcceleratingThorax(),
                          vector=vek0_attack_vector)
@@ -200,6 +205,7 @@ def test_accelerating_thorax_attack_neighbour_exploding_vek_chain_reaction():
     orig_tile51 = copy.deepcopy(board[(5, 1)])
     orig_tile60 = copy.deepcopy(board[spiderling3_pos])
     orig_tile61 = copy.deepcopy(board[(6, 1)])
+    board.fill_object_position_cache()
 
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=AcceleratingThorax(),
                          vector=vek0_attack_vector)

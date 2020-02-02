@@ -24,6 +24,7 @@ def test_single_spitting_glands():
     vek0_expected_health = vek0.get_health()
     board[vek0_pos].set_object(vek0)
 
+    board.fill_object_position_cache()
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=SpittingGlands(),
                          vector=vek0_attack_vector)
 
@@ -44,6 +45,7 @@ def test_single_spitting_glands_on_edge():
     vek0_expected_health = vek0.get_health()
     board[vek0_pos] = ForestTile(_object=vek0)
 
+    board.fill_object_position_cache()
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=SpittingGlands(),
                          vector=vek0_attack_vector)
 
@@ -67,6 +69,7 @@ def test_single_spitting_glands_mech_on_forest_tile():
     forest0_pos = (0, 0)
     board[forest0_pos] = ForestTile(_object=mech0)
 
+    board.fill_object_position_cache()
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=SpittingGlands(),
                          vector=vek0_attack_vector)
 
@@ -92,6 +95,7 @@ def test_single_spitting_glands_mech_on_forest_tile_in_middle():
     forest0_pos = (3, 0)
     board[forest0_pos] = ForestTile(_object=mech0)
 
+    board.fill_object_position_cache()
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=SpittingGlands(),
                          vector=vek0_attack_vector)
 
@@ -116,6 +120,7 @@ def test_single_alpha_spitting_glands_mech_on_forest_tile_in_middle():
     forest0_pos = (3, 0)
     board[forest0_pos] = ForestTile(_object=mech0)
 
+    board.fill_object_position_cache()
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=AlphaSpittingGlands(),
                          vector=vek0_attack_vector)
 
@@ -149,6 +154,7 @@ def test_spitting_glands_attack_neighbour_exploding_vek():
     orig_tile30 = copy.deepcopy(board[spiderling0_pos])
     orig_tile40 = copy.deepcopy(board[psion1_pos])
 
+    board.fill_object_position_cache()
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=SpittingGlands(),
                          vector=vek0_attack_vector)
 
@@ -208,6 +214,7 @@ def test_spitting_glands_attack_neighbour_exploding_vek_chain_reaction():
     orig_tile60 = copy.deepcopy(board[spiderling3_pos])
     orig_tile61 = copy.deepcopy(board[(6, 1)])
 
+    board.fill_object_position_cache()
     vek0_attack = Attack(attacker=vek0.get_id(), weapon=SpittingGlands(),
                          vector=vek0_attack_vector)
 
