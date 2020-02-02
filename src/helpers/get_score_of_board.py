@@ -24,8 +24,6 @@ def get_score_of_board(board):
     points = 0
     for _, (x, y) in board._object_position_cache.items():
         obj = board[(x, y)].get_object()
-        if obj is None:
-            continue
 
         if isinstance(obj, SpecialBuilding):
             points += special_building_pts
