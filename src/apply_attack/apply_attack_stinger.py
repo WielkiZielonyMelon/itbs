@@ -15,6 +15,7 @@ def apply_attack_stinger(board, attack, attacker_pos):
     if not board.in_bounds(attack_pos[0]):
         # Seems object was pushed to a position where it cannot perform attack
         return {}
+
     if isinstance(attack.get_weapon(), LaunchingStinger):
         proposition = (attack_pos[-1][0] + vector[0], attack_pos[-1][1] + vector[1])
         if board.in_bounds(proposition):
@@ -24,21 +25,16 @@ def apply_attack_stinger(board, attack, attacker_pos):
         if board.in_bounds(proposition):
             attack_pos.append(proposition)
 
-    # Will this attack have any effect?
-    for a_pos in attack_pos:
-        if board[a_pos].has_object() or is_tile_damageable(board[a_pos]):
-            break
-    else:
-        return {}
-
     ret = {}
 
     for a_pos in attack_pos:
         tile = board[a_pos]
+        # Object present, perform deep copy
         if tile.get_object():
             ret[a_pos] = copy.deepcopy(tile)
-        else:
-            ret[a_pos] = copy.copy(tile)
+        # As there is no object, tile is damageable, it will be replaced in regular_damage
+        elif is_tile_damageable(tile):
+            ret[a_pos] = tile
 
         board.regular_damage(a_pos, attack.get_weapon().get_total_damage())
         convert_tile_if_needed(board, a_pos)
