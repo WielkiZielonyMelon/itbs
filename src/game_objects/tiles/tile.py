@@ -1,3 +1,6 @@
+import copy
+
+
 class Tile:
 
     def __init__(self, _object, smoke=False):
@@ -74,6 +77,13 @@ class Tile:
 
     def __eq__(self, other):
         return (other is not None) and (self.__dict__ == other.__dict__)
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        for k, v in self.__dict__.items():
+            setattr(result, k, copy.copy(v))
+        return result
 
 
 class AcidPool(Tile):
