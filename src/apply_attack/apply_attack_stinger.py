@@ -34,7 +34,12 @@ def apply_attack_stinger(board, attack, attacker_pos):
     ret = {}
 
     for a_pos in attack_pos:
-        update_dict_if_key_not_present(ret, {a_pos: copy.deepcopy(board[a_pos])})
+        tile = board[a_pos]
+        if tile.get_object():
+            ret[a_pos] = copy.deepcopy(tile)
+        else:
+            ret[a_pos] = copy.copy(tile)
+
         board.regular_damage(a_pos, attack.get_weapon().get_total_damage())
         convert_tile_if_needed(board, a_pos)
 
