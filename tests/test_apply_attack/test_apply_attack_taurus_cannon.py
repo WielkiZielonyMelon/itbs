@@ -6,7 +6,7 @@ from src.apply_attack.apply_attack import apply_attack
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
 from src.game_objects.mech import CannonMech, CombatMech
-from src.game_objects.tiles.tile import ForestTile, ForestFireTile, SandTile, GroundTile, ChasmTile, WaterTile, \
+from src.game_objects.tiles.tile import ForestTile, ForestFireTile, ChasmTile, WaterTile, \
     AcidTile, FrozenAcidTile, DamagedIceTile, IceTile
 from src.game_objects.vek import BlastPsion, Spiderling
 from src.game_objects.weapons.taurus_cannon import TaurusCannon

@@ -121,7 +121,8 @@ def test_artillery_weapon_on_damageable_tile(tile_before, tile_after, tile_pos, 
                          [(Firefly, AcceleratingThorax),
                           (AlphaFirefly, EnhancedThorax),
                           (CannonMech, TaurusCannon)])
-def test_projectile_weapon_on_damageable_tile(tile_before, tile_after, object_on_tile, tile_pos, attacker_pos, attacker, weapon):
+def test_projectile_weapon_on_damageable_tile(tile_before, tile_after, object_on_tile, tile_pos,
+                                              attacker_pos, attacker, weapon):
     tile_before = tile_before(_object=object_on_tile() if object_on_tile is not None else None)
     attacker = attacker()
     weapon = weapon()
@@ -161,7 +162,8 @@ def test_projectile_weapon_on_damageable_tile(tile_before, tile_after, object_on
                          [(Firefly, AcceleratingThorax),
                           (AlphaFirefly, EnhancedThorax),
                           (CannonMech, TaurusCannon)])
-def test_projectile_weapon_on_damageable_tile_in_middle_no_object(tile_before, tile_pos, attacker_pos, attacker, weapon):
+def test_projectile_weapon_on_damageable_tile_in_middle_no_object(tile_before, tile_pos, attacker_pos, attacker,
+                                                                  weapon):
     tile_after = tile_before
     tile_before = tile_before(_object=None)
     attacker = attacker()
