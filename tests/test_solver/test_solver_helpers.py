@@ -118,6 +118,7 @@ def test_get_score_of_board():
     board[(5, 5)].set_object(vek3)
 
     expected_score = 500
+    board.fill_object_position_cache()
     unittest.TestCase().assertEqual(expected_score, get_score_of_board(board))
 
 
