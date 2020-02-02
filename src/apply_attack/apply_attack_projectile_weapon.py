@@ -31,9 +31,10 @@ def apply_attack_projectile_weapon(board, attack, attacker_pos, push=False):
         tile = board[attack_pos]
         obj = tile.get_object()
 
-    # If object is None at this point, we can safely perform a shallow copy and quit
+    # If object is None at this point, we know that the tile is damageable. Do not perform copy
+    # as tile will be overwritten in damage procedure
     if obj is None:
-        ret = {attack_pos: copy.copy(tile)}
+        ret = {attack_pos: tile}
         dmg = attack.get_weapon().get_total_damage()
         board.regular_damage(attack_pos, dmg)
         return ret
