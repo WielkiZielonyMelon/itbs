@@ -19,9 +19,6 @@ class Tile:
     def is_liquid(self):
         return False
 
-    def apply_tile_effects(self):
-        pass
-
     def emerge_damage(self, val):
         obj = self.get_object()
         if obj is not None:
@@ -90,12 +87,6 @@ class AcidPool(Tile):
     def __init__(self, _object):
         Tile.__init__(self=self, _object=_object)
 
-    def apply_tile_effects(self):
-        if self._object:
-            raise Exception("Applying tile effects on AcidPool not possible. " +
-                            "Set acid on object on AcidPool and covert AcidPool to " +
-                            "GroundTile")
-
     def repair(self):
         raise Exception("Repairing AcidPool not possible. Convert to " +
                         "GroundTile and then repair object")
@@ -119,20 +110,6 @@ class AcidTile(Tile):
 
         if obj.is_flying():
             obj.set_fire()
-
-    def apply_tile_effects(self):
-        obj = self.get_object()
-        if obj is None:
-            return
-
-        if obj.is_flying():
-            return
-
-        obj.set_acid()
-
-        if not obj.is_massive():
-            self.set_object(None)
-            return
 
 
 class FrozenAcidTile(Tile):
@@ -161,27 +138,10 @@ class ChasmTile(Tile):
     def __init__(self, _object):
         Tile.__init__(self=self, _object=_object)
 
-    def apply_tile_effects(self):
-        obj = self.get_object()
-        if obj is None:
-            return
-
-        if obj.is_flying():
-            return
-
-        self.set_object(None)
-
 
 class FireTile(Tile):
     def __init__(self, _object):
         Tile.__init__(self=self, _object=_object)
-
-    def apply_tile_effects(self):
-        obj = self.get_object()
-        if obj is None:
-            return
-
-        obj.set_fire()
 
     def freeze(self):
         raise Exception("Cannot freeze FireTile. Convert to GroundTile and " +
@@ -204,13 +164,6 @@ class ForestTile(Tile):
 class ForestFireTile(Tile):
     def __init__(self, _object):
         Tile.__init__(self=self, _object=_object)
-
-    def apply_tile_effects(self):
-        obj = self.get_object()
-        if obj is None:
-            return
-
-        obj.set_fire()
 
     def freeze(self):
         raise Exception("Cannot freeze ForestFireTile. Convert to ForestTile " +
@@ -240,19 +193,6 @@ class LavaTile(Tile):
     def freeze(self):
         raise Exception("Cannot freeze LavaTile. Convert to FrozenLavaTile " +
                         "and then freeze object")
-
-    def apply_tile_effects(self):
-        obj = self.get_object()
-        if obj is None:
-            return
-
-        if obj.is_flying():
-            return
-
-        obj.set_fire()
-
-        if not obj.is_massive():
-            self.set_object(None)
 
 
 class FrozenLavaTile(Tile):
@@ -311,24 +251,6 @@ class WaterTile(Tile):
     def freeze(self):
         raise Exception("Cannot freeze WaterTile. Convert to IceTile and then " +
                         "freeze object")
-
-    def apply_tile_effects(self):
-        obj = self.get_object()
-        if obj is None:
-            return
-
-        if obj.is_on_acid():
-            raise Exception("Not possible to drown object on acid in " +
-                            "WaterTile. Convert to AcidTile first and then " +
-                            "apply effects")
-
-        if obj.is_massive():
-            return
-
-        if obj.is_flying():
-            return
-
-        self.set_object(None)
 
 
 class TimePodTile(Tile):

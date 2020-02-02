@@ -7,6 +7,7 @@ from src.game_objects.mech import CombatMech, JetMech
 from src.game_objects.tiles.tile import FireTile, GroundTile
 from src.game_objects.vek import Firefly, Hornet
 from src.game_objects.weapons.freeze import Freeze
+from src.game_objects.weapons.move import Move
 from src.game_objects.weapons.repair import Repair
 
 
@@ -20,8 +21,12 @@ def test_move_object_over_fire_tile(obj):
     pos = (0, 0)
     board[pos] = FireTile(_object=None)
 
-    board[pos].set_object(obj)
-    board[pos].apply_tile_effects()
+    src = (0, 1)
+
+    board[src].set_object(obj)
+    board.fill_object_position_cache()
+    attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=(0, 0))
+    apply_attack(board, attack)
 
     tile = board[pos]
     obj = tile.get_object()
@@ -37,8 +42,14 @@ def test_move_object_over_fire_tile_freeze(obj):
     board = Board()
     pos = (0, 0)
     obj = CombatMech()
-    board[pos] = FireTile(_object=obj)
-    board[pos].apply_tile_effects()
+    board[pos] = FireTile(_object=None)
+
+    src = (0, 1)
+
+    board[src].set_object(obj)
+    board.fill_object_position_cache()
+    attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=(0, 0))
+    apply_attack(board, attack)
     attack = Attack(attacker=pos, weapon=Freeze(), vector=None)
 
     apply_attack(board, attack)
@@ -53,8 +64,14 @@ def test_fire_tile_repair():
     board = Board()
     pos = (0, 0)
     obj = CombatMech()
-    board[pos] = FireTile(_object=obj)
-    board[pos].apply_tile_effects()
+    board[pos] = FireTile(_object=None)
+
+    src = (0, 1)
+
+    board[src].set_object(obj)
+    board.fill_object_position_cache()
+    attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=(0, 0))
+    apply_attack(board, attack)
     attack = Attack(attacker=obj.get_id(), weapon=Repair(),
                     vector=None)
 

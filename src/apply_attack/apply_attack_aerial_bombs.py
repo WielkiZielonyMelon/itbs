@@ -1,4 +1,5 @@
 from src.apply_attack.apply_attack import smoke_tile
+from src.helpers.convert_tile_if_needed import convert_tile_if_needed
 from src.helpers.kill_object import kill_object_if_possible
 
 
@@ -30,8 +31,8 @@ def apply_attack_aerial_bombs(board, attack, attacker_pos):
     # Move object to a new tile
     board[attack_pos].set_object(attacker)
     board[attacker_pos].set_object(None)
-    # Apply tile effect, object may die, be lit on fire
-    board[attack_pos].apply_tile_effects()
+    # Apply tile effect, object may die, be lit on fire, apply acid, etc.
+    convert_tile_if_needed(board, attack_pos)
 
     # Kill object if it landed on something dangerous
     kill_object_if_possible(board, attack_pos, attacker)

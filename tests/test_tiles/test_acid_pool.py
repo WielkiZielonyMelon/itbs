@@ -39,13 +39,6 @@ def test_acid_pool_exceptions():
     board[pool_pos] = AcidPool(_object=obj)
 
     with pytest.raises(Exception) as context:
-        board[pool_pos].apply_tile_effects()
-
-    assert "Applying tile effects on AcidPool not possible. Set acid on object on AcidPool and covert AcidPool to " \
-           "GroundTile" \
-           in str(context.value)
-
-    with pytest.raises(Exception) as context:
         board[pool_pos].repair()
 
     assert "Repairing AcidPool not possible. Convert to GroundTile and then repair object" \

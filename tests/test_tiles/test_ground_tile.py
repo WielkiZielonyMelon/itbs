@@ -5,6 +5,7 @@ from src.game_objects.attack import Attack
 from src.game_objects.board import Board
 from src.game_objects.mech import CombatMech
 from src.game_objects.tiles.tile import FireTile, GroundTile
+from src.game_objects.weapons.move import Move
 from src.game_objects.weapons.set_on_fire import SetOnFire
 
 
@@ -12,13 +13,18 @@ def test_set_object_on_fire_over_ground_tile():
     board = Board()
     pos = (0, 0)
     board[pos] = GroundTile(_object=None)
-    attack = Attack(attacker=pos, weapon=SetOnFire(),
-                    vector=None)
 
     obj = CombatMech()
-    board[pos].set_object(obj)
-    board[pos].apply_tile_effects()
+    src = (0, 1)
 
+    board[src].set_object(obj)
+    board.fill_object_position_cache()
+    attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=(0, 0))
+
+    apply_attack(board, attack)
+
+    attack = Attack(attacker=pos, weapon=SetOnFire(),
+                    vector=None)
     apply_attack(board, attack)
 
     tile = board[pos]

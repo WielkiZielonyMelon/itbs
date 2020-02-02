@@ -7,6 +7,7 @@ from src.game_objects.mech import CombatMech, JetMech
 from src.game_objects.tiles.tile import ForestTile, ForestFireTile
 from src.game_objects.vek import Hornet, Firefly
 from src.game_objects.weapons.freeze import Freeze
+from src.game_objects.weapons.move import Move
 from src.game_objects.weapons.repair import Repair
 from src.game_objects.weapons.titan_fist import TitanFist
 
@@ -32,8 +33,6 @@ def test_forest_tile_repair(weapon):
     # Lamely put another mech to repair
     repairer = CombatMech()
     board[fire_pos].set_object(repairer)
-    board[fire_pos].apply_tile_effects()
-
     board.fill_object_position_cache()
     repair = Attack(attacker=repairer.get_id(), weapon=Repair(),
                     vector=None)
@@ -67,8 +66,13 @@ def test_forest_tile_exceptions():
 def test_freeze_object_over_forest_fire(obj):
     board = Board()
     pos = (0, 0)
-    board[pos] = ForestFireTile(_object=obj)
-    board[pos].apply_tile_effects()
+    board[pos] = ForestFireTile(_object=None)
+    src = (0, 1)
+
+    board[src].set_object(obj)
+    board.fill_object_position_cache()
+    attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=(0, 0))
+    apply_attack(board, attack)
     attack = Attack(attacker=pos, weapon=Freeze(), vector=None)
 
     apply_attack(board, attack)
@@ -86,8 +90,13 @@ def test_repair_object_over_forest_fire(obj):
     board = Board()
     pos = (0, 0)
     obj = CombatMech()
-    board[pos] = ForestFireTile(_object=obj)
-    board[pos].apply_tile_effects()
+    board[pos] = ForestFireTile(_object=None)
+    src = (0, 1)
+
+    board[src].set_object(obj)
+    board.fill_object_position_cache()
+    attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=(0, 0))
+    apply_attack(board, attack)
     attack = Attack(obj.get_id(), weapon=Repair(), vector=None)
 
     board.fill_object_position_cache()

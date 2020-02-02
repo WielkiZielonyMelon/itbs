@@ -9,6 +9,7 @@ from src.game_objects.tiles.tile import AcidTile, DamagedFrozenAcidTile, \
     FrozenAcidTile
 from src.game_objects.vek import Firefly, Hornet
 from src.game_objects.weapons.freeze import Freeze
+from src.game_objects.weapons.move import Move
 from src.game_objects.weapons.push import Push
 from src.game_objects.weapons.set_on_fire import SetOnFire
 from src.game_objects.weapons.titan_fist import TitanFist
@@ -23,8 +24,12 @@ def test_move_object_over_acid_tile_survives(obj, on_acid):
     pos = (0, 0)
     board[pos] = AcidTile(_object=None)
 
-    board[pos].set_object(obj)
-    board[pos].apply_tile_effects()
+    src = (0, 1)
+
+    board[src].set_object(obj)
+    board.fill_object_position_cache()
+    attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=(0, 0))
+    apply_attack(board, attack)
 
     tile = board[pos]
     obj = tile.get_object()
@@ -38,8 +43,12 @@ def test_move_object_over_acid_tile_dies(obj):
     pos = (0, 0)
     board[pos] = AcidTile(_object=None)
 
-    board[pos].set_object(obj)
-    board[pos].apply_tile_effects()
+    src = (0, 1)
+
+    board[src].set_object(obj)
+    board.fill_object_position_cache()
+    attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=(0, 0))
+    apply_attack(board, attack)
 
     tile = board[pos]
     obj = tile.get_object()
@@ -95,11 +104,15 @@ def test_freeze_object_over_acid_tile(obj, on_acid):
     board = Board()
     pos = (0, 0)
     board[pos] = AcidTile(_object=None)
+
+    src = (0, 1)
+
+    board[src].set_object(obj)
+    board.fill_object_position_cache()
+    attack = Attack(attacker=obj.get_id(), weapon=Move(), vector=(0, 0))
+    apply_attack(board, attack)
+
     attack = Attack(attacker=None, weapon=Freeze(), vector=None)
-
-    board[pos].set_object(obj)
-    board[pos].apply_tile_effects()
-
     apply_attack(board, attack)
 
     tile = board[pos]
