@@ -14,21 +14,6 @@ from src.game_objects.vek import Hornet, Firefly, Spiderling, BlastPsion, ShellP
 from src.game_objects.weapons.burn import Burn
 
 
-def test_burn_empty_tile():
-    board = Board()
-
-    fire_pos = (0, 0)
-
-    board[fire_pos] = GroundTile(_object=None)
-    orig_tile = copy.deepcopy(board[fire_pos])
-
-    attack = Attack(attacker=fire_pos, weapon=Burn(), vector=None)
-    original_tiles = apply_attack(board, attack)
-    assert len(original_tiles) == 1
-
-    assert orig_tile == original_tiles[fire_pos]
-
-
 @pytest.mark.parametrize("obj",
                          [(CombatMech()),
                           (JetMech()),
