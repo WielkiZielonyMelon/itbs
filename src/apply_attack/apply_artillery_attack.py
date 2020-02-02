@@ -21,14 +21,18 @@ def apply_attack_artillery(board, attack, attacker_pos):
 
     ret = {}
     weapon = attack.get_weapon()
-    attacked_obj = board[attack_pos].get_object()
+    tile = board[attack_pos]
+    attacked_obj = tile.get_object()
 
     # Do not damage buildings, if we have proper power-up
     if isinstance(weapon, Artemis) and weapon.has_buildings_immune() and isinstance(attacked_obj, Building):
         pass
     # Damage the tile and object
-    elif attacked_obj or is_tile_damageable(board[attack_pos]):
-        ret[attack_pos] = copy.deepcopy(board[attack_pos])
+    elif attacked_obj:
+        ret[attack_pos] = copy.deepcopy(tile)
+        board.regular_damage(attack_pos, weapon.get_total_damage())
+    elif is_tile_damageable(tile):
+        ret[attack_pos] = copy.copy(tile)
         board.regular_damage(attack_pos, weapon.get_total_damage())
 
     if isinstance(weapon, Artemis):
