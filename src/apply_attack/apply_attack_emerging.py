@@ -21,11 +21,11 @@ def apply_attack_emerging(board, attack):
     # Also, return a shallow copy
     obj = tile.get_object()
     if obj is None:
-        ret = {pos: copy.copy(board[pos])}
+        ret = {pos: copy.copy(tile)}
         tile.set_object(Emerged())
         return ret
 
-    ret = {pos: copy.deepcopy(board[pos])}
+    ret = {pos: copy.deepcopy(tile)}
     # There is an object present. Damage it and kill if possible
     tile.emerge_damage(1)
     update_dict_if_key_not_present(ret, kill_object_if_possible(board, pos, obj))
