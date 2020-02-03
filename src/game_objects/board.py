@@ -2,7 +2,7 @@ from src.apply_attack.apply_attack import damage_tile
 from src.game_objects.mech import Mech
 from src.game_objects.tiles.tile import GroundTile, TimePodTile
 from src.game_objects.vek import BlastPsion, PsionAbomination, ShellPsion, Vek, Psion, BloodPsion, SoldierPsion, \
-    PsionTyrant
+    PsionTyrant, Emerged
 
 
 class Board:
@@ -38,6 +38,10 @@ class Board:
 
     def restore_tiles(self, tiles):
         for position, tile in tiles.items():
+            # Cleanup any emerged left-overs
+            obj = self[position].get_object()
+            if isinstance(obj, Emerged):
+                self.remove_from_object_position_cache(obj.get_id())
             if isinstance(tile, TimePodTile):
                 self.clear_time_pod_destroyed()
                 self.clear_time_pod_picked_up()

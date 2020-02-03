@@ -157,15 +157,15 @@ def test_scenario_02_01():
     environment.extend(enemy_actions)
     plans = get_battle_plans(board, size=1, enemy_attacks=environment)
 
-    exp_attacks = [Attack(attacker=artillery_mech.get_id(), weapon=Move(), vector=(0, 6)),
-                   Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector=(5, 0)),
-                   Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(5, 0)),
+    exp_attacks = [Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 0)),
                    Attack(attacker=cannon_mech.get_id(), weapon=TaurusCannon(), vector=(0, 1)),
-                   Attack(attacker=combat_mech.get_id(), weapon=Move(), vector=(6, 6)),
-                   Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(0, -1))]
+                   Attack(attacker=artillery_mech.get_id(), weapon=Move(), vector=(3, 7)),
+                   Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector=(0, -5)),
+                   Attack(attacker=combat_mech.get_id(), weapon=Move(), vector=(4, 6)),
+                   Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(1, 0))]
 
     attacks = plans[0].get_executed_orders()
-    exp_score = 1200
+    exp_score = 1070
     assert plans[0].get_score() == exp_score
     assert attacks == exp_attacks
 
@@ -177,15 +177,15 @@ def test_scenario_02_02():
     environment.extend(enemy_actions)
     plans = get_battle_plans(board, size=1, enemy_attacks=environment)
 
-    exp_attacks = [Attack(attacker=artillery_mech.get_id(), weapon=Move(), vector=(1, 6)),
-                   Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 0)),
-                   Attack(attacker=combat_mech.get_id(), weapon=Move(), vector=(5, 4)),
-                   Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(0, -1)),
-                   Attack(attacker=cannon_mech.get_id(), weapon=TaurusCannon(), vector=(0, 1)),
-                   Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector=(3, 0))]
+    exp_attacks = [Attack(attacker=artillery_mech.get_id(), weapon=Move(), vector=(0, 4)),
+                   Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector=(5, 0)),
+                   Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 2)),
+                   Attack(attacker=cannon_mech.get_id(), weapon=TaurusCannon(), vector=(1, 0)),
+                   Attack(attacker=combat_mech.get_id(), weapon=Move(), vector=(4, 6)),
+                   Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(0, -1))]
 
     attacks = plans[0].get_executed_orders()
-    exp_score = 1145
+    exp_score = 985
     assert plans[0].get_score() == exp_score
     assert attacks == exp_attacks
 

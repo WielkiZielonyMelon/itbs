@@ -187,15 +187,13 @@ def test_scenario_01_01():
     environment.extend(enemy_actions)
     plans = get_battle_plans(board, size=1, enemy_attacks=environment)
 
-    exp_attacks = [Attack(attacker=artillery_mech.get_id(), weapon=Move(), vector=(1, 4)),
-                   Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 6)),
+    exp_attacks = [Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(1, 0)),
                    Attack(attacker=artillery_mech.get_id(), weapon=Artemis(), vector=(3, 0)),
-                   Attack(attacker=combat_mech.get_id(), weapon=Move(), vector=(4, 3)),
-                   Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(0, 1)),
+                   Attack(attacker=cannon_mech.get_id(), weapon=Move(), vector=(4, 6)),
                    Attack(attacker=cannon_mech.get_id(), weapon=TaurusCannon(), vector=(0, -1))]
 
     attacks = plans[0].get_executed_orders()
-    exp_score = 1400
+    exp_score = 1205
     assert plans[0].get_score() == exp_score
     assert attacks == exp_attacks
 
@@ -214,7 +212,7 @@ def test_scenario_01_02():
                    Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(1, 0))]
 
     attacks = plans[0].get_executed_orders()
-    exp_score = 1225
+    exp_score = 1000
     assert plans[0].get_score() == exp_score
     assert attacks == exp_attacks
 

@@ -24,7 +24,7 @@ def apply_attack_emerging(board, attack):
         ret = {pos: copy.copy(tile)}
         emerged = Emerged()
         tile.set_object(emerged)
-        #board.modify_object_position_cache(emerged.get_id(), pos)
+        board.modify_object_position_cache(emerged.get_id(), pos)
         return ret
 
     ret = {pos: copy.deepcopy(tile)}
