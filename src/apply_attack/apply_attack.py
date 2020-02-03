@@ -16,6 +16,7 @@ from src.game_objects.weapons.drown import Drown
 from src.game_objects.weapons.emerging import Emerging
 from src.game_objects.weapons.freeze import Freeze
 from src.game_objects.weapons.kill import Kill
+from src.game_objects.weapons.launch import Launch
 from src.game_objects.weapons.move import Move
 from src.game_objects.weapons.push import Push
 from src.game_objects.weapons.repair import Repair
@@ -120,11 +121,15 @@ def apply_attack(board, attack, attacker_pos=None):
 
     elif isinstance(weapon, Freeze):
         from src.apply_attack.apply_attack_freeze import apply_attack_freeze
-        apply_attack_freeze(board, attack)
+        return apply_attack_freeze(board, attack)
 
     elif isinstance(weapon, Acid):
         from src.apply_attack.apply_attack_acid import apply_attack_acid
-        apply_attack_acid(board, attack)
+        return apply_attack_acid(board, attack)
+
+    elif isinstance(weapon, Launch):
+        from src.apply_attack.apply_attack_launch import apply_attack_launch
+        return apply_attack_launch(board, attack)
 
     else:
         raise Exception("Do not know weapon = " + str(weapon) + "!")

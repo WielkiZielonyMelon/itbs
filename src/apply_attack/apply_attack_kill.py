@@ -12,9 +12,9 @@ def apply_attack_kill(board, attack):
     obj = tile.get_object()
     if obj is None:
         if not is_tile_damageable(tile):
-            return
+            return {}
         ret = {pos: tile}
-        damage_tile(board, pos)
+        damage_tile(board, pos, tile, None)
         return ret
 
     ret = {pos: copy.deepcopy(tile)}

@@ -10,3 +10,8 @@ class SatelliteRocket(Object):
 
     def is_pushable(self):
         return False
+
+
+class ReadySatelliteRocket(SatelliteRocket):
+    def __init__(self):
+        SatelliteRocket.__init__(self=self)
