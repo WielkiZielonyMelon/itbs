@@ -203,3 +203,41 @@ def test_push_vek_to_death_chain_reaction(death_tile, s05):
     assert isinstance(board[s02_pos], AcidTile)
     assert isinstance(board[s03_pos], WaterTile)
     assert isinstance(board[s04_pos], DamagedIceTile)
+
+
+def test_no_tile_copying_on_edge():
+    board = Board()
+
+    cannon0 = CannonMech()
+    cannon0_pos = (1, 0)
+    cannon0_attack_vector = (-1, 0)
+    board[cannon0_pos].set_object(cannon0)
+    board.fill_object_position_cache()
+
+    attack = Attack(attacker=cannon0.get_id(), weapon=TaurusCannon(),
+                    vector=cannon0_attack_vector)
+
+    original_tiles = apply_attack(board, attack)
+    assert len(original_tiles) == 0
+
+
+def test_safe_tile_copying_on_edge():
+    board = Board()
+
+    cannon0 = CannonMech()
+    cannon0_pos = (1, 0)
+    cannon0_attack_vector = (-1, 0)
+    board[cannon0_pos].set_object(cannon0)
+    board.fill_object_position_cache()
+
+    affected_tile_pos = (0, 0)
+    board[affected_tile_pos] = IceTile(_object=None)
+
+    attack = Attack(attacker=cannon0.get_id(), weapon=TaurusCannon(),
+                    vector=cannon0_attack_vector)
+
+    original_tiles = apply_attack(board, attack)
+    assert len(original_tiles) == 1
+    assert IceTile(_object=None) == original_tiles[affected_tile_pos]
+    assert board[affected_tile_pos] == DamagedIceTile(_object=None)
+
