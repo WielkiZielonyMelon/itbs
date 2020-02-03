@@ -22,7 +22,7 @@ time_pod_destroyed = -100
 
 def get_score_of_board(board):
     points = 0
-    for _, (x, y) in board._object_position_cache.items():
+    for _, (x, y) in board.get_object_position_cache().items():
         obj = board[(x, y)].get_object()
 
         if isinstance(obj, SpecialBuilding):

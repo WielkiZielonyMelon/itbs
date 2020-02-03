@@ -27,6 +27,9 @@ class Board:
                 if obj is not None:
                     self._object_position_cache[obj.get_id()] = (x, y)
 
+    def get_object_position_cache(self):
+        return self._object_position_cache
+
     def remove_from_object_position_cache(self, _id):
         del(self._object_position_cache[_id])
 

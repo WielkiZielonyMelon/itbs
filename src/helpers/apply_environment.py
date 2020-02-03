@@ -10,7 +10,7 @@ def apply_environment(board):
     """Looks for any fire, storm clouds and regenerating psions and applies their effects"""
     d = {}
     # First, look for fire
-    for _, (x, y) in copy.copy(board._object_position_cache).items():
+    for _, (x, y) in copy.copy(board.get_object_position_cache()).items():
         obj = board[(x, y)].get_object()
         if obj is None:
             continue
