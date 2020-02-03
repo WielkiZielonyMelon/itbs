@@ -309,7 +309,7 @@ def test_scenario_02_01():
                    Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(1, 0))]
 
     attacks = plans[0].get_executed_orders()
-    exp_score = 1070
+    exp_score = 1080
     assert plans[0].get_score() == exp_score
     assert attacks == exp_attacks
 
@@ -329,7 +329,7 @@ def test_scenario_02_02():
                    Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(0, -1))]
 
     attacks = plans[0].get_executed_orders()
-    exp_score = 985
+    exp_score = 995
     assert plans[0].get_score() == exp_score
     assert attacks == exp_attacks
 
@@ -349,7 +349,7 @@ def test_scenario_02_03():
                    Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(1, 0))]
 
     attacks = plans[0].get_executed_orders()
-    exp_score = 945
+    exp_score = 950
     assert plans[0].get_score() == exp_score
     assert attacks == exp_attacks
 
@@ -369,6 +369,6 @@ def test_scenario_02_04():
                    Attack(attacker=combat_mech.get_id(), weapon=TitanFist(), vector=(1, 0))]
 
     attacks = plans[0].get_executed_orders()
-    exp_score = 1075
+    exp_score = 1080
     assert plans[0].get_score() == exp_score
     assert attacks == exp_attacks

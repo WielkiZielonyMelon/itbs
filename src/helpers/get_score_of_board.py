@@ -9,6 +9,8 @@ player_lost_health_pts = -50
 building_health_bar_points = 75
 # points for each special building
 special_building_pts = 100
+# if building is shielded, add some extra points
+building_shield_pts = 5
 # points for each vek
 vek_pts = -75
 # points for each vek lost health
@@ -27,9 +29,13 @@ def get_score_of_board(board):
         if isinstance(obj, SpecialBuilding):
             points += special_building_pts
             points += obj.get_health() * building_health_bar_points
+            if obj.is_shielded():
+                points += building_shield_pts
 
         elif isinstance(obj, Building):
             points += obj.get_health() * building_health_bar_points
+            if obj.is_shielded():
+                points += building_shield_pts
 
         elif isinstance(obj, Vek):
             points += vek_pts
