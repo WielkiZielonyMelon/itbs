@@ -1,5 +1,6 @@
 import copy
 
+from src.apply_attack.apply_attack import damage_tile
 from src.apply_attack.apply_attack_push import apply_attack_push
 from src.game_objects.attack import Attack
 from src.game_objects.weapons.push import Push
@@ -10,19 +11,24 @@ from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_pr
 
 
 def apply_attack_projectile_weapon(board, attack, attacker_pos, push=False):
+    # Grab direction of attack
     vector = attack.get_vector()
 
+    # Grab first position that the projectile will fly through
     attack_pos = (attacker_pos[0] + vector[0], attacker_pos[1] + vector[1])
+
+    # If position is no longer in range, than object must have been pushed to an edge of board
     if not board.in_bounds(attack_pos):
-        # Seems object was pushed to a position where it cannot perform attack
         return {}
 
     tile = board[attack_pos]
     obj = tile.get_object()
+    # Keep pushing projectile until we find an object or we reach edge of board
     while obj is None:
         new_attack_pos = (attack_pos[0] + vector[0], attack_pos[1] + vector[1])
         if not board.in_bounds(new_attack_pos):
-            # We reached end of the board, can the tile be damaged in any way?
+            # We have reached edge of the board. We know there is no object, so if tile is not damageable,
+            # then this projectile will not change the state of board
             if not is_tile_damageable(tile):
                 return {}
             break
@@ -35,8 +41,8 @@ def apply_attack_projectile_weapon(board, attack, attacker_pos, push=False):
     # as tile will be overwritten in damage procedure
     if obj is None:
         ret = {attack_pos: tile}
-        dmg = attack.get_weapon().get_total_damage()
-        board.regular_damage(attack_pos, dmg)
+        # In this case we can damage the tile directly.
+        damage_tile(board, attack_pos)
         return ret
 
     # Store original tile
