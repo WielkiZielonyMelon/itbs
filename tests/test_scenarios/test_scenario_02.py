@@ -4,8 +4,8 @@ from src.game_objects.building import CivilianBuilding
 from src.game_objects.mech import CombatMech, ArtilleryMech, CannonMech
 from src.game_objects.mountain import Mountain
 from src.game_objects.tiles.tile import ForestTile, ForestFireTile
-from src.game_objects.vek import AlphaFirefly, Firefly, ShellPsion, Hornet, Scarab, AlphaHornet
-from src.game_objects.weapons.accelerating_thorax import EnhancedThorax, AcceleratingThorax
+from src.game_objects.vek import Firefly, ShellPsion, Hornet, Scarab, AlphaHornet
+from src.game_objects.weapons.accelerating_thorax import AcceleratingThorax
 from src.game_objects.weapons.artemis import Artemis
 from src.game_objects.weapons.emerging import Emerging
 from src.game_objects.weapons.move import Move
