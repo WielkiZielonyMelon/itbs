@@ -15,6 +15,7 @@ from src.game_objects.weapons.dash import Dash
 from src.game_objects.weapons.drown import Drown
 from src.game_objects.weapons.emerging import Emerging
 from src.game_objects.weapons.freeze import Freeze
+from src.game_objects.weapons.kill import Kill
 from src.game_objects.weapons.move import Move
 from src.game_objects.weapons.push import Push
 from src.game_objects.weapons.repair import Repair
@@ -87,6 +88,10 @@ def apply_attack(board, attack, attacker_pos=None):
     elif isinstance(weapon, (Stinger, LaunchingStinger, SuperStinger)):
         from src.apply_attack.apply_attack_stinger import apply_attack_stinger
         return apply_attack_stinger(board, attack, attacker_pos)
+
+    elif isinstance(weapon, Kill):
+        from src.apply_attack.apply_attack_kill import apply_attack_kill
+        return apply_attack_kill(board, attack)
 
     elif isinstance(weapon, Push):
         from src.apply_attack.apply_attack_push import apply_attack_push
