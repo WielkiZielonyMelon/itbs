@@ -31,12 +31,15 @@ def kill_object(board, pos, tile, obj):
         affected_tiles_pos = [tile_pos for tile_pos in tiles_pos if board.in_bounds(tile_pos)]
 
         for affected_tile_pos in affected_tiles_pos:
+            tile = board[affected_tile_pos]
+            obj = tile.get_object()
             # Will this attack have any effect?
-            if not board[affected_tile_pos].has_object() and not is_tile_damageable(board[affected_tile_pos]):
+            if obj is None and not is_tile_damageable(tile):
                 continue
-            ret[affected_tile_pos] = copy.deepcopy(board[affected_tile_pos])
-            damage_tile(board, affected_tile_pos)
-            board[affected_tile_pos].regular_damage(1)
+
+            ret[affected_tile_pos] = copy.deepcopy(tile)
+            damage_tile(board, affected_tile_pos, tile, obj)
+            tile.regular_damage(1)
             convert_tile_if_needed(board, affected_tile_pos)
 
         # It might turn out, we need to kill neighbouring objects

@@ -208,9 +208,7 @@ def freeze_tile(board, pos):
         board[pos] = FrozenLavaTile(_object=obj)
 
 
-def damage_tile(board, pos):
-    obj = board[pos].get_object()
-    tile = board[pos]
+def damage_tile(board, pos, tile, obj):
     if isinstance(tile, IceTile):
         board[pos] = DamagedIceTile(_object=obj)
     elif isinstance(tile, DamagedIceTile):

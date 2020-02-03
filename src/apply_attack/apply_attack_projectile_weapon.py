@@ -42,7 +42,7 @@ def apply_attack_projectile_weapon(board, attack, attacker_pos, push=False):
     if obj is None:
         ret = {attack_pos: tile}
         # In this case we can damage the tile directly.
-        damage_tile(board, attack_pos)
+        damage_tile(board, attack_pos, tile, obj)
         return ret
 
     # Store original tile
