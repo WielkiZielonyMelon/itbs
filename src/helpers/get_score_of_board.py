@@ -1,4 +1,5 @@
 from src.game_objects.building import Building, SpecialBuilding
+from src.game_objects.satellite_rocket import SatelliteRocket
 from src.game_objects.vek import Vek
 
 # points for each player controlled unit
@@ -26,7 +27,8 @@ def get_score_of_board(board):
     for _, (x, y) in board.get_object_position_cache().items():
         obj = board[(x, y)].get_object()
 
-        if isinstance(obj, SpecialBuilding):
+        # Treat special buildings and satellite rockets all the same
+        if isinstance(obj, (SpecialBuilding, SatelliteRocket)):
             points += special_building_pts
             points += obj.get_health() * building_health_bar_points
             if obj.is_shielded():
