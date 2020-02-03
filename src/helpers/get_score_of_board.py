@@ -1,5 +1,4 @@
 from src.game_objects.building import Building, SpecialBuilding
-from src.game_objects.tiles.tile import TimePodTile
 from src.game_objects.vek import Vek
 
 # points for each player controlled unit
