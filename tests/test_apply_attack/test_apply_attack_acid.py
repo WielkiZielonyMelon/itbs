@@ -4,7 +4,7 @@ from src.apply_attack.apply_attack import apply_attack
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
 from src.game_objects.building import CivilianBuilding
-from src.game_objects.mech import CombatMech
+from src.game_objects.mech import CombatMech, JetMech
 from src.game_objects.mountain import Mountain
 from src.game_objects.tiles.tile import AcidPool, AcidTile, GroundTile, \
     WaterTile
@@ -90,8 +90,7 @@ def test_acidify_building_ground_tile(obj):
 
 
 @pytest.mark.parametrize("obj",
-                         [(CombatMech()),
-                          (Firefly()),
+                         [(Firefly()),
                           (Hornet())])
 def test_kill_object_on_acid_over_water(obj):
     board = Board()
@@ -129,7 +128,43 @@ def test_kill_object_on_acid_over_water(obj):
 
 @pytest.mark.parametrize("obj",
                          [(CombatMech()),
-                          (Firefly()),
+                          (JetMech())])
+def test_corpse_object_on_acid_over_water(obj):
+    board = Board()
+    pos = (1, 0)
+    direction = (-1, 0)
+    pos_after_attack = (0, 0)
+
+    puncher = CombatMech()
+    puncher_pos = (pos[0] - direction[0], pos[1] - direction[1])
+    board[puncher_pos].set_object(puncher)
+
+    board.fill_object_position_cache()
+    attack_acid = Attack(attacker=pos, weapon=Acid(), vector=None)
+    attack_fist = Attack(attacker=puncher.get_id(), weapon=TitanFist(damage_plus_2=True), vector=direction)
+
+    board[pos] = WaterTile(_object=None)
+    board[pos_after_attack] = WaterTile(_object=None)
+    board[pos].set_object(obj)
+
+    apply_attack(board, attack_acid)
+    apply_attack(board, attack_fist)
+
+    tile = board[pos]
+    obj = tile.get_object()
+
+    assert obj is None
+    assert isinstance(tile, WaterTile)
+
+    tile = board[pos_after_attack]
+    obj = tile.get_object()
+
+    assert obj is not None
+    assert isinstance(tile, AcidTile)
+
+
+@pytest.mark.parametrize("obj",
+                         [(Firefly()),
                           (Hornet())])
 def test_kill_object_on_acid_over_ground_tile(obj):
     board = Board()
@@ -162,4 +197,41 @@ def test_kill_object_on_acid_over_ground_tile(obj):
     obj = tile.get_object()
 
     assert obj is None
+    assert isinstance(tile, AcidPool)
+
+
+@pytest.mark.parametrize("obj",
+                         [(CombatMech()),
+                          (JetMech())])
+def test_corpse_object_on_acid_over_ground_tile(obj):
+    board = Board()
+    pos = (1, 0)
+    direction = (-1, 0)
+    pos_after_attack = (0, 0)
+
+    puncher = CombatMech()
+    puncher_pos = (pos[0] - direction[0], pos[1] - direction[1])
+    board[puncher_pos].set_object(puncher)
+
+    board.fill_object_position_cache()
+    attack_acid = Attack(attacker=pos, weapon=Acid(), vector=None)
+    attack_fist = Attack(attacker=puncher.get_id(), weapon=TitanFist(), vector=direction)
+
+    board[pos] = WaterTile(_object=None)
+    board[pos_after_attack] = GroundTile(_object=None)
+    board[pos].set_object(obj)
+
+    apply_attack(board, attack_acid)
+    apply_attack(board, attack_fist)
+
+    tile = board[pos]
+    obj = tile.get_object()
+
+    assert obj is None
+    assert isinstance(tile, WaterTile)
+
+    tile = board[pos_after_attack]
+    obj = tile.get_object()
+
+    assert obj is not None
     assert isinstance(tile, AcidPool)

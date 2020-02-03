@@ -152,8 +152,9 @@ def acidify_tile(board, pos):
                 board[pos].set_smoke()
             return
         # All other objects receive acid, nothing should happen to tile
-        obj.set_acid()
-        return
+        elif obj.get_health() > 0:
+            obj.set_acid()
+            return
 
     tile = board[pos]
     if isinstance(tile, AcidTile) or isinstance(tile, FrozenAcidTile) \
@@ -164,22 +165,22 @@ def acidify_tile(board, pos):
     elif isinstance(tile, ChasmTile):
         pass
     elif isinstance(tile, WaterTile):
-        board[pos] = AcidTile(_object=None)
+        board[pos] = AcidTile(_object=obj)
     elif isinstance(tile, IceTile):
-        board[pos] = FrozenAcidTile(_object=None)
+        board[pos] = FrozenAcidTile(_object=obj)
     elif isinstance(tile, DamagedIceTile):
-        board[pos] = DamagedFrozenAcidTile(_object=None)
+        board[pos] = DamagedFrozenAcidTile(_object=obj)
     elif isinstance(tile, LavaTile):
         # TODO: Not sure about this, needs verification
-        board[pos] = AcidTile(_object=None)
+        board[pos] = AcidTile(_object=obj)
     elif isinstance(tile, DamagedFrozenLavaTile):
         # TODO: Not sure about this, needs verification
-        board[pos] = DamagedFrozenAcidTile(_object=None)
+        board[pos] = DamagedFrozenAcidTile(_object=obj)
     elif isinstance(tile, LavaTile):
         # TODO: Not sure about this, needs verification
-        board[pos] = AcidTile(_object=None)
+        board[pos] = AcidTile(_object=obj)
     else:
-        board[pos] = AcidPool(_object=None)
+        board[pos] = AcidPool(_object=obj)
 
     if has_smoke:
         board[pos].set_smoke()

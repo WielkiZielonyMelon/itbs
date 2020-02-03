@@ -84,7 +84,7 @@ def test_single_enhanced_thorax_mech_on_forest_tile_in_middle():
     mech0 = board[forest0_pos].get_object()
     assert vek0_expected_health == vek0.get_health()
     assert isinstance(board[forest0_pos], ForestFireTile)
-    assert mech0 is None
+    assert mech0 is not None
 
 
 def test_accelerating_thorax_attack_neighbour_mech():

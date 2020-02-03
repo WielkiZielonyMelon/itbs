@@ -270,7 +270,7 @@ def test_damage_object_over_frozen_acid_tile_blocked_survives():
     obj = board[pos].get_object()
     mountain = board[pos_after_attack].get_object()
 
-    assert obj is None
+    assert obj is not None
     assert isinstance(tile, AcidTile)
     assert mountain.get_health() == mountain_exp_health
 
@@ -346,7 +346,7 @@ def test_damage_object_over_frozen_acid_tile_blocked():
     obj = board[pos].get_object()
     mountain = board[pos_after_attack].get_object()
 
-    assert obj is None
+    assert obj is not None
     assert isinstance(tile, DamagedFrozenAcidTile)
     assert mountain.get_health() == mountain_exp_health
 

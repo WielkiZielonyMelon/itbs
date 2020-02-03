@@ -1,6 +1,8 @@
 import copy
 
 from src.apply_attack.apply_attack import acidify_tile, damage_tile
+from src.game_objects.mech import Mech
+from src.game_objects.satellite_rocket import SatelliteRocket, ReadySatelliteRocket
 from src.game_objects.tiles.tile import ForestTile, ChasmTile, ForestFireTile
 from src.game_objects.vek import Vek
 from src.helpers.convert_tile_if_needed import convert_tile_if_needed
@@ -13,8 +15,9 @@ def kill_object(board, pos, tile, obj):
     # As an exception do not perform full deepcopy. Object will no longer be referenced, it cannot be changed
     # so a flat copy is appropriate.
     ret = {pos: copy.copy(tile)}
-    board[pos].set_object(None)
-    board.remove_from_object_position_cache(obj.get_id())
+    if not isinstance(obj, (Mech, SatelliteRocket, ReadySatelliteRocket)) or isinstance(tile, ChasmTile):
+        board[pos].set_object(None)
+        board.remove_from_object_position_cache(obj.get_id())
 
     # Acid has higher priority than...
     if obj.is_on_acid():

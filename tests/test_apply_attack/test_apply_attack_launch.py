@@ -139,7 +139,7 @@ def test_launch_on_shell_psion():
 
 @pytest.mark.parametrize("obj",
                          [(Firefly()),
-                          (CombatMech())])
+                          (Hornet())])
 def test_launch_object_with_shell_psion_present(obj):
     board = Board()
 
@@ -166,8 +166,36 @@ def test_launch_object_with_shell_psion_present(obj):
 
 
 @pytest.mark.parametrize("obj",
-                         [(Firefly()),
+                         [(JetMech()),
                           (CombatMech())])
+def test_launch_corpse_object_with_shell_psion_present(obj):
+    board = Board()
+
+    psion0_pos = (0, 0)
+    psion0 = ShellPsion()
+    board[psion0_pos].set_object(psion0)
+
+    obj0_pos = (1, 3)
+    obj0 = obj
+    board[obj0_pos].set_object(obj0)
+
+    rocket0_pos = (2, 3)
+    rocket0 = ReadySatelliteRocket()
+    board[rocket0_pos].set_object(rocket0)
+
+    board.fill_object_position_cache()
+
+    attack = Attack(attacker=rocket0_pos, weapon=Launch(),
+                    vector=None)
+
+    apply_attack(board, attack)
+    assert obj0.get_health() == 0
+    assert board[obj0_pos].get_object() is not None
+
+
+@pytest.mark.parametrize("obj",
+                         [(Firefly()),
+                          (Hornet())])
 def test_launch_on_shielded_object(obj):
     board = Board()
 
@@ -188,3 +216,28 @@ def test_launch_on_shielded_object(obj):
     assert obj0.get_health() == 0
     assert obj0.is_shielded() is False
     assert board[obj0_pos].get_object() is None
+
+
+@pytest.mark.parametrize("obj",
+                         [(CombatMech()),
+                          (JetMech())])
+def test_launch_on_shielded_object(obj):
+    board = Board()
+
+    obj0_pos = (1, 3)
+    obj0 = obj
+    obj0.set_shield()
+    board[obj0_pos].set_object(obj0)
+
+    rocket0_pos = (2, 3)
+    rocket0 = ReadySatelliteRocket()
+    board[rocket0_pos].set_object(rocket0)
+
+    board.fill_object_position_cache()
+    attack = Attack(attacker=rocket0_pos, weapon=Launch(),
+                    vector=None)
+
+    apply_attack(board, attack)
+    assert obj0.get_health() == 0
+    assert obj0.is_shielded() is False
+    assert board[obj0_pos].get_object() is not None

@@ -6,6 +6,7 @@ from src.game_objects.attack import Attack
 from src.game_objects.weapons.push import Push
 from src.helpers.convert_tile_if_needed import convert_tile_if_needed
 from src.helpers.is_tile_damagable import is_tile_damageable
+from src.helpers.kill_object import kill_object_if_possible
 from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_present
 
 
@@ -35,5 +36,10 @@ def apply_attack_titan_fist(board, attack, attacker_pos):
     push_attack = Attack(attacker=attack_pos, weapon=Push(), vector=vector)
     update_dict_if_key_not_present(ret, apply_attack_push(board, push_attack))
     convert_tile_if_needed(board, attack_pos)
+
+    tile = board[attack_pos]
+    obj = tile.get_object()
+    if obj is not None:
+        update_dict_if_key_not_present(ret, kill_object_if_possible(board, attack_pos, obj))
 
     return ret

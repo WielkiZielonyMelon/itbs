@@ -180,7 +180,7 @@ def test_titan_fist_extra_damage_on_mech():
     assert orig_after_punch == original_tiles[after_punch]
 
     assert not board[before_punch].has_object()
-    assert not board[after_punch].has_object()
+    assert board[after_punch].has_object()
 
 
 def test_titan_fist_with_dash():
