@@ -8,6 +8,7 @@ from src.helpers.update_dict_if_key_not_present import update_dict_if_key_not_pr
 def apply_attack_move(board, attack, attacker_pos):
     """Move object into another position. If any tiles, objects were affected,
     return their original states along with their positions."""
+    # TODO: Remove this as attacker is provided
     attacker = board[attacker_pos].get_object()
     start_pos = attacker_pos
     dst_pos = attack.get_vector()
