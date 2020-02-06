@@ -5,7 +5,8 @@ import pytest
 from src.apply_attack.apply_attack import apply_attack
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
-from src.game_objects.supply_train import SupplyTrainHead, SupplyTrainTail
+from src.game_objects.supply_train import SupplyTrainHead, SupplyTrainTail, SupplyTrainWreck
+from src.game_objects.vek import Hornet, Firefly, ShellPsion
 from src.game_objects.weapons.choo_choo import ChooChoo
 
 
@@ -37,3 +38,85 @@ def test_apply_choo_choo_unobstructed(head_pos, tail_pos, direction, end_head_po
     assert tail == board[end_tail_pos].get_object()
     assert original_tiles[head_pos] == orig_head_tile
     assert original_tiles[tail_pos] == orig_tail_tile
+
+
+@pytest.mark.parametrize("head_pos, tail_pos, direction, vek_pos",
+                         [((0, 1), (0, 0), (0, 1), (0, 2)),
+                          ((1, 0), (0, 0), (1, 0), (2, 0)),
+                          ((0, 6), (0, 7), (0, -1), (0, 5)),
+                          ((6, 0), (7, 0), (-1, 0), (5, 0)),
+                          ((6, 1), (7, 1), (-1, 0), (5, 1)),
+                          ((1, 6), (1, 7), (0, -1), (1, 5)),
+                          ((6, 6), (7, 6), (-1, 0), (5, 6)),
+                          ((6, 6), (6, 7), (0, -1), (6, 5))])
+@pytest.mark.parametrize("vek",
+                         [Hornet,
+                          Firefly,
+                          ShellPsion])
+def test_apply_choo_choo_obstructed_with_vek_0_away(head_pos, tail_pos, direction, vek, vek_pos):
+    board = Board()
+    head = SupplyTrainHead()
+    tail = SupplyTrainTail()
+    vek = vek()
+
+    board[head_pos].set_object(head)
+    board[tail_pos].set_object(tail)
+    board[vek_pos].set_object(vek)
+    board.fill_object_position_cache()
+
+    orig_head_tile = copy.deepcopy(board[head_pos])
+    orig_tail_tile = copy.deepcopy(board[tail_pos])
+    orig_vek_tile = copy.deepcopy(board[vek_pos])
+
+    attack = Attack(attacker=head_pos, weapon=ChooChoo(), vector=direction)
+    original_tiles = apply_attack(board, attack)
+
+    assert len(original_tiles) == 3
+    assert isinstance(board[head_pos].get_object(), SupplyTrainWreck)
+    assert isinstance(board[tail_pos].get_object(), SupplyTrainWreck)
+    assert board[vek_pos].get_object() is None
+    assert original_tiles[head_pos] == orig_head_tile
+    assert original_tiles[tail_pos] == orig_tail_tile
+    assert original_tiles[vek_pos] == orig_vek_tile
+
+
+@pytest.mark.parametrize("head_pos, tail_pos, direction, vek_pos, end_head_pos",
+                         [((0, 1), (0, 0), (0, 1), (0, 3), (0, 2)),
+                          ((1, 0), (0, 0), (1, 0), (3, 0), (2, 0)),
+                          ((0, 6), (0, 7), (0, -1), (0, 4), (0, 5)),
+                          ((6, 0), (7, 0), (-1, 0), (4, 0), (5, 0)),
+                          ((6, 1), (7, 1), (-1, 0), (4, 1), (5, 1)),
+                          ((1, 6), (1, 7), (0, -1), (1, 4), (1, 5)),
+                          ((6, 6), (7, 6), (-1, 0), (4, 6), (5, 6)),
+                          ((6, 6), (6, 7), (0, -1), (6, 4), (6, 5))])
+@pytest.mark.parametrize("vek",
+                         [Hornet,
+                          Firefly,
+                          ShellPsion])
+def test_apply_choo_choo_obstructed_with_vek_1_away(head_pos, tail_pos, direction, vek, vek_pos, end_head_pos):
+    board = Board()
+    head = SupplyTrainHead()
+    tail = SupplyTrainTail()
+    vek = vek()
+
+    board[head_pos].set_object(head)
+    board[tail_pos].set_object(tail)
+    board[vek_pos].set_object(vek)
+    board.fill_object_position_cache()
+
+    orig_head_tile = copy.deepcopy(board[head_pos])
+    orig_tail_tile = copy.deepcopy(board[tail_pos])
+    orig_vek_tile = copy.deepcopy(board[vek_pos])
+
+    attack = Attack(attacker=head_pos, weapon=ChooChoo(), vector=direction)
+    original_tiles = apply_attack(board, attack)
+
+    assert len(original_tiles) == 3
+    assert original_tiles[head_pos] == orig_head_tile
+    assert original_tiles[tail_pos] == orig_tail_tile
+    assert original_tiles[vek_pos] == orig_vek_tile
+
+    assert isinstance(board[end_head_pos].get_object(), SupplyTrainWreck)
+    assert isinstance(board[head_pos].get_object(), SupplyTrainWreck)
+    assert board[vek_pos].get_object() is None
+    assert board[tail_pos].get_object() is None

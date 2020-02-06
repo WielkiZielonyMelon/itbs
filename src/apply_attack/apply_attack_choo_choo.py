@@ -55,7 +55,7 @@ def apply_attack_choo_choo(board, attack, attacker_pos):
             board[pos].set_object(wreck)
             board.modify_object_position_cache(wreck.get_id(), pos)
 
-        attack = Attack(attacker=attack_pos_0, weapon=Kill(), vector=None)
+        attack = Attack(attacker=attack_pos_1, weapon=Kill(), vector=None)
         update_dict_if_key_not_present(ret, apply_attack_kill(board, attack))
 
     return ret
