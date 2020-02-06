@@ -11,6 +11,7 @@ from src.game_objects.weapons.acid import Acid
 from src.game_objects.weapons.aerial_bombs import AerialBombs
 from src.game_objects.weapons.artemis import Artemis
 from src.game_objects.weapons.burn import Burn
+from src.game_objects.weapons.choo_choo import ChooChoo
 from src.game_objects.weapons.dash import Dash
 from src.game_objects.weapons.drown import Drown
 from src.game_objects.weapons.emerging import Emerging
@@ -130,6 +131,10 @@ def apply_attack(board, attack, attacker_pos=None):
     elif isinstance(weapon, Launch):
         from src.apply_attack.apply_attack_launch import apply_attack_launch
         return apply_attack_launch(board, attack)
+
+    elif isinstance(weapon, ChooChoo):
+        from src.apply_attack.apply_attack_choo_choo import apply_attack_choo_choo
+        return apply_attack_choo_choo(board, attack, attacker)
 
     else:
         raise Exception("Do not know weapon = " + str(weapon) + "!")

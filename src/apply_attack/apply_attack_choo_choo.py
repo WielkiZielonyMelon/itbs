@@ -35,7 +35,7 @@ def apply_attack_choo_choo(board, attack, attacker_pos):
         attack = Attack(attacker=attacker_pos, weapon=Move(), vector=attack_pos_1)
         apply_attack_move(board, attack, attacker_pos)
         attack = Attack(attacker=tail_pos, weapon=Move(), vector=attack_pos_0)
-        apply_attack_move(board, attack, attacker_pos)
+        apply_attack_move(board, attack, tail_pos)
         return ret
 
     if obj_0 is not None:
