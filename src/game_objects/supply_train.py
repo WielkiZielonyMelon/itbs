@@ -35,3 +35,4 @@ class SupplyTrainWreck(Object):
 
     def fire_damage(self):
         pass
+
