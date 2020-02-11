@@ -20,6 +20,12 @@ class Board:
         self._is_time_pod_picked_up = False
         self._object_position_cache = {}
 
+    def apply_web(self, from_pos, to_pos):
+        self[to_pos].set_web(from_pos)
+
+    def clear_web(self, to_pos):
+        self[to_pos].clear_web()
+
     def fill_object_position_cache(self):
         for x in range(0, self.BOARD_X_SIZE):
             for y in range(0, self.BOARD_Y_SIZE):
