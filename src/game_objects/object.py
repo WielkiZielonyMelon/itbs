@@ -19,6 +19,16 @@ class Object:
         self._on_acid = False
         self._is_frozen = False
         self._is_shielded = False
+        self._web_direction = None
+
+    def clear_web_direction(self):
+        self._web_direction = None
+
+    def set_web_direction(self, direction):
+        self._web_direction = direction
+
+    def get_web_direction(self):
+        return self._web_direction
 
     def get_id(self):
         return self._id

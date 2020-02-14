@@ -7,9 +7,12 @@ def get_possible_moves(board, pos):
 
     If provided obj is None, exception will be risen"""
 
-    obj = board[pos].get_object()
-    if board[pos].get_web() is not None:
+    # No moves possible
+    # TODO: Take in consideration that some pilots allow moving while webbed
+    if board.is_position_webbed(pos) is True:
         return []
+
+    obj = board[pos].get_object()
     # Holder for visited moves
     possible_moves = []
     # Holder for position that were visited (however not possible to move there)

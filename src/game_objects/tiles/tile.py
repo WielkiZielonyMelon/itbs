@@ -6,7 +6,6 @@ class Tile:
     def __init__(self, _object, smoke=False):
         self._object = _object
         self._smoke = smoke
-        self._webbed_from = None
 
     def has_smoke(self):
         return self._smoke
@@ -16,15 +15,6 @@ class Tile:
 
     def set_smoke(self):
         self._smoke = True
-
-    def get_web(self):
-        return self._webbed_from
-
-    def set_web(self, pos):
-        self._webbed_from = pos
-
-    def clear_web(self):
-        self._webbed_from = None
 
     def is_liquid(self):
         return False
