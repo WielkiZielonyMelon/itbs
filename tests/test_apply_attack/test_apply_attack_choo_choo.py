@@ -30,15 +30,19 @@ def test_apply_choo_choo_unobstructed(head_pos, tail_pos, direction, end_head_po
     board.fill_object_position_cache()
     orig_head_tile = copy.deepcopy(board[head_pos])
     orig_tail_tile = copy.deepcopy(board[tail_pos])
+    orig_end_head_tile = copy.deepcopy(board[end_head_pos])
+    orig_end_tail_tile = copy.deepcopy(board[end_tail_pos])
 
     attack = Attack(attacker=head_pos, weapon=ChooChoo(), vector=direction)
     original_tiles = apply_attack(board, attack)
 
-    assert len(original_tiles) == 2
+    assert len(original_tiles) == 4
     assert head == board[end_head_pos].get_object()
     assert tail == board[end_tail_pos].get_object()
     assert original_tiles[head_pos] == orig_head_tile
     assert original_tiles[tail_pos] == orig_tail_tile
+    assert original_tiles[end_head_pos] == orig_end_head_tile
+    assert original_tiles[end_tail_pos] == orig_end_tail_tile
 
 
 @pytest.mark.parametrize("head_pos, tail_pos, direction, vek_pos",
@@ -148,14 +152,16 @@ def test_apply_choo_choo_obstructed_with_vek_1_away(head_pos, tail_pos, directio
 
     orig_head_tile = copy.deepcopy(board[head_pos])
     orig_tail_tile = copy.deepcopy(board[tail_pos])
+    orig_end_head_tile = copy.deepcopy(board[end_head_pos])
     orig_vek_tile = copy.deepcopy(board[vek_pos])
 
     attack = Attack(attacker=head_pos, weapon=ChooChoo(), vector=direction)
     original_tiles = apply_attack(board, attack)
 
-    assert len(original_tiles) == 3
+    assert len(original_tiles) == 4
     assert original_tiles[head_pos] == orig_head_tile
     assert original_tiles[tail_pos] == orig_tail_tile
+    assert original_tiles[end_head_pos] == orig_end_head_tile
     assert original_tiles[vek_pos] == orig_vek_tile
 
     assert isinstance(board[end_head_pos].get_object(), SupplyTrainWreck)
@@ -190,14 +196,16 @@ def test_apply_choo_choo_obstructed_with_mech_1_away(head_pos, tail_pos, directi
 
     orig_head_tile = copy.deepcopy(board[head_pos])
     orig_tail_tile = copy.deepcopy(board[tail_pos])
+    orig_end_head_tile = copy.deepcopy(board[end_head_pos])
     orig_mech_tile = copy.deepcopy(board[mech_pos])
 
     attack = Attack(attacker=head_pos, weapon=ChooChoo(), vector=direction)
     original_tiles = apply_attack(board, attack)
 
-    assert len(original_tiles) == 3
+    assert len(original_tiles) == 4
     assert original_tiles[head_pos] == orig_head_tile
     assert original_tiles[tail_pos] == orig_tail_tile
+    assert original_tiles[end_head_pos] == orig_end_head_tile
     assert original_tiles[mech_pos] == orig_mech_tile
 
     assert isinstance(board[end_head_pos].get_object(), SupplyTrainWreck)

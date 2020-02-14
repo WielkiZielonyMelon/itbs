@@ -16,7 +16,8 @@ def kill_object(board, pos, tile, obj):
     # As an exception do not perform full deepcopy. Object will no longer be referenced, it cannot be changed
     # so a flat copy is appropriate.
     ret = {pos: copy.copy(tile)}
-    if not isinstance(obj, (Mech, SatelliteRocket, ReadySatelliteRocket, SupplyTrainHead, SupplyTrainTail)) or isinstance(tile, ChasmTile):
+    if not isinstance(obj, (Mech, SatelliteRocket, ReadySatelliteRocket, SupplyTrainHead, SupplyTrainTail,
+                            SupplyTrainWreck)) or isinstance(tile, ChasmTile):
         board[pos].set_object(None)
         board.remove_from_object_position_cache(obj.get_id())
 
