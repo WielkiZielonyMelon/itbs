@@ -43,3 +43,32 @@ def test_weapon_kills_webbed(webbed_obj, attacker, weapon, attack_vector, webber
     assert board.is_position_webbed(webbed_pos) is False
     assert board[webbed_pos].get_object() is None
 
+
+@pytest.mark.parametrize("webbed_obj",
+                         [AlphaFirefly,
+                          AlphaScarab])
+@pytest.mark.parametrize("attacker,        weapon,     attack_vector, webber_pos, webbed_pos",
+                         [(CannonMech(),   TaurusCannon(), (0, 1), (0, 3), (1, 3)),
+                          (CombatMech(),   TitanFist(),    (0, 1), (0, 2), (1, 2))])
+def test_weapon_pushes_webbed(webbed_obj, attacker, weapon, attack_vector, webber_pos, webbed_pos):
+    board = Board()
+
+    webber = Leaper()
+    board[webber_pos].set_object(webber)
+    board.apply_web(webber_pos, webbed_pos)
+
+    attacker_pos = (1, 1)
+    board[attacker_pos].set_object(attacker)
+    attack = Attack(attacker=attacker.get_id(), weapon=weapon,
+                    vector=attack_vector)
+
+    webbed_obj = webbed_obj()
+    board[webbed_pos].set_object(webbed_obj)
+
+    board.fill_object_position_cache()
+
+    assert board.is_position_webbed(webbed_pos) is True
+    apply_attack(board, attack)
+    assert board.is_position_webbed(webbed_pos) is False
+    assert board[webbed_pos].get_object() is None
+
