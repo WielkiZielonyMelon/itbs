@@ -3,7 +3,6 @@ import pytest
 from src.apply_attack.apply_attack import apply_attack
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
-from src.game_objects.building import CivilianBuilding
 from src.game_objects.mech import CombatMech, ArtilleryMech, JetMech, CannonMech
 from src.game_objects.vek import Firefly, Scarab, Hornet, Leaper
 from src.game_objects.weapons.accelerating_thorax import AcceleratingThorax

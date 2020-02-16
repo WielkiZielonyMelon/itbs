@@ -1,3 +1,5 @@
+import copy
+
 from src.apply_attack.apply_attack import damage_tile
 from src.game_objects.mech import Mech
 from src.game_objects.supply_train import SupplyTrainWreck
@@ -21,29 +23,64 @@ class Board:
         self._is_time_pod_picked_up = False
         self._object_position_cache = {}
 
+    def generate_nesw_legal_positions_from(self, position):
+        # TODO: Fix later, could look better
+        legal_positions = []
+        x, y = position
+
+        if x > 0:
+            legal_positions.append((x - 1, y))
+        if x < self.BOARD_X_SIZE - 1:
+            legal_positions.append((x + 1, y))
+
+        if y > 0:
+            legal_positions.append((x, y - 1))
+        if y < self.BOARD_Y_SIZE - 1:
+            legal_positions.append((x, y + 1))
+
+        return legal_positions
+
     def apply_web(self, from_pos, to_pos):
         direction = (to_pos[0] - from_pos[0], to_pos[1] - from_pos[1])
-        self[from_pos].get_object().set_web_direction(direction)
+        self[from_pos].get_object().add_web_direction(direction)
 
-    def clear_web(self, to_pos):
-        self[to_pos].get_object().clear_web_direction()
+    def clear_web_to(self, pos):
+        """Clear web, because webbed object died. Returns original tiles"""
+        ret = {}
+        for webber_pos in self.generate_nesw_legal_positions_from(pos):
+            webber = self[webber_pos].get_object()
+            if webber is None:
+                continue
+
+            direction = (pos[0] - webber_pos[0], pos[1] - webber_pos[1])
+            if direction not in webber.get_web_directions():
+                continue
+
+            ret[webber_pos] = copy.deepcopy(self[webber_pos])
+            webber.clear_web_direction(direction)
+
+        return ret
+
+    def clear_webs_from(self, pos):
+        """Clear web, because webber died"""
+        webber = self[pos].get_object()
+        if webber is not None:
+            webber.clear_web_directions()
 
     def is_position_webbed(self, pos):
-        for vector in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
-            potential_webber_pos = (pos[0] + vector[0], pos[1] + vector[1])
-            if not self.in_bounds(potential_webber_pos):
-                continue
+        for potential_webber_pos in self.generate_nesw_legal_positions_from(pos):
             potential_webber = self[potential_webber_pos].get_object()
             if potential_webber is None:
                 continue
 
-            web_direction = potential_webber.get_web_direction()
-            if web_direction is None:
+            web_directions = potential_webber.get_web_directions()
+            if not web_directions:
                 continue
 
-            web_end = (potential_webber_pos[0] + web_direction[0], potential_webber_pos[1] + web_direction[1])
-            if web_end == pos:
-                return True
+            for web_direction in web_directions:
+                web_end = (potential_webber_pos[0] + web_direction[0], potential_webber_pos[1] + web_direction[1])
+                if web_end == pos:
+                    return True
 
         return False
 

@@ -1,3 +1,4 @@
+import copy
 import itertools
 
 
@@ -19,16 +20,19 @@ class Object:
         self._on_acid = False
         self._is_frozen = False
         self._is_shielded = False
-        self._web_direction = None
+        self._web_directions = []
 
-    def clear_web_direction(self):
-        self._web_direction = None
+    def clear_web_direction(self, direction):
+        self._web_directions.remove(direction)
 
-    def set_web_direction(self, direction):
-        self._web_direction = direction
+    def clear_web_directions(self):
+        self._web_directions = []
 
-    def get_web_direction(self):
-        return self._web_direction
+    def add_web_direction(self, direction):
+        self._web_directions.append(direction)
+
+    def get_web_directions(self):
+        return self._web_directions
 
     def get_id(self):
         return self._id
@@ -147,3 +151,11 @@ class Object:
 
     def __repr__(self):
         return "{}({})".format(type(self).__name__, self.get_flags_str())
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        for k, v in self.__dict__.items():
+            setattr(result, k, copy.copy(v))
+
+        return result

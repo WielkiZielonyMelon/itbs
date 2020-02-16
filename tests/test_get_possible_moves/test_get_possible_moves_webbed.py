@@ -22,7 +22,7 @@ def test_expected_moves(pos, webber_pos, mobility, expected_moves):
     board[pos].set_object(mech)
     webber = Leaper()
     web_direction = (pos[0] - webber_pos[0], pos[1] - webber_pos[1])
-    webber.set_web_direction(web_direction)
+    webber.add_web_direction(web_direction)
     board[webber_pos].set_object(webber)
     moves = get_possible_moves(board, pos)
     assert moves == []

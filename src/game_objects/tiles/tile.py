@@ -79,7 +79,8 @@ class Tile:
         cls = self.__class__
         result = cls.__new__(cls)
         for k, v in self.__dict__.items():
-            setattr(result, k, copy.copy(v))
+            setattr(result, k, copy.deepcopy(v))
+
         return result
 
 

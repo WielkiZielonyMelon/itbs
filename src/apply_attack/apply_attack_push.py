@@ -33,8 +33,11 @@ def apply_attack_push(board, attack):
     push_to_tile = board[push_to]
     blocker = push_to_tile.get_object()
     if blocker is None:
+        # Object was pushed away, we need to clear the webs
+        ret = board.clear_web_to(push_from)
         attack = Attack(attacker=object_to_push.get_id(), weapon=Move(), vector=push_to)
-        return apply_attack_move(board, attack, push_from)
+        update_dict_if_key_not_present(ret, apply_attack_move(board, attack, push_from))
+        return ret
 
     # Destination is obstructed
     ret = {push_to: copy.deepcopy(push_to_tile), push_from: copy.deepcopy(push_from_tile)}
