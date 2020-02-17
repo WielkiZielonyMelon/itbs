@@ -4,7 +4,7 @@ from src.apply_attack.apply_attack import apply_attack
 from src.game_objects.attack import Attack
 from src.game_objects.board import Board
 from src.game_objects.mech import CombatMech, ArtilleryMech, JetMech, CannonMech
-from src.game_objects.vek import Firefly, Scarab, Hornet, Leaper
+from src.game_objects.vek import Firefly, Scarab, Hornet, Leaper, AlphaLeaper
 from src.game_objects.weapons.accelerating_thorax import AcceleratingThorax
 from src.game_objects.weapons.aerial_bombs import AerialBombs
 from src.game_objects.weapons.artemis import Artemis
@@ -46,3 +46,38 @@ def test_weapon_kills_webber(webbed_obj, attacker, weapon, attack_vector, webber
     apply_attack(board, attack)
     assert board.is_position_webbed(webbed_pos) is False
     assert board[webber_pos].get_object() is None
+
+
+@pytest.mark.parametrize("webbed_obj",
+                         [Firefly,
+                          CombatMech])
+@pytest.mark.parametrize("attacker,      weapon,  attack_vector, webber_pos, webbed_pos",
+                         [(CannonMech(), TaurusCannon(), (0, 1), (1, 3), (0, 3)),
+                          (CombatMech(), TitanFist(),    (0, 1), (1, 2), (0, 2))])
+def test_weapon_pushes_webber(webbed_obj, attacker, weapon, attack_vector, webber_pos, webbed_pos):
+    board = Board()
+
+    webber = AlphaLeaper()
+    board[webber_pos].set_object(webber)
+    board.apply_web(webber_pos, webbed_pos)
+
+    attacker_pos = (1, 1)
+    board[attacker_pos].set_object(attacker)
+    attack = Attack(attacker=attacker.get_id(), weapon=weapon,
+                    vector=attack_vector)
+
+    webbed_obj = webbed_obj()
+    board[webbed_pos].set_object(webbed_obj)
+
+    board.fill_object_position_cache()
+
+    assert board.is_position_webbed(webbed_pos) is True
+    apply_attack(board, attack)
+    assert board.is_position_webbed(webbed_pos) is False
+    assert board[webber_pos].get_object() is None
+
+    webber_after_pos = (webber_pos[0] + attack_vector[0], webber_pos[1] + attack_vector[1])
+
+    assert board[webber_after_pos].get_object() is not None
+    webbed_after_pos = (webbed_pos[0] + attack_vector[0], webber_pos[1] + attack_vector[1])
+    assert board.is_position_webbed(webbed_after_pos) is False

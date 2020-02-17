@@ -17,6 +17,8 @@ def apply_attack_move(board, attack, attacker_pos):
     if board[dst_pos].has_object():
         raise Exception("Space is occupied")
 
+    # Clear all webs!
+    board.clear_webs_from(attacker_pos)
     start_tile = copy.deepcopy(board[start_pos])
     # Shallow copy possible as there is no object on destination tile
     destination_tile = copy.copy(board[dst_pos])
