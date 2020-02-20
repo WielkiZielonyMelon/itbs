@@ -48,14 +48,15 @@ def get_possible_attacks_repair(board, weapon, attacker, attacker_pos):
 def get_directional_attack_vectors(board, weapon, attacker, attacker_pos):
     possible_attacks = []
     attacker_id = attacker.get_id()
-    # This is a list of relative positions that can be pushed
-    for vector in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
-        attacked_pos = (attacker_pos[0] + vector[0], attacker_pos[1] + vector[1])
-        if not board.in_bounds(attacked_pos):
-            continue
-
-        new_attack = Attack(attacker=attacker_id, weapon=weapon, vector=vector)
-        possible_attacks.append(new_attack)
+    pos_x, pos_y = attacker_pos
+    if pos_x > 0:
+        possible_attacks.append(Attack(attacker=attacker_id, weapon=weapon, vector=(-1, 0)))
+    if pos_y > 0:
+        possible_attacks.append(Attack(attacker=attacker_id, weapon=weapon, vector=(0, -1)))
+    if pos_x < board.BOARD_X_SIZE - 1:
+        possible_attacks.append(Attack(attacker=attacker_id, weapon=weapon, vector=(1, 0)))
+    if pos_y < board.BOARD_Y_SIZE - 1:
+        possible_attacks.append(Attack(attacker=attacker_id, weapon=weapon, vector=(0, 1)))
 
     return possible_attacks
 
