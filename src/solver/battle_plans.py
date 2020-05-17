@@ -152,16 +152,16 @@ def fill_battle_plans(board, battle_plans, latest_moves_cache, orders_executed, 
         pos = board.find_object_id_position(obj_id)
         if pos is None:
             continue
-        if Order.MOVE in orders:
+        if Order.MOVE == orders:
             new_orders_left = copy.copy(orders_left)
-            new_orders_left[obj_id] = [Order.ATTACK]
+            new_orders_left[obj_id] = Order.ATTACK
             moves = get_possible_moves(board, pos)
             attacks = [Attack(attacker=obj_id, weapon=Move(), vector=move)
                        for move in moves]
             execute_attack(board, attacks, battle_plans, latest_moves_cache,
                            orders_executed, new_orders_left, enemy_attacks, pos)
 
-        if Order.ATTACK in orders:
+        if Order.ATTACK == orders or Order.MOVE == orders:
             new_orders_left = copy.copy(orders_left)
             del new_orders_left[obj_id]
             attacks = get_possible_attacks(board, pos)
@@ -185,7 +185,7 @@ def get_battle_plans(board, size, enemy_attacks):
     # For player objects, create possible orders
     orders_left = {}
     for pos in player_objects_pos:
-        orders_left[board[pos].get_object().get_id()] = [Order.MOVE, Order.ATTACK]
+        orders_left[board[pos].get_object().get_id()] = Order.MOVE
 
     # Create moves cache to limit possible moves
     latest_moves_cache = LatestMovesCache()
