@@ -139,7 +139,7 @@ def execute_attack(board, attacks, battle_plans, latest_moves_cache, orders_exec
 
 
 class Order:
-    MOVE = 0,
+    MOVE = 0
     ATTACK = 1
 
 
