@@ -139,8 +139,13 @@ def execute_attack(board, attacks, battle_plans, latest_moves_cache, orders_exec
 
 
 class Order:
+    """Defines orders that can be executed by a player controlled object"""
+    """Player controlled object can move or attack"""
     MOVE = 0
+    """Player controlled object already move, only attack is left"""
     ATTACK = 1
+    """Player controlled object cannot execute any more orders"""
+    DONE = 2
 
 
 def fill_battle_plans(board, battle_plans, latest_moves_cache, orders_executed, orders_left, enemy_attacks):
@@ -152,21 +157,22 @@ def fill_battle_plans(board, battle_plans, latest_moves_cache, orders_executed, 
         pos = board.find_object_id_position(obj_id)
         if pos is None:
             continue
+        old_state = orders
         if Order.MOVE == orders:
-            new_orders_left = copy.copy(orders_left)
-            new_orders_left[obj_id] = Order.ATTACK
+            orders_left[obj_id] = Order.ATTACK
             moves = get_possible_moves(board, pos)
             attacks = [Attack(attacker=obj_id, weapon=Move(), vector=move)
                        for move in moves]
             execute_attack(board, attacks, battle_plans, latest_moves_cache,
-                           orders_executed, new_orders_left, enemy_attacks, pos)
+                           orders_executed, orders_left, enemy_attacks, pos)
 
         if Order.ATTACK == orders or Order.MOVE == orders:
-            new_orders_left = copy.copy(orders_left)
-            del new_orders_left[obj_id]
+            orders_left[obj_id] = Order.DONE
             attacks = get_possible_attacks(board, pos)
             execute_attack(board, attacks, battle_plans, latest_moves_cache,
-                           orders_executed, new_orders_left, enemy_attacks, pos)
+                           orders_executed, orders_left, enemy_attacks, pos)
+
+        orders_left[obj_id] = old_state
 
 
 def get_battle_plans(board, size, enemy_attacks):
